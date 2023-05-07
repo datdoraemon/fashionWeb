@@ -9,11 +9,11 @@ class LoginController {
 	}
 	
 	public function authenticate() {
-		$username = $_POST['username'];
+		$email = $_POST['email'];
 		$password = $_POST['password'];
 		
 		$userModel = new UserModel();
-		$user = $userModel->getUserByUsernameAndPassword($username, $password);
+		$user = $userModel->getUserByEmailAndPassword($email, $password);
 		
 		if ($user) {
 			session_start();
@@ -28,7 +28,7 @@ class LoginController {
 
 $loginController = new LoginController();
 
-if (isset($_POST['username']) && isset($_POST['password'])) {
+if (isset($_POST['email']) && isset($_POST['password'])) {
 	$loginController->authenticate();
 } else {
 	$loginController->index();
