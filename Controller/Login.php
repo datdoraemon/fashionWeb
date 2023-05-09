@@ -9,9 +9,10 @@ class LoginController {
 	}
 	
 	public function authenticate() {
-		$email = $_POST['email'];
-		$password = $_POST['password'];
-
+		$email = trim($_POST['email']);
+		$password = trim($_POST['password']);
+		$email = htmlspecialchars($email);
+		$password = htmlspecialchars($password);
 		if (preg_match('/[\'"\\\\;]/', $email)) {
 			echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/Login.html";</script>';
 			exit;
