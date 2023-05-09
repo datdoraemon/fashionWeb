@@ -15,7 +15,7 @@ require_once '../Model/UserModel.php';
 
 class SignUpInformationController{
 	public function index() {
-		include '../View/HTML/SignUpInformation.html';
+		echo '<script>alert("Please enter information.");window.location.href="../View/HTML/SignUpInformation.html";</script>';
 	}
 
 	public function authenticateaccount() {
@@ -41,8 +41,11 @@ class SignUpInformationController{
 
 $SignUpInformationController = new SignUpInformationController();
 
-if (isset($_POST['birthday'])) {
+if (isset($_POST['name']) && isset($_POST['birthday']) 
+    && isset($_POST['phone']) && isset($_POST['address'])) {
 	$SignUpInformationController->authenticateaccount();
+}else {
+    $SignUpInformationController->index();
 }
 ?>
 </body>
