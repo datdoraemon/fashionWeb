@@ -3,45 +3,53 @@
 require_once 'Database.php';
 
 class UserModel {
-    
-    private $db;
-    
+    private $conn;
+
     public function __construct() {
-        $this->db = new Database();
-    }
-    
-    public function getUserByEmailAndPassword($email, $password) {
-        $conn = $this->db->getConnection();
-        
-        // $hashedPassword = md5($password);
-        
-        $sql = "SELECT * FROM user WHERE Email = '$email' AND Password = '$password'";
-        
-        $result = $conn->query($sql);
-        
-        if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-            return $user;
-        } else {
-            return false;
-        }
-    }
-    
-    public function getUserByEmail($email) {
-        $conn = $this->db->getConnection();
-        
-        // $hashedPassword = md5($password);
-        
-        $sql = "SELECT * FROM user WHERE Email = '$email'";
-        
-        $result = $conn->query($sql);
-        
-        if ($result->num_rows > 0) {
-            $userEmail = $result->fetch_assoc();
-            return $userEmail;
-        } else {
-            return false;
-        }
+        $db = new Database();
+        $this->conn = $db->getConnection();
     }
 
+    public function getUserByEmail($email) {        
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows == 1) {
+            $user = $result->fetch_assoc();
+            return $user;
+        }
+
+        return false;
+    }
+
+    public function getUserByEmailAndPassword($email, $password) {
+        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+    
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            if (password_verify($password, $user['password'])) {
+                return $user;
+            }
+        }
+    
+        return false;
+    }
+
+    public function createUser($email, $password, $name, $birthday, $phone, $address) {
+        $stmt = $this->conn->prepare("INSERT INTO users (email, password, name, birthday, phone, address) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $email, $password, $name, $birthday, $phone, $address);
+        $result = $stmt->execute();
+
+        if (!$result) {
+            // Xử lý lỗi khi chèn dữ liệu không thành công
+            return false;
+        }
+
+        return true;
+    }
 }

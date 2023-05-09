@@ -20,9 +20,28 @@ class SignUpController {
 	}
 	
 	public function authenticateaccount() {
-		$email = $_POST['email'];
-		$password = $_POST['password'];
-		$cpassword = $_POST['cpassword'];
+		$email = trim($_POST['email']);
+		$password = trim($_POST['password']);
+		$cpassword = trim($_POST['cpassword']);
+		$email = htmlspecialchars($email);
+		$password = htmlspecialchars($password);
+		$cpassword = htmlspecialchars($cpassword);
+
+		if (preg_match('/[\'"\\\\;]/', $email)) {
+			echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/Login.html";</script>';
+			exit;
+		}
+		
+		if (preg_match('/[\'"\\\\;]/', $password)) {
+			echo '<script>alert("Incorrect password.");window.location.href="../View/HTML/Login.html";</script>';
+			exit;
+		}
+
+		if (preg_match('/[\'"\\\\;]/', $cpassword)) {
+			echo '<script>alert("Incorrect password.");window.location.href="../View/HTML/Login.html";</script>';
+			exit;
+		}
+
 		if ($password===$cpassword) {
 			$userModel = new UserModel();
 			$user = $userModel->getUserByEmail($email);
@@ -32,6 +51,10 @@ class SignUpController {
 				echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/SignUp.html";</script>';
 				echo '</div>';
 			} else {
+				session_start();
+				$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+				$_SESSION['email'] = $email;
+				$_SESSION['password'] = $hashedPassword;
 				header('Location: ../View/HTML/SignUpInformation.html');
 			}
 		} else {

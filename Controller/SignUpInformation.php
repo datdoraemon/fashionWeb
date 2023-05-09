@@ -15,23 +15,37 @@ require_once '../Model/UserModel.php';
 
 class SignUpInformationController{
 	public function index() {
-		include '../View/HTML/SignUpInformation.html';
+		echo '<script>alert("Please enter information.");window.location.href="../View/HTML/SignUpInformation.html";</script>';
 	}
 
 	public function authenticateaccount() {
-		$name = $_POST['name'];
-		$birthday = $_POST['birthday'];
-        $email = $_POST['email'];
-		echo $birthday;
-        echo $email;
-        echo $name;
-	}
+        session_start();
+		$name = trim($_POST['name']);
+        $birthday = trim($_POST['birthday']);
+        $phone = trim($_POST['phone']);
+        $address = trim($_POST['address']);
+        $name = htmlspecialchars($name);
+        $birthday = htmlspecialchars($birthday);
+        $phone = htmlspecialchars($phone);
+        $address = htmlspecialchars($address);
+        $name = stripslashes($name);
+        $birthday = stripslashes($birthday);
+        $phone = stripslashes($phone);
+        $address = stripslashes($address);
+		$email = $_SESSION['email'];
+        $password = $_SESSION['password'];
+        $userModel = new UserModel();
+        $userModel->createUser($email, $password, $name, $birthday, $phone, $address);
+    }
 }
 
 $SignUpInformationController = new SignUpInformationController();
 
-if (isset($_POST['birthday'])) {
+if (isset($_POST['name']) && isset($_POST['birthday']) 
+    && isset($_POST['phone']) && isset($_POST['address'])) {
 	$SignUpInformationController->authenticateaccount();
+}else {
+    $SignUpInformationController->index();
 }
 ?>
 </body>
