@@ -37,10 +37,11 @@ class UserModel {
         $result = $conn->query($sql);
         
         if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
-            return $user;
+            $userEmail = $result->fetch_assoc();
+            return $userEmail;
         } else {
             return false;
         }
     }
+
 }
