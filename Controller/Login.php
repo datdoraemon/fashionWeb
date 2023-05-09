@@ -41,7 +41,6 @@ class LoginController {
 			echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/Login.html";</script>';
 		}
 	}
-	
 }
 
 $loginController = new LoginController();
