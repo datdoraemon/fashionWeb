@@ -1,21 +1,48 @@
-body {
-	font-family: Arial, sans-serif;
-	background-color: #f2f2f2;
+.background
+{
+	height: 768px;
+	border-radius: 50% 0px 0px 50%;
+	background-image: url(https://media.istockphoto.com/photos/mens-clothes-picture-id531325796?k=6&amp;m=531325796&amp;s=170667a&amp;w=0&amp;h=zTFxchziLB0MZssBEO6nOPau8JVd7V66pSxfW8OYyPI=);
+	border: 3px solid black;
 }
 
 .login-box {
-	margin: 100px auto;
-	width: 450px;
-	background-color: #fff;
+
+	background-color: rgba(255, 255, 255, 0.849);
+
 	padding: 20px;
 	border-radius: 5px;
 	box-shadow: 0px 0px 10px #ccc;
+	height: 400px;
+	margin-left: 20px;
+	margin-top: 50px;
+	width: 90%;
+}
+
+.brand 
+{
+	text-align: center;
+	font-size: 50px;
+	color: #2c2c2c;
+	letter-spacing: .05em;
+	text-shadow: 4px 4px 0px #d5d5d5, 7px 7px 0px rgba(0, 0, 0, 0.2);
+	height: 100px;
+	padding-top: 40px;
+
 }
 
 h2 {
 	margin-top: 0px;
-	margin-bottom: 10px;
-	padding-left: 5px;
+
+	background: linear-gradient(to right,rgb(0, 0, 0), white);
+	color: white;
+	font-family: Arial, sans-serif;
+
+}
+.icon
+{
+	margin: 5px;
+
 }
 
 label {
@@ -23,10 +50,10 @@ label {
 	margin-bottom: 5px;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="submit"] {
-	width: 100%;
+input[type="email"],
+input[type="password"]
+{
+	width: 80%;
 	padding: 10px;
 	margin-bottom: 10px;
 	border-radius: 3px;
@@ -34,11 +61,18 @@ input[type="submit"] {
 }
 
 input[type="submit"] {
-	background-color: #4CAF50;
-	color: #fff;
+	background-color: white;
+	color: black;
+	font-weight: bold;
 	cursor: pointer;
+	border-radius: 10px;
+	border: solid 3px black;
+	width: 50%;
+	margin-left: 80px;
 }
 
 input[type="submit"]:hover {
-	background-color: #2E8B57;
+	background-color: black;
+	color: white;
 }
+
