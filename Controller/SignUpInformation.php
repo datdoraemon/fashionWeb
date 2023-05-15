@@ -36,6 +36,7 @@ class SignUpInformationController{
         $password = $_SESSION['password'];
         $userModel = new UserModel();
         $userModel->createUser($email, $password, $name, $birthday, $phone, $address);
+        header('Location: ../View/HTML/Login.html');
     }
 }
 

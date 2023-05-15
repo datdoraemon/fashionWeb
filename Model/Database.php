@@ -5,7 +5,7 @@ class Database {
     private $host = 'localhost';
     private $username = 'root';
     private $password = 'Vietanh2302';
-    private $dbname = 'assignments_web';
+    private $dbname = 'fashionWeb';
     private $conn;
     
     public function __construct() {
