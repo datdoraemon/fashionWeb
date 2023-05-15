@@ -1,5 +1,22 @@
 #header {
-    background-color: #dc0021;
+    background-color: gray;
     color: #fff;
     padding: 10px;
+}
+
+.nav-dropdown{
+    font-size: 100%;
+    position: absolute;
+    min-width: 260px;
+    max-height: 0;
+    z-index: 9;
+    opacity: 1;
+    margin: 0;
+    transition: opacity .25s;
+    color: #777;
+    background-color: #fff;
+    text-align: left;
+    display: table;
+    left: -99999px;
+    border-radius: 10px;
 }
