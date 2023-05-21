@@ -3,9 +3,9 @@
 class Database {
     
     private $host = 'localhost';
-    private $username = 'root';
-    private $password = 'Vietanh2302';
-    private $dbname = 'fashionWeb';
+    private $username = 'guest';
+    private $password = '123456';
+    private $dbname = 'fashionShop';
     private $conn;
     
     public function __construct() {

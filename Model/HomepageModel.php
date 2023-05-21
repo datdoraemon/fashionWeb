@@ -7,7 +7,7 @@ class HomepageModel {
     }
 
     function getProducts() {
-        $query = "SELECT * FROM product";
+        $query = "SELECT * FROM Products";
         $result = $this->db->query($query);
 
         $products = array();
@@ -19,7 +19,7 @@ class HomepageModel {
     }
 
     function getProductById($id) {
-        $query = "SELECT * FROM product WHERE id = $id";
+        $query = "SELECT * FROM Products WHERE ProductID = $id";
         $result = $this->db->query($query);
 
         if ($result->num_rows > 0) {
@@ -30,7 +30,7 @@ class HomepageModel {
     }
 
     function getCategories() {
-        $query = "SELECT * FROM category";
+        $query = "SELECT * FROM Categories";
         $result = $this->db->query($query);
 
         $categories = array();

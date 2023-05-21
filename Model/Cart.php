@@ -10,47 +10,56 @@ class Cart {
         $this->conn = $db->getConnection();
     }
 
-    public function ShowCart(){
-
-    }
-
-    public function AddtoCart($user_id, $product_id, $quantity) {        
-        $stmt = $this->conn->prepare("INSET INTO");
-        $stmt->bind_param("s", $email);
+    public function ShowCart($user_id) {
+        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = 'Pending'");
+        $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
         
-        if ($result->num_rows == 1) {
-            $user = $result->fetch_assoc();
-            return $user;
-        }
-
-        return false;
-    }
-
-    public function RemovetoCart($user_id, $product_id) {
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
-        $stmt->bind_param("s", $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-    
         if ($result->num_rows > 0) {
-            $user = $result->fetch_assoc();
+            $cartItems = array();
+            while ($row = $result->fetch_assoc()) {
+                $cartItems[] = $row;
+            }
+            return $cartItems;
         }
-    
+        
         return false;
     }
+    
 
-    public function createUser($email, $password, $name, $birthday, $phone, $address) {
-        $stmt = $this->conn->prepare("INSERT INTO users (email, password, name, birthday, phone, address) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $email, $password, $name, $birthday, $phone, $address);
-        $result = $stmt->execute();
-
-        if (!$result) {
-            // Xử lý lỗi khi chèn dữ liệu không thành công
-            return false;
+    public function AddtoCart($user_id, $product_id, $quantity) {
+        $stmt = $this->conn->prepare("INSERT INTO User_Products (UserID, ProductID, Quantity, CreateDate) VALUES (?, ?, ?, CURRENT_TIMESTAMP)");
+        $stmt->bind_param("iii", $user_id, $product_id, $quantity);
+        $stmt->execute();
+        
+        if ($stmt->affected_rows > 0) {
+            return true;
         }
-
-        return true;
+        
+        return false;
     }
+    
+    
+
+    public function RemoveFromCart($user_id, $product_ids) {
+        // Chuyển danh sách product_ids thành một chuỗi có dạng (?, ?, ?, ...)
+        $placeholders = implode(',', array_fill(0, count($product_ids), '?'));
+    
+        // Chuẩn bị câu truy vấn DELETE
+        $stmt = $this->conn->prepare("DELETE FROM User_Products WHERE UserID = ? AND ProductID IN ($placeholders)");
+        
+        // Gắn các giá trị vào câu truy vấn
+        $stmt->bind_param(str_repeat('i', count($product_ids) + 1), $user_id, ...$product_ids);
+        
+        // Thực thi câu truy vấn DELETE
+        $stmt->execute();
+        
+        if ($stmt->affected_rows > 0) {
+            return true;
+        }
+        
+        return false;
+    }
+    
 }
