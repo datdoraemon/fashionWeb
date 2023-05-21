@@ -15,7 +15,7 @@ class Cart {
     }
 
     public function AddtoCart($user_id, $product_id, $quantity) {        
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = $this->conn->prepare("INSET INTO");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
