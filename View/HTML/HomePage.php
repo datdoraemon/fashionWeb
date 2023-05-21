@@ -47,10 +47,22 @@
                             </ul>
                         </li>
                         <li class="">
-                            <form action="Login.html" method="post">
-                                <i class=""></i>
-                                <button>Đăng nhập </button>
-                            </form>
+                            <?php
+                                session_start();
+                                if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != 0) {
+                                    // Nếu $_SESSION['user_id'] tồn tại và khác 0
+                                    echo '<form action="Loguot.html" method="post">
+                                    <i class=""></i>
+                                    <button>Đăng xuất </button>
+                                    </form>';
+                                } else {
+                                    // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
+                                    echo '<form action="Login.html" method="post">
+                                    <i class=""></i>
+                                    <button>Đăng nhập </button>
+                                    </form>';
+                                }
+                            ?>
                         </li>
                     </ul>
                 </div>
