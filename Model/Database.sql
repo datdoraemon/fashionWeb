@@ -1,78 +1,79 @@
--- Tạo cơ sở dữ liệu
-CREATE DATABASE IF NOT EXISTS fashionShop;
+-- Xóa database
+DROP DATABASE fashionShop;
 
--- Sử dụng cơ sở dữ liệu
+-- Tạo database
+CREATE DATABASE fashionShop;
+
+-- Sử dụng database
 USE fashionShop;
 
--- Tạo bảng users
-CREATE TABLE IF NOT EXISTS users (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  address VARCHAR(255) NOT NULL,
-  phone VARCHAR(20) NOT NULL,
-  birthday DATE NOT NULL,
-  PRIMARY KEY (id)
+-- Tạo bảng Users
+CREATE TABLE Users (
+  UserID INT PRIMARY KEY AUTO_INCREMENT,
+  Email VARCHAR(255),
+  Password VARCHAR(255),
+  FullName VARCHAR(255),
+  Birthday DATE,
+  Phone VARCHAR(20),
+  Address VARCHAR(255),
+  Status ENUM('Vip', 'Normal', 'Attention', 'Locked') DEFAULT 'Normal'
 );
 
--- Tạo bảng products
-CREATE TABLE IF NOT EXISTS products (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  description TEXT NOT NULL,
-  price DECIMAL(10,2) NOT NULL,
-  category_id INT(11) NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (category_id) REFERENCES categories(id)
+-- Tạo bảng User_Products
+CREATE TABLE User_Products (
+  UserID INT,
+  ProductID INT,
+  Quantity INT,
+  CreateDate DATE,
+  Status ENUM('Pending', 'Processing', 'Confirmed', 'Shipped', 'Delivered', 'Cancelled', 'Returned') DEFAULT 'Pending',
+  PRIMARY KEY (UserID, ProductID),
+  FOREIGN KEY (UserID) REFERENCES Users(UserID),
+  FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
--- Tạo bảng categories
-CREATE TABLE IF NOT EXISTS categories (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  description TEXT NOT NULL,
-  PRIMARY KEY (id)
+-- Tạo bảng Products
+CREATE TABLE Products (
+  ProductID INT PRIMARY KEY AUTO_INCREMENT,
+  ProductName VARCHAR(255),
+  Description VARCHAR(255),
+  Price DECIMAL(10,2),
+  Quantity INT,
+  SoldQuantity INT
 );
 
--- Tạo bảng orders
-CREATE TABLE IF NOT EXISTS orders (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  user_id INT(11) NOT NULL,
-  total_price DECIMAL(10,2) NOT NULL,
-  created_at DATETIME NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES users(id)
+-- Tạo bảng Product_Categories
+CREATE TABLE Product_Categories (
+  CategoryID INT,
+  ProductID INT,
+  PRIMARY KEY (CategoryID, ProductID),
+  FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
+  FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
--- Tạo bảng order_items
-CREATE TABLE IF NOT EXISTS order_items (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  order_id INT(11) NOT NULL,
-  product_id INT(11) NOT NULL,
-  quantity INT(11) NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (order_id) REFERENCES orders(id),
-  FOREIGN KEY (product_id) REFERENCES products(id)
+-- Tạo bảng Categories
+CREATE TABLE Categories (
+  CategoryID INT PRIMARY KEY AUTO_INCREMENT,
+  CategoryName VARCHAR(255)
 );
 
--- Tạo bảng user_actions
-CREATE TABLE IF NOT EXISTS user_actions (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  user_id INT(11) NOT NULL,
-  action ENUM('click', 'submit', 'view') NOT NULL,
-  target VARCHAR(255) NOT NULL,
-  timestamp DATETIME NOT NULL,
-  product_id INT(11) NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (product_id) REFERENCES products(id)
+CREATE TABLE Product_Reviews (
+  ReviewID INT PRIMARY KEY AUTO_INCREMENT,
+  UserID INT,
+  ProductID INT,
+  Rating INT,
+  Comment VARCHAR(255),
+  FOREIGN KEY (UserID) REFERENCES Users(UserID),
+  FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
-CREATE TABLE accounts (
-    id INT PRIMARY KEY,
-    user_id INT NOT NULL,
-    balance DECIMAL(10,2) NOT NULL DEFAULT 0,
-    created_at DATETIME NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
+-- SELECT user, host FROM mysql.user;
+CREATE USER IF NOT EXISTS 'guest'@'localhost' IDENTIFIED BY '123456';
+
+GRANT SELECT, INSERT, UPDATE ON fashionShop.Users TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON fashionShop.User_Products TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON fashionShop.Products TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Categories TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON fashionShop.Orders TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Product_Categories TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Order_Details TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE ON fashionShop.Shops TO 'guest'@'localhost';
