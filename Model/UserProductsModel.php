@@ -2,7 +2,7 @@
 
 require_once 'Database.php';
 
-class Cart {
+class CartModel {
     private $conn;
 
     public function __construct() {
@@ -62,4 +62,8 @@ class Cart {
         return false;
     }
     
+}
+
+class OrderModel{
+
 }

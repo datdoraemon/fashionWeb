@@ -1,14 +1,21 @@
 <?php
-require_once '../Model/Cart.php';
 session_start();
-$userID = $_SESSION['user_id'];
-$productID = $_POST['product_id'];
-$quantity = $_POST['quantity'];
-$cart = new Cart();
-$addCart = $cart->AddtoCart($userID, $productID, $quantity);
-if ($addCart) {
-    echo "Sản phẩm đã được thêm vào giỏ hàng.";
-} else {
-    echo "Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.";
+require_once '../Model/UserProductsModel.php';
+
+if (isset($_POST['productID'], $_POST['quantity'])) {
+  $userID = $_SESSION['user_id'];
+  $productID = $_POST['productID'];
+  $quantity = $_POST['quantity'];
+
+  $userProductsModel = new CartModel();
+  $result = $userProductsModel->AddtoCart($userID, $productID, $quantity);
+
+  if ($result) {
+    $_SESSION['cart_message'] = "Sản phẩm đã được thêm vào giỏ hàng.";
+  } else {
+    $_SESSION['cart_message'] = "Thêm vào giỏ hàng thất bại!";
+  }
 }
-?>
+
+header("Location: ProductDetails.php");
+exit();

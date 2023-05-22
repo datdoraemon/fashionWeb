@@ -1,14 +1,16 @@
 <?php
-class HomepageModel {
-    private $db;
+require_once 'Database.php';
+class ProductsModel {
+    private $conn;
 
-    function __construct($database) {
-        $this->db = $database;
+    public function __construct() {
+        $db = new Database();
+        $this->conn = $db->getConnection();
     }
 
     function getProducts() {
         $query = "SELECT * FROM Products";
-        $result = $this->db->query($query);
+        $result = $this->conn->query($query);
 
         $products = array();
         while ($row = $result->fetch_assoc()) {
@@ -18,9 +20,9 @@ class HomepageModel {
         return $products;
     }
 
-    function getProductById($id) {
+    function getProductDetailsById($id) {
         $query = "SELECT * FROM Products WHERE ProductID = $id";
-        $result = $this->db->query($query);
+        $result = $this->conn->query($query);
 
         if ($result->num_rows > 0) {
             return $result->fetch_assoc();
@@ -31,7 +33,7 @@ class HomepageModel {
 
     function getCategories() {
         $query = "SELECT * FROM Categories";
-        $result = $this->db->query($query);
+        $result = $this->conn->query($query);
 
         $categories = array();
         while ($row = $result->fetch_assoc()) {

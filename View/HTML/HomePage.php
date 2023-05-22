@@ -68,6 +68,12 @@
                 </div>
             </div>
         </header>
+
+        <form action="ProductDetailsController.php" method="post">
+        <input type="hidden" name="productID" value="<?php echo $productID; ?>">
+        <button type="submit">Xem chi tiết</button>
+        </form>
+
     </div>
 </body>
 </html>
