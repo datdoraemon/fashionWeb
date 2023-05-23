@@ -24,7 +24,7 @@ class LoginController {
 		}
 		
 		
-		$userModel = new UserModel();
+		$userModel = new UsersModel();
 		$userEmail = $userModel->getUserByEmail($email);
 		$user = $userModel->getUserByEmailAndPassword($email, $password);
 		

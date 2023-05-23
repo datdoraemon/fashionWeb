@@ -2,7 +2,7 @@
 
 require_once 'Database.php';
 
-class UserModel {
+class UsersModel {
     private $conn;
 
     public function __construct() {
