@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://kit.fontawesome.com/2087e648a1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../Style/HomePage.css">
@@ -15,44 +15,34 @@
     <div class="container-fluid p-0">
         <header id="header">
             <div class="row">
-                <div class="text-center col-12">Chào mừng bạn đến với website</div>
-            </div>
-            <div class="row">
-                <div class="logo col-2">
-
-                </div>
-                <div class="col-7">
-                    <form action="" method="post">
-                        <input type="search" placeholder="Tìm sản phẩm">
-                        <button type="submit" value="Tìm kiếm" class="ux-search-submit submit-button secondary button icon mb-0">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </form>
-                </div>
-                <div class="col-3">
-                    <ul class="">
-                        <li class="">
-                            <a href="#" title="Giỏ hàng" class="">
-                                <span class="image-icon header-cart-icon" data-icon-label="0">
-                                    <img class="cart-img-icon" alt="Giỏ hàng" src="http://balo.sharekhoahoc.vn/wp-content/uploads/2020/08/hd_mainmenu_icon_cart.png">
-                                </span>
-                                <span class="">Giỏ hàng </span>
-                            </a>
-                            <ul class="nav-dropdown">
-                                <li class="">
-                                    <div class="">
-                                        <p class="">Chưa có sản phẩm trong giỏ hàng.</p>
-                                    </div>
-                                </li>
-                            </ul>
+                <div class="col-12 top_header">
+                    <ul class="ul">
+                        <li class="li">
+                            <a class ="a" href="../HTML/Login.html">Đăng nhập</a>
                         </li>
-                        <li class="">
-                            <form action="Login.html" method="post">
-                                <i class=""></i>
-                                <button>Đăng nhập </button>
-                            </form>
+                        <li class="li">
+                            <a class ="a" href="../HTML/SignUp.html">Đăng ký &emsp;  |   </a>
                         </li>
                     </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <div class="bar_search">
+                        <form action="" method="post">
+                            <input type="search" placeholder="Tìm sản phẩm">
+                            <button type="submit" value="Tìm kiếm" class="ux-search-submit submit-button secondary button icon mb-0">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="bar_background"></div>
                 </div>
             </div>
         </header>
