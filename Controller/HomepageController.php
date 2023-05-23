@@ -12,7 +12,7 @@ class HomepageController {
         $products = $this->model->getProducts();
         $categories = $this->model->getCategories();
 
-        include 'View/HTML/Homepage.html';
+        include '../View/HTML/HomePage.php';
     }
 
     function showProductDetail($id) {

@@ -1,6 +1,6 @@
 <?php
 
-require_once '../Model/UserModel.php';
+require_once '../Model/UsersModel.php';
 
 class LoginController {
 	
@@ -31,7 +31,7 @@ class LoginController {
 		if ($userEmail) {
 			if ($user) {
 				session_start();
-				$_SESSION['user_id'] = $user['id'];
+				$_SESSION['user_id'] = $user['UserID'];
 				header('Location: ../View/HTML/HomePage.php');
 			}
 			else {

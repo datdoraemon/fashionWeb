@@ -11,7 +11,7 @@
 <body>
 <?php
 
-require_once '../Model/UserModel.php';
+require_once '../Model/UsersModel.php';
 
 class SignUpInformationController{
 	public function index() {
@@ -34,7 +34,7 @@ class SignUpInformationController{
         $address = stripslashes($address);
 		$email = $_SESSION['email'];
         $password = $_SESSION['password'];
-        $userModel = new UserModel();
+        $userModel = new UsersModel();
         $userModel->createUser($email, $password, $name, $birthday, $phone, $address);
         header('Location: ../View/HTML/Login.html');
     }

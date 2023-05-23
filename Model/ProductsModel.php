@@ -23,12 +23,12 @@ class ProductsModel {
     function getProductDetailsById($id) {
         $query = "SELECT * FROM Products WHERE ProductID = $id";
         $result = $this->conn->query($query);
+        return $result->fetch_assoc();
 
-        if ($result->num_rows > 0) {
-            return $result->fetch_assoc();
-        } else {
-            return null;
-        }
+        // if ($result->num_rows > 0) {
+        // } else {
+        //     return null;
+        // }
     }
 
     function getCategories() {

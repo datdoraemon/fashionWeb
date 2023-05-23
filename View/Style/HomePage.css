@@ -1,9 +1,12 @@
 #header {
-    background-color: gray;
+    background-color: rgba(0, 0, 0, 0.918);
     color: #fff;
-    padding: 10px;
+    height: 200px;
 }
-
+.top_header
+{
+    height: 50px;
+}
 .nav-dropdown{
     font-size: 100%;
     position: absolute;
@@ -19,4 +22,43 @@
     display: table;
     left: -99999px;
     border-radius: 10px;
+}
+
+.ul
+{
+    list-style-type: none;
+    margin: 0; padding: 0;
+    overflow: hidden;
+}
+.ul > .li
+{
+    float: right;
+}
+.ul > .li > .a
+{
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding-right: 16px;
+}
+.ul > .li > .a:hover
+{
+    font-weight: bold;
+}
+.bar_background
+{
+    background-color: yellow;
+    height: 50px;
+    margin-bottom: 0;
+    margin: 0;
+}
+.bar_search
+{
+    background-color: white;
+    height : 100px;
+    border-radius: 10px;
+}
+.login_button
+{
+
 }
