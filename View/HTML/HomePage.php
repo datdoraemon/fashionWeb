@@ -17,11 +17,23 @@
             <div class="row">
                 <div class="col-12 top_header">
                     <ul class="ul">
-                        <li class="li">
-                            <a class ="a" href="../HTML/Login.html">Đăng nhập</a>
-                        </li>
-                        <li class="li">
-                            <a class ="a" href="../HTML/SignUp.html">Đăng ký &emsp;  |   </a>
+                        <li class="">
+                            <?php
+                                session_start();
+                                if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != 0) {
+                                    // Nếu $_SESSION['user_id'] tồn tại và khác 0
+                                    echo '<form action="Loguot.html" method="post">
+                                    <i class=""></i>
+                                    <button>Đăng xuất </button>
+                                    </form>';
+                                } else {
+                                    // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
+                                    echo '<form action="Login.html" method="post">
+                                    <i class=""></i>
+                                    <button>Đăng nhập </button>
+                                    </form>';
+                                }
+                            ?>
                         </li>
                     </ul>
                 </div>
@@ -46,6 +58,12 @@
                 </div>
             </div>
         </header>
+
+        <form action="../../Controller/ProductDetailsController.php" method="post">
+        <input type="hidden" name="productID" value="<?php echo $productID; ?>">
+        <button type="submit">Xem chi tiết</button>
+        </form>
+
     </div>
 </body>
 </html>

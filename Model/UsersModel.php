@@ -2,7 +2,7 @@
 
 require_once 'Database.php';
 
-class UserModel {
+class UsersModel {
     private $conn;
 
     public function __construct() {
@@ -11,7 +11,7 @@ class UserModel {
     }
 
     public function getUserByEmail($email) {        
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM Users WHERE Email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -25,14 +25,14 @@ class UserModel {
     }
 
     public function getUserByEmailAndPassword($email, $password) {
-        $stmt = $this->conn->prepare("SELECT * FROM users WHERE email = ?");
+        $stmt = $this->conn->prepare("SELECT * FROM Users WHERE Email = ?");
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
     
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
-            if (password_verify($password, $user['password'])) {
+            if (password_verify($password, $user['Password'])) {
                 return $user;
             }
         }
@@ -41,12 +41,11 @@ class UserModel {
     }
 
     public function createUser($email, $password, $name, $birthday, $phone, $address) {
-        $stmt = $this->conn->prepare("INSERT INTO users (email, password, name, birthday, phone, address) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO Users (Email, Password, FullName, Birthday, Phone, Address) VALUES (?, ?, ?, ?, ?, ?)");
         $stmt->bind_param("ssssss", $email, $password, $name, $birthday, $phone, $address);
         $result = $stmt->execute();
 
         if (!$result) {
-            // Xử lý lỗi khi chèn dữ liệu không thành công
             return false;
         }
 
