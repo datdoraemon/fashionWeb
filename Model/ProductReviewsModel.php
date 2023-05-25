@@ -1,4 +1,7 @@
 <?php
-    class ProductReviewsModel{
 
-    }
+require_once 'Database.php';
+
+class ProductReviewsModel{
+
+}

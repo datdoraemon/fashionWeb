@@ -1,5 +1,7 @@
 <?php
+
 require_once 'Database.php';
+
 class ProductsModel {
     private $conn;
 
@@ -25,21 +27,10 @@ class ProductsModel {
         $result = $this->conn->query($query);
         return $result->fetch_assoc();
 
-        // if ($result->num_rows > 0) {
-        // } else {
-        //     return null;
-        // }
-    }
-
-    function getCategories() {
-        $query = "SELECT * FROM Categories";
-        $result = $this->conn->query($query);
-
-        $categories = array();
-        while ($row = $result->fetch_assoc()) {
-            $categories[] = $row;
+        if ($result->num_rows > 0) {
+        } else {
+            return null;
         }
-
-        return $categories;
     }
+
 }

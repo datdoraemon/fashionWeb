@@ -45,16 +45,9 @@ class CartModel {
     
 
     public function RemoveFromCart($user_id, $product_ids) {
-        // Chuyển danh sách product_ids thành một chuỗi có dạng (?, ?, ?, ...)
         $placeholders = implode(',', array_fill(0, count($product_ids), '?'));
-    
-        // Chuẩn bị câu truy vấn DELETE
         $stmt = $this->conn->prepare("DELETE FROM User_Products WHERE UserID = ? AND ProductID IN ($placeholders)");
-        
-        // Gắn các giá trị vào câu truy vấn
         $stmt->bind_param(str_repeat('i', count($product_ids) + 1), $user_id, ...$product_ids);
-        
-        // Thực thi câu truy vấn DELETE
         $stmt->execute();
         
         if ($stmt->affected_rows > 0) {
@@ -74,54 +67,30 @@ class OrderModel{
         $this->conn = $db->getConnection();
     }
 
-    public function ShowOrderProcessing($user_id) {
-        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = 'Processing'");
-        $stmt->bind_param("i", $user_id);
+    public function showOrder($userID) {
+        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products INNER JOIN Products ON User_Products.ProductID = Products.ProductID WHERE User_Products.UserID = ?");
+        $stmt->bind_param("i", $userID);
         $stmt->execute();
         $result = $stmt->get_result();
-        
-        if ($result->num_rows > 0) {
-            $cartItems = array();
-            while ($row = $result->fetch_assoc()) {
-                $cartItems[] = $row;
-            }
-            return $cartItems;
+    
+        $orderItems = array();
+        while ($row = $result->fetch_assoc()) {
+            $orderItems[] = $row;
         }
-        
-        return false;
+    
+        return $orderItems;
     }
 
-    public function ShowOrderConfirmed($user_id) {
-        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = 'Confirmed'");
-        $stmt->bind_param("i", $user_id);
+    public function updateStatus($userID, $productID, $status) {
+        $stmt = $this->conn->prepare("UPDATE User_Products SET Status = ? WHERE UserID = ? AND ProductID = ?");
+        $stmt->bind_param("sii", $status, $userID, $productID);
         $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result->num_rows > 0) {
-            $cartItems = array();
-            while ($row = $result->fetch_assoc()) {
-                $cartItems[] = $row;
-            }
-            return $cartItems;
+    
+        if ($stmt->affected_rows > 0) {
+            return true;
         }
-        
+    
         return false;
     }
-
-    public function ShowOrderCancelled($user_id) {
-        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = 'Cancelled'");
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        
-        if ($result->num_rows > 0) {
-            $cartItems = array();
-            while ($row = $result->fetch_assoc()) {
-                $cartItems[] = $row;
-            }
-            return $cartItems;
-        }
-        
-        return false;
-    }
+    
 }
