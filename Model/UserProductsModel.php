@@ -67,5 +67,61 @@ class CartModel {
 }
 
 class OrderModel{
+    private $conn;
 
+    public function __construct() {
+        $db = new Database();
+        $this->conn = $db->getConnection();
+    }
+
+    public function ShowOrderProcessing($user_id) {
+        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = 'Processing'");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $cartItems = array();
+            while ($row = $result->fetch_assoc()) {
+                $cartItems[] = $row;
+            }
+            return $cartItems;
+        }
+        
+        return false;
+    }
+
+    public function ShowOrderConfirmed($user_id) {
+        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = 'Confirmed'");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $cartItems = array();
+            while ($row = $result->fetch_assoc()) {
+                $cartItems[] = $row;
+            }
+            return $cartItems;
+        }
+        
+        return false;
+    }
+
+    public function ShowOrderCancelled($user_id) {
+        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = 'Cancelled'");
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        
+        if ($result->num_rows > 0) {
+            $cartItems = array();
+            while ($row = $result->fetch_assoc()) {
+                $cartItems[] = $row;
+            }
+            return $cartItems;
+        }
+        
+        return false;
+    }
 }
