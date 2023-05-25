@@ -21,7 +21,7 @@ class ProductsModel {
     }
 
     function getProductDetailsById($id) {
-        $query = "SELECT * FROM Products WHERE ProductID = $id";
+        $query = "SELECT * FROM Products WHERE ProductID = 1";
         $result = $this->conn->query($query);
         return $result->fetch_assoc();
 

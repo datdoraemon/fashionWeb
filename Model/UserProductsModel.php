@@ -29,7 +29,7 @@ class CartModel {
     
 
     public function AddtoCart($user_id, $product_id, $quantity) {
-        $stmt = $this->conn->prepare("INSERT INTO User_Products (UserID, ProductID, Quantity, CreateDate) VALUES (?, ?, ?, CURRENT_TIMESTAMP)");
+        $stmt = $this->conn->prepare("INSERT INTO User_Products (UserID, ProductID, Quantity, CreateDate) VALUES (?, ?, ?, CURRENT_TIMESTAMP) ON DUPLICATE KEY UPDATE Quantity = Quantity + VALUES(Quantity)");
         $stmt->bind_param("iii", $user_id, $product_id, $quantity);
         $stmt->execute();
         
@@ -39,6 +39,8 @@ class CartModel {
         
         return false;
     }
+    
+    
     
     
 
