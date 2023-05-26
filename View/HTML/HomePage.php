@@ -30,7 +30,7 @@
                                     // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
                                     echo '<form action="Login.html" method="post">
                                     <i class=""></i>
-                                    <button>Đăng nhập </button>
+                                    <button class="login_button">Đăng nhập </button>
                                     </form>';
                                 }
                             ?>
@@ -39,22 +39,22 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-3"></div>
-                <div class="col-6">
-                    <div class="bar_search">
+                <div class="col-3 brand">FASHION</div>
+                <div class="col-6 bar_search_backgroud">
                         <form action="" method="post">
-                            <input type="search" placeholder="Tìm sản phẩm">
-                            <button type="submit" value="Tìm kiếm" class="ux-search-submit submit-button secondary button icon mb-0">
-                                <i class="fa-solid fa-magnifying-glass"></i>
+                            <input class="bar_search" type="search" placeholder="Tìm sản phẩm">
+                            <button type="submit" value="Tìm kiếm">
+                                <h1><i class="fa-solid fa-magnifying-glass search_button"></i></h1>
                             </button>
                         </form>
-                    </div>
                 </div>
                 <div class="col-3"></div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div class="bar_background"></div>
+                    <div class="bar_background">
+                        
+                    </div>
                 </div>
             </div>
         </header>
