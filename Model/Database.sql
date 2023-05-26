@@ -1,5 +1,5 @@
 -- Xóa database
-DROP DATABASE fashionShop;
+-- DROP DATABASE fashionShop;
 
 -- Tạo database
 CREATE DATABASE fashionShop;
@@ -19,6 +19,22 @@ CREATE TABLE Users (
   Status ENUM('Vip', 'Normal', 'Attention', 'Locked') DEFAULT 'Normal'
 );
 
+-- Tạo bảng Products
+CREATE TABLE Products (
+  ProductID INT PRIMARY KEY AUTO_INCREMENT,
+  ProductName VARCHAR(255),
+  Description VARCHAR(255),
+  Price DECIMAL(10,2),
+  Quantity INT,
+  SoldQuantity INT
+);
+
+-- Tạo bảng Categories
+CREATE TABLE Categories (
+  CategoryID INT PRIMARY KEY AUTO_INCREMENT,
+  CategoryName VARCHAR(255)
+);
+
 -- Tạo bảng User_Products
 CREATE TABLE User_Products (
   UserID INT,
@@ -31,16 +47,6 @@ CREATE TABLE User_Products (
   FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
--- Tạo bảng Products
-CREATE TABLE Products (
-  ProductID INT PRIMARY KEY AUTO_INCREMENT,
-  ProductName VARCHAR(255),
-  Description VARCHAR(255),
-  Price DECIMAL(10,2),
-  Quantity INT,
-  SoldQuantity INT
-);
-
 -- Tạo bảng Product_Categories
 CREATE TABLE Product_Categories (
   CategoryID INT,
@@ -48,12 +54,6 @@ CREATE TABLE Product_Categories (
   PRIMARY KEY (CategoryID, ProductID),
   FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
   FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
-);
-
--- Tạo bảng Categories
-CREATE TABLE Categories (
-  CategoryID INT PRIMARY KEY AUTO_INCREMENT,
-  CategoryName VARCHAR(255)
 );
 
 CREATE TABLE Product_Reviews (
@@ -66,14 +66,14 @@ CREATE TABLE Product_Reviews (
   FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
--- SELECT user, host FROM mysql.user;
-CREATE USER IF NOT EXISTS 'guest'@'localhost' IDENTIFIED BY '123456';
+-- SELECT user, host FROM mysql.user
 
-GRANT SELECT, INSERT, UPDATE ON fashionShop.Users TO 'guest'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON fashionShop.User_Products TO 'guest'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON fashionShop.Products TO 'guest'@'localhost';
+CREATE USER 'guest'@'localhost' IDENTIFIED BY '123456';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Users TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.User_Products TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Products TO 'guest'@'localhost';
 GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Categories TO 'guest'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON fashionShop.Orders TO 'guest'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Product_Reviews TO 'guest'@'localhost';
 GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Product_Categories TO 'guest'@'localhost';
-GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Order_Details TO 'guest'@'localhost';
-GRANT SELECT, INSERT, UPDATE ON fashionShop.Shops TO 'guest'@'localhost';
+
