@@ -76,4 +76,3 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Products TO 'guest'@'localho
 GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Categories TO 'guest'@'localhost';
 GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Product_Reviews TO 'guest'@'localhost';
 GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Product_Categories TO 'guest'@'localhost';
-
