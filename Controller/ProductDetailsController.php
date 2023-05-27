@@ -1,6 +1,6 @@
 <?php
     // ProductDetailsController.php
-    require_once '../Model/ProductsModel.php';
+    require_once __DIR__ . '../Model/ProductsModel.php';
 
     if (isset($_POST['productID'])) {
     $productID = $_POST['productID'];

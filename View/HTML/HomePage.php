@@ -12,6 +12,14 @@
     <link rel="stylesheet" href="../Style/HomePage.css">
 </head>
 <body>
+<?php
+    require_once '../../Controller/HomepageController.php';
+
+    $homepageController = new HomepageController();
+    $product = $homepageController->getProduct();
+    $categories = $homepageController->getCategories();
+?>
+
     <div class="container-fluid p-0">
         <header id="header">
             <div class="row">
@@ -58,6 +66,22 @@
                 </div>
             </div>
         </header>
+
+        <!-- Hiển thị danh sách sản phẩm -->
+        <h2>Products</h2>
+        <ul>
+            <?php foreach ($product as $p): ?>
+                <li><?php echo $p['ProductName']; ?></li>
+            <?php endforeach; ?>
+        </ul>
+
+        <!-- Hiển thị danh sách categories -->
+        <h2>Categories</h2>
+        <ul>
+            <?php foreach ($categories as $c): ?>
+                <li><?php echo $c['CategoryName']; ?></li>
+            <?php endforeach; ?>
+        </ul>
 
         <form action="../../Controller/ProductDetailsController.php" method="post">
         <input type="hidden" name="productID" value="<?php echo $productID; ?>">

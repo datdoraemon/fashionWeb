@@ -11,7 +11,7 @@
 <body>
 <?php
 
-require_once '../Model/UsersModel.php';
+require_once __DIR__ . '../Model/UsersModel.php';
 
 class SignUpController {
 	
