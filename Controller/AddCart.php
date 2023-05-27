@@ -4,7 +4,7 @@ require_once '../Model/UserProductsModel.php';
 
 if (isset($_POST['productID'], $_POST['quantity'])) {
   $userID = $_SESSION['user_id'];
-  $productID = $_POST['productID'];
+  $productID = 1;
   $quantity = $_POST['quantity'];
 
   $userProductsModel = new CartModel();
@@ -17,5 +17,5 @@ if (isset($_POST['productID'], $_POST['quantity'])) {
   }
 }
 
-header("Location: ProductDetails.php");
+header("Location: ../View/HTML/ProductDetails.php");
 exit();

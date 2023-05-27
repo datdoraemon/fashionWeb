@@ -18,11 +18,11 @@ if (isset($_SESSION['cart_message'])) {
 
 // Hiển thị các thông tin sản phẩm
 ?>
-<h1><?php echo $productDetails['productName']; ?></h1>
-<p><?php echo $productDetails['description']; ?></p>
-<p>Giá: <?php echo $productDetails['price']; ?></p>
+<h1><?php echo $productDetails['ProductName']; ?></h1>
+<p><?php echo $productDetails['Description']; ?></p>
+<p>Giá: <?php echo $productDetails['Price']; ?></p>
 <!-- Hiển thị các thông tin khác của sản phẩm -->
-<form action="../../Controller/AddCart.php" method="post">
+<form action="../Controller/AddCart.php" method="post">
   <input type="hidden" name="productID" value="<?php echo $productID; ?>">
   <label for="quantity">Số lượng:</label>
   <input type="number" name="quantity" id="quantity" min="1" value="1">
