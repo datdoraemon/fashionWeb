@@ -2,13 +2,16 @@
 
 require_once __DIR__ . '/../Model/UsersModel.php';
 
-class LoginController {
-	
-	public function index() {
+class LoginController
+{
+
+	public function index()
+	{
 		echo '<script>alert("Please enter email and password.");window.location.href="../View/HTML/Login.html";</script>';
 	}
-	
-	public function authenticate() {
+
+	public function authenticate()
+	{
 		$email = trim($_POST['email']);
 		$password = trim($_POST['password']);
 		$email = htmlspecialchars($email);
@@ -17,24 +20,23 @@ class LoginController {
 			echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/Login.html";</script>';
 			exit;
 		}
-		
+
 		if (preg_match('/[\'"\\\\;]/', $password)) {
 			echo '<script>alert("Incorrect password.");window.location.href="../View/HTML/Login.html";</script>';
 			exit;
 		}
-		
-		
+
+
 		$userModel = new UsersModel();
 		$userEmail = $userModel->getUserByEmail($email);
 		$user = $userModel->getUserByEmailAndPassword($email, $password);
-		
+
 		if ($userEmail) {
 			if ($user) {
 				session_start();
 				$_SESSION['user_id'] = $user['UserID'];
 				header('Location: ../View/HTML/HomePage.php');
-			}
-			else {
+			} else {
 				echo '<script>alert("Incorrect password.");window.location.href="../View/HTML/Login.html";</script>';
 			}
 		} else {
