@@ -1,8 +1,8 @@
 -- Xóa database
--- DROP DATABASE fashionShop;
+DROP DATABASE IF EXISTS fashionShop;
 
 -- Tạo database
-CREATE DATABASE fashionShop;
+CREATE DATABASE IF NOT EXISTS fashionShop;
 
 -- Sử dụng database
 USE fashionShop;
@@ -68,7 +68,7 @@ CREATE TABLE Product_Reviews (
 
 -- SELECT user, host FROM mysql.user
 
-CREATE USER 'guest'@'localhost' IDENTIFIED BY '123456';
+CREATE USER IF NOT EXISTS 'guest'@'localhost' IDENTIFIED BY '123456';
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Users TO 'guest'@'localhost';
 GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.User_Products TO 'guest'@'localhost';

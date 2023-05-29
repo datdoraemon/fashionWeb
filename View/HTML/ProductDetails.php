@@ -8,6 +8,14 @@
 </head>
 <body>
 <?php
+    require_once '../../Controller/ProductDetailsController.php';
+
+    $productID = isset($_POST['productID']) ? $_POST['productID'] : null;
+
+    $productDetailController = new ProductDetailsController();
+    $productDetails = $productDetailController->getProductDetails($productID);
+?>
+<?php
 session_start();
 
 // Kiểm tra nếu có thông báo giỏ hàng, hiển thị thông báo và xóa khỏi session
@@ -22,7 +30,7 @@ if (isset($_SESSION['cart_message'])) {
 <p><?php echo $productDetails['Description']; ?></p>
 <p>Giá: <?php echo $productDetails['Price']; ?></p>
 <!-- Hiển thị các thông tin khác của sản phẩm -->
-<form action="../Controller/AddCart.php" method="post">
+<form action="../../Controller/AddCart.php" method="post">
   <input type="hidden" name="productID" value="<?php echo $productID; ?>">
   <label for="quantity">Số lượng:</label>
   <input type="number" name="quantity" id="quantity" min="1" value="1">

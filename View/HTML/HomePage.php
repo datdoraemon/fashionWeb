@@ -72,6 +72,10 @@
         <ul>
             <?php foreach ($product as $p): ?>
                 <li><?php echo $p['ProductName']; ?></li>
+                <form action="ProductDetails.php" method="post">
+                <input type="hidden" name="productID" value="<?php echo $p['ProductID']; ?>">
+                <button type="submit">Xem chi tiết</button>
+                </form>
             <?php endforeach; ?>
         </ul>
 
@@ -83,7 +87,7 @@
             <?php endforeach; ?>
         </ul>
 
-        <form action="../../Controller/ProductDetailsController.php" method="post">
+        <form action="ProductDetails.php" method="post">
         <input type="hidden" name="productID" value="<?php echo $productID; ?>">
         <button type="submit">Xem chi tiết</button>
         </form>
