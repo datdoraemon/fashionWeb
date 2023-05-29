@@ -14,7 +14,7 @@ class CartModel
 
     public function ShowCart($user_id)
     {
-        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = 'Pending'");
+        $stmt = $this->conn->prepare("SELECT p.ProductID, p.ProductName, p.Price, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = 'Pending'");
         $stmt->bind_param("i", $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -29,7 +29,6 @@ class CartModel
 
         return false;
     }
-
 
     public function AddtoCart($user_id, $product_id, $quantity)
     {

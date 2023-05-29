@@ -60,7 +60,9 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-3"></div>
+                <div class="col-3"><!-- Thêm nút Giỏ hàng -->
+                    <a href="Cart.php">Giỏ hàng</a>
+                </div>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -76,6 +78,7 @@
                 <li><?php echo $p['ProductName']; ?></li>
                 <form action="ProductDetails.php" method="post">
                     <input type="hidden" name="productID" value="<?php echo $p['ProductID']; ?>">
+                    <?php echo $p['ProductID'];?>
                     <button type="submit">Xem chi tiết</button>
                 </form>
             <?php endforeach; ?>
@@ -88,11 +91,6 @@
                 <li><?php echo $c['CategoryName']; ?></li>
             <?php endforeach; ?>
         </ul>
-
-        <form action="ProductDetails.php" method="post">
-            <input type="hidden" name="productID" value="<?php echo $productID; ?>">
-            <button type="submit">Xem chi tiết</button>
-        </form>
 
     </div>
 </body>
