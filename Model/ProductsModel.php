@@ -2,15 +2,18 @@
 
 require_once 'Database.php';
 
-class ProductsModel {
+class ProductsModel
+{
     private $conn;
 
-    public function __construct() {
+    public function __construct()
+    {
         $db = new Database();
         $this->conn = $db->getConnection();
     }
 
-    function getProducts() {
+    function getProducts()
+    {
         $query = "SELECT * FROM Products";
         $result = $this->conn->query($query);
 
@@ -22,8 +25,9 @@ class ProductsModel {
         return $products;
     }
 
-    function getProductDetailsById($id) {
-        $query = "SELECT * FROM Products WHERE ProductID = 1";
+    function getProductDetailsById($productID)
+    {
+        $query = "SELECT * FROM Products WHERE ProductID = $productID";
         $result = $this->conn->query($query);
         return $result->fetch_assoc();
 
@@ -32,5 +36,4 @@ class ProductsModel {
             return null;
         }
     }
-
 }
