@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once __DIR__ . '../Model/UserProductsModel.php';
+require_once __DIR__ . '/../Model/UserProductsModel.php';
 
 if (isset($_POST['productID'], $_POST['quantity'])) {
   $userID = $_SESSION['user_id'];
