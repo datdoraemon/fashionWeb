@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php require_once "../../Model/CategoriesModel.php"; ?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +11,16 @@
     <script src="https://kit.fontawesome.com/2087e648a1.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../Style/HomePage.css">
 </head>
+
 <body>
+    <?php
+    require_once '../../Controller/HomepageController.php';
+
+    $homepageController = new HomepageController();
+    $product = $homepageController->getProduct();
+    $categories = $homepageController->getCategories();
+    ?>
+
     <div class="container-fluid p-0">
         <header id="header">
             <div class="row">
@@ -20,20 +28,20 @@
                     <ul class="ul">
                         <li class="">
                             <?php
-                                session_start();
-                                if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != 0) {
-                                    // Nếu $_SESSION['user_id'] tồn tại và khác 0
-                                    echo '<form action="Loguot.html" method="post">
+                            session_start();
+                            if (isset($_SESSION['user_id']) && $_SESSION['user_id'] != 0) {
+                                // Nếu $_SESSION['user_id'] tồn tại và khác 0
+                                echo '<form action="Loguot.html" method="post">
                                     <i class=""></i>
                                     <button>Đăng xuất </button>
                                     </form>';
-                                } else {
-                                    // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
-                                    echo '<form action="Login.html" method="post">
+                            } else {
+                                // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
+                                echo '<form action="Login.html" method="post">
                                     <i class=""></i>
                                     <button class="login_button">Đăng nhập </button>
                                     </form>';
-                                }
+                            }
                             ?>
                         </li>
                     </ul>
@@ -49,7 +57,9 @@
                             </button>
                         </form>
                 </div>
-                <div class="col-3"></div>
+                <div class="col-3"><!-- Thêm nút Giỏ hàng -->
+                    <a href="Cart.php">Giỏ hàng</a>
+                </div>
             </div>
             <div class="row">
                 <div class="col-12">
@@ -69,11 +79,28 @@
             </div>
         </header>
 
-        <form action="../../Controller/ProductDetailsController.php" method="post">
-        <input type="hidden" name="productID" value="<?php echo $productID; ?>">
-        <button type="submit">Xem chi tiết</button>
-        </form>
+        <!-- Hiển thị danh sách sản phẩm -->
+        <h2>Products</h2>
+        <ul>
+            <?php foreach ($product as $p) : ?>
+                <li><?php echo $p['ProductName']; ?></li>
+                <form action="ProductDetails.php" method="post">
+                    <input type="hidden" name="productID" value="<?php echo $p['ProductID']; ?>">
+                    <?php echo $p['ProductID'];?>
+                    <button type="submit">Xem chi tiết</button>
+                </form>
+            <?php endforeach; ?>
+        </ul>
+
+        <!-- Hiển thị danh sách categories -->
+        <h2>Categories</h2>
+        <ul>
+            <?php foreach ($categories as $c) : ?>
+                <li><?php echo $c['CategoryName']; ?></li>
+            <?php endforeach; ?>
+        </ul>
 
     </div>
 </body>
+
 </html>

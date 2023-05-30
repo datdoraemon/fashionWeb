@@ -1,5 +1,4 @@
-.background
-{
+.background {
 	height: 768px;
 	border-radius: 50% 0px 0px 50%;
 	background-image: url(https://media.istockphoto.com/photos/mens-clothes-picture-id531325796?k=6&amp;m=531325796&amp;s=170667a&amp;w=0&amp;h=zTFxchziLB0MZssBEO6nOPau8JVd7V66pSxfW8OYyPI=);
@@ -17,8 +16,7 @@
 	width: 90%;
 }
 
-.brand 
-{
+.brand {
 	text-align: center;
 	font-size: 50px;
 	color: #2c2c2c;
@@ -31,7 +29,7 @@
 
 h2 {
 	margin-top: 0px;
-	background: linear-gradient(to right,rgb(0, 0, 0), white);
+	background: linear-gradient(to right, rgb(0, 0, 0), white);
 	color: white;
 	font-family: Arial, sans-serif;
 
@@ -44,8 +42,7 @@ label {
 }
 
 input[type="email"],
-input[type="password"]
-{
+input[type="password"] {
 	width: 80%;
 	padding: 10px;
 	margin-bottom: 10px;
@@ -68,4 +65,3 @@ input[type="submit"]:hover {
 	background-color: black;
 	color: white;
 }
-

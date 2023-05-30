@@ -1,12 +1,13 @@
 <?php
-    // ProductDetailsController.php
-    require_once '../Model/ProductsModel.php';
 
-    if (isset($_POST['productID'])) {
-    $productID = $_POST['productID'];
-    $productModel = new ProductsModel();
-    $productDetails = $productModel->getProductDetailsById($productID);
+require_once __DIR__ . '/../Model/ProductsModel.php';
 
-    // Chuyển dữ liệu về cho View
-    require_once '../View/HTML/ProductDetails.php';
+class ProductDetailsController
+{
+    public function getProductDetails($productID)
+    {
+        $productModel = new ProductsModel();
+        $productDetails = $productModel->getProductDetailsById($productID);
+        return $productDetails;
     }
+}
