@@ -10,7 +10,7 @@ class CategoriesModel{
         $this->conn = $db->getConnection();
     }
     
-    function getCategories() {
+    public function getCategories() {
         $query = "SELECT * FROM Categories";
         $result = $this->conn->query($query);
 

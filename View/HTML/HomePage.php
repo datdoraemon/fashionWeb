@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<?php require_once "../../Model/CategoriesModel.php"; ?>
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -53,7 +54,16 @@
             <div class="row">
                 <div class="col-12">
                     <div class="bar_background">
-                        
+                        <?php 
+                           include('../../Model/CategoriesModel.php');
+                           $instance = new CategoriesModel();
+                           $categorieslist = $instance.getCategories();
+                           echo "<ul class=\"ul\">
+                                     <li class=\"li\">
+                                         <a class=\"a\">$categorieslist</a>
+                                     </li>
+                                 </ul>";
+                        ?>
                     </div>
                 </div>
             </div>
