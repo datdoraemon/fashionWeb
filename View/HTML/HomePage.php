@@ -64,16 +64,13 @@
             <div class="row">
                 <div class="col-12">
                     <div class="bar_background">
-                        <?php 
-                           include('../../Model/CategoriesModel.php');
-                           $instance = new CategoriesModel();
-                           $categorieslist = $instance.getCategories();
-                           echo "<ul class=\"ul\">
-                                     <li class=\"li\">
-                                         <a class=\"a\">$categorieslist</a>
-                                     </li>
-                                 </ul>";
-                        ?>
+                        <ul class="ul">
+                            <li class="li">
+                                <?php foreach ($categories as $c) : ?>
+                                <?php echo $p['CategoryName']; ?>
+                                <?php endforeach; ?>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -102,5 +99,4 @@
 
     </div>
 </body>
-
 </html>
