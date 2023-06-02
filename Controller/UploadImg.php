@@ -47,7 +47,7 @@ if (isset($_POST['submit'])) {
             $imageFullPath = "D:/Project 2/fashionWeb/View/" . $imagePath;
             if (file_exists($imageFullPath)) {
                 // Hiển thị ảnh: chỗ này đang lỗi không hiển thị ảnh
-                ''echo '<img class="img-thumbnail" style="width: 200px; height: 500px;" src="D:/Project 2/fashionWeb/View/Img/z2778219158569_fa170f2f248e72b06556a9e4780eed27.jpg" alt="Ảnh người dùng">';
+                echo '<img class="img-thumbnail" style="width: 200px; height: 500px;" src="D:/Project 2/fashionWeb/View/Img/z2778219158569_fa170f2f248e72b06556a9e4780eed27.jpg" alt="Ảnh người dùng">';
             } else {
                 echo $imageFullPath;
                 echo "Không tìm thấy ảnh.";
