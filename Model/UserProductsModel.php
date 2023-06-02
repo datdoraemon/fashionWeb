@@ -43,10 +43,6 @@ class CartModel
         return false;
     }
 
-
-
-
-
     public function RemoveFromCart($user_id, $product_ids)
     {
         $placeholders = implode(',', array_fill(0, count($product_ids), '?'));
