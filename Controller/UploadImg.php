@@ -8,6 +8,7 @@
 </head>
 <body>
 <?php
+require_once __DIR__ . '/../Model/UsersModel.php';
 if (isset($_POST['submit'])) {
     $targetDir = "D:/Project 2/fashionWeb/View/Img/";
     $targetFile = $targetDir . basename($_FILES['image']['name']);
@@ -53,30 +54,16 @@ if (isset($_POST['submit'])) {
                 echo "Không tìm thấy ảnh.";
             }
 
+            session_start();
+            $UserID = $_SESSION['UserID'];
+
             // Lưu link ảnh vào cơ sở dữ liệu
-            // Kết nối đến cơ sở dữ liệu
-            $dbHost = 'localhost';
-            $dbUsername = 'guest';
-            $dbPassword = '123456';
-            $dbName = 'fashionShop';
-            $conn = new mysqli($dbHost, $dbUsername, $dbPassword, $dbName);
-            if ($conn->connect_error) {
-                die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
+            $userModel = new UsersModel();
+            $userImg = $userModel->updateImg($UserID, $imagePath);
+            if ($userImg) {
+                # code...
+                echo.
             }
-
-            // Lấy thông tin người dùng hoặc session của người dùng
-            $userId = 1; // Ví dụ: ID của người dùng
-
-            // Cập nhật cột ImgUser trong cơ sở dữ liệu với đường dẫn ảnh
-            $sql = "UPDATE users SET ImgUser='$imagePath' WHERE UserId='$userId'";
-            if ($conn->query($sql) === TRUE) {
-                echo "Lưu link ảnh thành công.";
-            } else {
-                echo "Lỗi khi lưu link ảnh: " . $conn->error;
-            }
-
-            // Đóng kết nối cơ sở dữ liệu
-            $conn->close();
         } else {
             echo "Upload không thành công.";
         }
