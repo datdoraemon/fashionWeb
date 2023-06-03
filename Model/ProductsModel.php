@@ -14,7 +14,7 @@ class ProductsModel
 
     function getProducts()
     {
-        $query = "SELECT * FROM Products";
+        $query = "SELECT * FROM products";
         $result = $this->conn->query($query);
 
         $products = array();
