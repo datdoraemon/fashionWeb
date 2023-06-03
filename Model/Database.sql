@@ -26,7 +26,8 @@ CREATE TABLE Products (
   Description VARCHAR(255),
   Price DECIMAL(10,2),
   Quantity INT,
-  SoldQuantity INT
+  SoldQuantity INT,
+  img VARCHAR(255)
 );
 
 -- Tạo bảng Categories
