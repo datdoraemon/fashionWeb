@@ -71,6 +71,13 @@
                             <?php foreach ($categories as $c) : ?>
                                 <li class="li"><a class="a" href=""><?php echo $c['CategoryName']; ?></a></li>
                             <?php endforeach; ?>
+
+                            <li class="li">
+                                <?php foreach ($categories as $c) : ?>
+                                <?php echo $p['CategoryName']; ?>
+                                <?php endforeach; ?>
+                            </li>
+
                         </ul>
                     </div>
                 </div>
@@ -137,5 +144,4 @@
         </footer>
     </div>
 </body>
-
 </html>

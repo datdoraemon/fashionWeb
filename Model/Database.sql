@@ -16,6 +16,7 @@ CREATE TABLE Users (
   Birthday DATE,
   Phone VARCHAR(20),
   Address VARCHAR(255),
+  ImgUser VARCHAR(255),
   Status ENUM('Vip', 'Normal', 'Attention', 'Locked') DEFAULT 'Normal'
 );
 
@@ -28,12 +29,13 @@ CREATE TABLE Products (
   Quantity INT,
   SoldQuantity INT,
   img VARCHAR(255)
+
 );
 
 -- Tạo bảng Categories
 CREATE TABLE Categories (
   CategoryID INT PRIMARY KEY AUTO_INCREMENT,
-  CategoryName VARCHAR(255)
+  CategoryName VARCHAR(255) 
 );
 
 -- Tạo bảng User_Products
