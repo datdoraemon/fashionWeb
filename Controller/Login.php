@@ -34,7 +34,7 @@ class LoginController
 		if ($userEmail) {
 			if ($user) {
 				session_start();
-				$_SESSION['user_id'] = $user['UserID'];
+				$_SESSION['UserID'] = $user['UserID'];
 				header('Location: ../View/HTML/HomePage.php');
 			} else {
 				echo '<script>alert("Incorrect password.");window.location.href="../View/HTML/Login.html";</script>';

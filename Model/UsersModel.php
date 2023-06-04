@@ -71,10 +71,21 @@ class UsersModel
         return true;
     }
 
-    public function deleteUser($userID)
+    public function updateImg($UserID, $imgPath){
+        $stmt = $this->conn->prepare("UPDATE users SET ImgUser = ? WHERE UserID = ?");
+        $stmt->bind_param("si", $imgPath, $UserID);
+        $stmt->execute();
+        if ($stmt) {
+            return true;
+        } else {
+            return false;
+        }
+    }    
+
+    public function deleteUser($UserID)
     {
         $stmt = $this->conn->prepare("DELETE FROM Users WHERE UserID = ?");
-        $stmt->bind_param("i", $userID);
+        $stmt->bind_param("i", $UserID);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
@@ -84,10 +95,10 @@ class UsersModel
         return false;
     }
 
-    public function changePassword($userID, $oldPassword, $newPassword)
+    public function changePassword($UserID, $oldPassword, $newPassword)
     {
         $stmt = $this->conn->prepare("SELECT Password FROM Users WHERE UserID = ?");
-        $stmt->bind_param("i", $userID);
+        $stmt->bind_param("i", $UserID);
         $stmt->execute();
         $stmt->store_result();
 
@@ -99,7 +110,7 @@ class UsersModel
                 $newHashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
 
                 $updateStmt = $this->conn->prepare("UPDATE Users SET Password = ? WHERE UserID = ?");
-                $updateStmt->bind_param("si", $newHashedPassword, $userID);
+                $updateStmt->bind_param("si", $newHashedPassword, $UserID);
                 $updateStmt->execute();
 
                 if ($updateStmt->affected_rows > 0) {
@@ -111,10 +122,10 @@ class UsersModel
         return false;
     }
 
-    public function updateUserInformation($userID, $fullname, $birthday, $address, $phone)
+    public function updateUserInformation($UserID, $fullname, $birthday, $address, $phone)
     {
         $stmt = $this->conn->prepare("UPDATE Users SET FullName = ?, Birthday = ?, Address = ?, Phone = ? WHERE UserID = ?");
-        $stmt->bind_param("ssssi", $fullname, $birthday, $address, $phone, $userID);
+        $stmt->bind_param("ssssi", $fullname, $birthday, $address, $phone, $UserID);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
