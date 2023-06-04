@@ -5,7 +5,7 @@ require_once __DIR__ . '/../Model/UserProductsModel.php';
 if (!isset($_SESSION['UserID'])) {
   // Người dùng chưa đăng nhập, hiển thị thông báo và chuyển hướng đến trang đăng nhập
   $_SESSION['cart_message'] = "Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.";
-  header("Location: ../View/HTML/Login.php");
+  header("Location: ../View/HTML/Login.html");
   exit();
 }
 

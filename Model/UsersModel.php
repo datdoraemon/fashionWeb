@@ -71,7 +71,8 @@ class UsersModel
         return true;
     }
 
-    public function updateImg($UserID, $imgPath){
+    public function updateImg($UserID, $imgPath)
+    {
         $stmt = $this->conn->prepare("UPDATE users SET ImgUser = ? WHERE UserID = ?");
         $stmt->bind_param("si", $imgPath, $UserID);
         $stmt->execute();
@@ -80,7 +81,7 @@ class UsersModel
         } else {
             return false;
         }
-    }    
+    }
 
     public function deleteUser($UserID)
     {
@@ -100,11 +101,11 @@ class UsersModel
         $stmt = $this->conn->prepare("SELECT Password FROM Users WHERE UserID = ?");
         $stmt->bind_param("i", $UserID);
         $stmt->execute();
-        $stmt->store_result();
+        $result = $stmt->get_result();
 
-        if ($stmt->num_rows > 0) {
-            $stmt->bind_result($hashedPassword);
-            $stmt->fetch();
+        if ($result->num_rows > 0) {
+            $user = $result->fetch_assoc();
+            $hashedPassword = $user['Password'];
 
             if (password_verify($oldPassword, $hashedPassword)) {
                 $newHashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
@@ -121,6 +122,7 @@ class UsersModel
 
         return false;
     }
+
 
     public function updateUserInformation($UserID, $fullname, $birthday, $address, $phone)
     {

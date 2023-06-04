@@ -1,39 +1,46 @@
 <?php
 
-require_once 'Database.php';
+require_once __DIR__ . '/Database.php';
 
 class ProductsModel
 {
-    private $conn;
-
-    public function __construct()
+    public function getProducts()
     {
         $db = new Database();
-        $this->conn = $db->getConnection();
-    }
+        $connection = $db->getConnection();
 
-    function getProducts()
-    {
         $query = "SELECT * FROM products";
-        $result = $this->conn->query($query);
+        $result = $connection->query($query);
 
-        $products = array();
-        while ($row = $result->fetch_assoc()) {
-            $products[] = $row;
+        $products = [];
+
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $products[] = $row;
+            }
         }
+
+        $connection->close();
 
         return $products;
     }
 
-    function getProductDetailsById($productID)
+    public function getProductDetailsById($productID)
     {
-        $query = "SELECT * FROM Products WHERE ProductID = $productID";
-        $result = $this->conn->query($query);
-        return $result->fetch_assoc();
+        $db = new Database();
+        $connection = $db->getConnection();
 
-        if ($result->num_rows > 0) {
-        } else {
-            return null;
+        $query = "SELECT * FROM products WHERE ProductID = '$productID'";
+        $result = $connection->query($query);
+
+        $productDetails = null;
+
+        if ($result && $result->num_rows > 0) {
+            $productDetails = $result->fetch_assoc();
         }
+
+        $connection->close();
+
+        return $productDetails;
     }
 }

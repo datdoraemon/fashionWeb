@@ -1,16 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
 <?php
 require_once __DIR__ . '/../Model/UsersModel.php';
+
 if (isset($_POST['submit'])) {
-    $targetDir = "D:/Project 2/fashionWeb/View/Img/";
+    $targetDir = "D:/V-ANH/vana/Project2/fashionWeb/View/Img/";
     $targetFile = $targetDir . basename($_FILES['image']['name']);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($targetFile, PATHINFO_EXTENSION));
@@ -45,24 +37,25 @@ if (isset($_POST['submit'])) {
             echo $imagePath;
 
             // Kiểm tra xem ảnh có tồn tại trong thư mục hay không
-            $imageFullPath = "D:/Project 2/fashionWeb/View/" . $imagePath;
+            $imageFullPath = "D:/V-ANH/vana/Project2/fashionWeb/View/" . $imagePath;
             if (file_exists($imageFullPath)) {
-                // Hiển thị ảnh: chỗ này đang lỗi không hiển thị ảnh
-                echo '<img class="img-thumbnail" style="width: 200px; height: 500px;" src="D:/Project 2/fashionWeb/View/Img/z2778219158569_fa170f2f248e72b06556a9e4780eed27.jpg" alt="Ảnh người dùng">';
+                // Hiển thị ảnh
+                echo '<img class="img-thumbnail" style="width: 200px; height: 500px;" src="' . $imagePath . '" alt="Ảnh người dùng">';
             } else {
                 echo $imageFullPath;
                 echo "Không tìm thấy ảnh.";
             }
 
             session_start();
-            $UserID = $_SESSION['UserID'];
+            $userID = $_SESSION['UserID'];
 
             // Lưu link ảnh vào cơ sở dữ liệu
             $userModel = new UsersModel();
-            $userImg = $userModel->updateImg($UserID, $imagePath);
+            $userImg = $userModel->updateImg($userID, $imagePath);
             if ($userImg) {
-                # code...
-                echo.
+                echo "Lưu đường dẫn ảnh thành công.";
+            } else {
+                echo "Lưu đường dẫn ảnh không thành công.";
             }
         } else {
             echo "Upload không thành công.";
@@ -70,5 +63,3 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-</body>
-</html>
