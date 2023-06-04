@@ -1,13 +1,13 @@
 <?php
 require_once __DIR__ . '/../Model/UserProductsModel.php';
 
-function ShowCart($user_id)
+function ShowCart($UserID)
 {
     // Tạo một đối tượng UserProductsModel
     $userProductsModel = new CartModel();
 
     // Gọi phương thức ShowCart để lấy danh sách giỏ hàng
-    $cartItems = $userProductsModel->ShowCart($user_id);
+    $cartItems = $userProductsModel->ShowCart($UserID);
 
     // Kiểm tra xem có sản phẩm trong giỏ hàng hay không
     if (!empty($cartItems)) {
