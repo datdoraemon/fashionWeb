@@ -37,7 +37,7 @@
                                     </form>';
                             } else {
                                 // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
-                                echo '<form action="Login.html" method="post">
+                                echo '<form action="Login.php" method="post">
                                     <i class=""></i>
                                     <button class="login_button">Đăng nhập </button>
                                     </form>';

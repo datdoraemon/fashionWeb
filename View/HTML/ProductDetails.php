@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
   <link rel="stylesheet" href="../Style/HomePage.css">
   <link rel="stylesheet" href="../Style/ProductDetail.css">
+  <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
   <title>Document</title>
 </head>
 
@@ -18,6 +19,7 @@
   <?php
   require_once '../../Controller/ProductDetailsController.php';
   require_once '../../Controller/HomepageController.php';
+  //require_once '../../Controller/AddCart.php';
 
     $homepageController = new HomepageController();
     $categories = $homepageController->getCategories();
@@ -112,7 +114,31 @@
                 <form action="../../Controller/AddCart.php" method="post">
                   <input type="hidden" name="productID" value="<?php echo $productID; ?>">
                   <label for="quantity">Số lượng:</label>
-                  <input type="number" name="quantity" id="quantity" min="1" value="1">
+                  <div class="buttons_added">
+                    <input class="minus is-form" type="button" value="-">
+                    <input aria-label="quantity" class="input-qty" max="10" min="1" name="" type="number" value="1">
+                    <input class="plus is-form" type="button" value="+">
+                    <script>
+                        $('input.input-qty').each(function() {
+                        var $this = $(this),
+                            qty = $this.parent().find('.is-form'),
+                            min = Number($this.attr('min')),
+                            max = Number($this.attr('max'))
+                        if (min == 0) {
+                            var d = 0
+                        } else d = min
+                        $(qty).on('click', function() {
+                            if ($(this).hasClass('minus')) {
+                            if (d > min) d += -1
+                            } else if ($(this).hasClass('plus')) {
+                            var x = Number($this.val()) + 1
+                            if (x <= max) d += 1
+                            }
+                            $this.attr('value', d).val(d)
+                        })
+                        })
+                    </script>
+                  </div><br><br>
                   <button type="submit">Thêm vào giỏ hàng</button>
                 </form>
               </div>
