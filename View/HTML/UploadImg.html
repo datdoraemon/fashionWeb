@@ -7,10 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h2>Tải lên ảnh</h2>
-    <form action="upload.php" method="POST" enctype="multipart/form-data">
-        <input type="file" name="image" accept="image/*">
-        <input type="submit" value="Tải lên">
+    <h2>Upload ảnh</h2>
+    <form action="../../Controller/UploadImg.php" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <br><br>
+        <input type="submit" value="Upload" name="submit">
     </form>
 </body>
 </html>
