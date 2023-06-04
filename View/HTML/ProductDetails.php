@@ -98,30 +98,6 @@
         </div>
       </div>
     </header>
-    <section>
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-6">
-          <?php if ($productDetails === null): ?>
-            <p>Không tìm thấy thông tin sản phẩm.</p>
-          <?php else: ?>
-            <div>
-              <img src="<?php echo $productDetails['img']; ?>" style="width: 40%; height: 400px; float: left ;
-              margin-top: 25px; margin-right: 25px; margin-bottom: 50px;">
-            </div>
-            <div class="div_infor">
-              <h1>Tên sản phẩm: <?php echo $productDetails['ProductName']; ?></h1>
-              <p>Mô tả: <?php echo $productDetails['Description']; ?></p>
-              <p>Giá: <?php echo $productDetails['Price']; ?></p>
-              <!-- Hiển thị các thông tin khác của sản phẩm -->
-              <form action="../../Controller/AddCart.php" method="post">
-                <input type="hidden" name="productID" value="<?php echo $productID; ?>">
-                <label for="quantity">Số lượng:</label>
-                <input type="number" name="quantity" id="quantity" min="1" value="1">
-                <button type="submit">Thêm vào giỏ hàng</button>
-              </form>
-            </div>
-        </header>
       <section>
         <div class="row">
            <div class="col-3"></div>
