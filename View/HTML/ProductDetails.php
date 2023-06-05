@@ -56,7 +56,7 @@
                 // Nếu $_SESSION['UserID'] tồn tại và khác 0
                 echo '<form action="Loguot.php" method="post">
                   <i class=""></i>
-                  <button>Đăng xuất </button>
+                  <button class="login_button">Đăng xuất </button>
                   </form>';
               } else {
                 // Nếu $_SESSION['UserID'] không tồn tại hoặc bằng 0
@@ -92,7 +92,7 @@
         <div class="col-12">
           <div class="bar_background">
             <ul class="ul">
-              <li class="li"><a class="a" href="">TRANG CHỦ</a></li>
+              <li class="li"><a class="a" href="Homepage.php">TRANG CHỦ</a></li>
               <?php foreach ($categories as $c) : ?>
                 <li class="li"><a class="a" href=""><?php echo $c['CategoryName']; ?></a></li>
               <?php endforeach; ?>
@@ -114,9 +114,8 @@
             <p>Mô tả : <?php echo $productDetails['Description']; ?></p>
             <p>Giá: <?php echo $productDetails['Price']; ?></p>
             <!-- Hiển thị các thông tin khác của sản phẩm -->
-            <form action="../../Controller/AddCart.php" method="post">\
-              <?php echo $productID;
-                echo $_SESSION['UserID']; ?>
+            <form action="../../Controller/AddCart.php" method="post">
+              <input type="hidden" name="UserID" value="<?php echo $_SESSION['UserID']; ?>">
               <input type="hidden" name="productID" value="<?php echo $productID; ?>">
               <label for="quantity">Số lượng:</label>
               <div class="buttons_added">
