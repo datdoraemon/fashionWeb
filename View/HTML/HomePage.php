@@ -67,7 +67,7 @@
                 <div class="col-12">
                     <div class="bar_background">
                         <ul class="ul">
-                            <li class="li"><a class="a" href="">TRANG CHỦ</a></li>
+                            <li class="li"><a class="a" href="HomePage.php">TRANG CHỦ</a></li>
                             <?php foreach ($categories as $c) : ?>
                                 <li class="li"><a class="a" href=""><?php echo $c['CategoryName']; ?></a></li>
                             <?php endforeach; ?>
