@@ -115,6 +115,16 @@
                         }
                         echo "</div><br><br>";
                     }
+                    foreach($product as $p){
+                        $productID = $p['ProductID']; 
+                        echo $p['ProductName'] . 
+                        "<p class=\"card-text\">
+                            <form action=\"ProductDetails.php\" method=\"post\">
+                                <input type=\"hidden\" name=\"productID\" value=\"$productID\">
+                                <button type=\"submit\" name=\"submit\" value=\"submit\">Xem chi tiết</button>
+                            </form>
+                        </p>";
+                    }
                 ?>
             </div>
         </section>
