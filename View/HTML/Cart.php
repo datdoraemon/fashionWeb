@@ -182,9 +182,8 @@ if (isset($_POST['checkout'])) {
                 // Tính tổng số tiền
                 var total = 0;
                 $('input[type="checkbox"]:checked').each(function() {
-                    var price = parseFloat($(this).closest('tr').find('.price').text());
-                    var quantity = parseInt($(this).closest('tr').find('td:eq(3)').text());
-                    total += price * quantity;
+                    var price = parseFloat($(this).closest('tr').find('.total').text());
+                    total += price;
                 });
 
                 // Hiển thị tổng số tiền
