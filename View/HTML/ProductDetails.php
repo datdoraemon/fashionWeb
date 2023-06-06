@@ -114,6 +114,7 @@
             <p>Mô tả : <?php echo $productDetails['Description']; ?></p>
             <p>Giá: <?php echo $productDetails['Price']; ?></p>
             <!-- Hiển thị các thông tin khác của sản phẩm -->
+
             <form action="../../Controller/AddCart.php" method="post">
               <input type="hidden" name="UserID" value="<?php echo $_SESSION['UserID']; ?>">
               <input type="hidden" name="productID" value="<?php echo $productID; ?>">

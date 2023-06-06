@@ -30,8 +30,13 @@ class ProductsModel
         $db = new Database();
         $connection = $db->getConnection();
 
-        $query = "SELECT * FROM products WHERE ProductID = '$productID'";
-        $result = $connection->query($query);
+        // Sử dụng Prepared Statement để tránh lỗi SQL Injection
+        $query = "SELECT * FROM Products WHERE ProductID = ?";
+        $stmt = $connection->prepare($query);
+        $stmt->bind_param("i", $productID);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
 
         $productDetails = null;
 
@@ -39,6 +44,7 @@ class ProductsModel
             $productDetails = $result->fetch_assoc();
         }
 
+        $stmt->close();
         $connection->close();
 
         return $productDetails;
