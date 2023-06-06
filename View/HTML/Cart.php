@@ -33,6 +33,7 @@ if (isset($_POST['checkout'])) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,7 +49,7 @@ if (isset($_POST['checkout'])) {
 <body>
     <div class="container-fluid p-0">
         <header id="header">
-        <div class="row">
+            <div class="row">
                 <div class="col-12 top_header">
                     <ul class="ul">
                         <li class="">
@@ -74,17 +75,19 @@ if (isset($_POST['checkout'])) {
             <div class="row">
                 <div class="col-3 brand">FASHION</div>
                 <div class="col-6 bar_search_backgroud">
-                        <form action="" method="post">                           
-                            <input class="bar_search" type="search" placeholder="Tìm sản phẩm">                             
-                            <div class="search_button">
-                                <button type="submit" value="Tìm kiếm">
-                                    <h1><i class="bi bi-search"></i></h1>
-                                </button>
-                            </div>                              
-                        </form>
+                    <form action="" method="post">
+                        <input class="bar_search" type="search" placeholder="Tìm sản phẩm">
+                        <div class="search_button">
+                            <button type="submit" value="Tìm kiếm">
+                                <h1><i class="bi bi-search"></i></h1>
+                            </button>
+                        </div>
+                    </form>
                 </div>
                 <div class="col-3"><!-- Thêm nút Giỏ hàng -->
-                    <a id="cart" href="Cart.php"><h2 class="cart"><i class="bi bi-cart3">  Giỏ hàng</i></h2></a>
+                    <a id="cart" href="Cart.php">
+                        <h2 class="cart"><i class="bi bi-cart3"> Giỏ hàng</i></h2>
+                    </a>
                 </div>
             </div>
             <div class="row">
@@ -124,7 +127,7 @@ if (isset($_POST['checkout'])) {
                                     <td>" . $s['ProductName'] . "</td>
                                     <td class=\"price\">" . $s['Price'] . "</td>
                                     <td>" . $s['Quantity'] . "</td>
-                                    <td></td>
+                                    <td class=\"total\">" . ($s['Price'] * $s['Quantity']) . "</td>
                                     <td>
                                         <input type=\"checkbox\" name=\"selectedProducts[]\" value=\"" . $s['ProductID'] . "\">
                                     </td>
@@ -142,7 +145,7 @@ if (isset($_POST['checkout'])) {
                     <div class="total-amount-container">
                         <h3>Tổng số tiền: <span class="total-amount">0</span></h3>
                     </div>
-                    <form action="Checkout.php" method="post">
+                    <form action="" method="post">
                         <div class="form-group">
                             <input type="submit" name="checkout" value="Thanh toán" class="btn btn-primary">
                         </div>
@@ -151,8 +154,8 @@ if (isset($_POST['checkout'])) {
             </div>
         </section>
         <footer class="container-fluid p-0 footer">
-        <div class="row">
-                <div class = "col-8">
+            <div class="row">
+                <div class="col-8">
                     <div class="footer_box">
                         <h2>Về chúng tôi</h2>
                         <p>Shop : fashionweb</p>
@@ -162,10 +165,10 @@ if (isset($_POST['checkout'])) {
                 </div>
                 <div class="col-4">
                     <div class="footer_box">
-                    <h2>Liên hệ</h2>
-                    <h2><i class="bi bi-facebook icon"></i></h2>
-                    <h2><i class="bi bi-instagram icon"></i></h2>
-                    <h2><i class="bi bi-tiktok icon"></i></h2>
+                        <h2>Liên hệ</h2>
+                        <h2><i class="bi bi-facebook icon"></i></h2>
+                        <h2><i class="bi bi-instagram icon"></i></h2>
+                        <h2><i class="bi bi-tiktok icon"></i></h2>
                     </div>
                 </div>
             </div>
@@ -180,7 +183,8 @@ if (isset($_POST['checkout'])) {
                 var total = 0;
                 $('input[type="checkbox"]:checked').each(function() {
                     var price = parseFloat($(this).closest('tr').find('.price').text());
-                    total += price;
+                    var quantity = parseInt($(this).closest('tr').find('td:eq(3)').text());
+                    total += price * quantity;
                 });
 
                 // Hiển thị tổng số tiền
@@ -189,4 +193,5 @@ if (isset($_POST['checkout'])) {
         });
     </script>
 </body>
+
 </html>
