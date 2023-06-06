@@ -82,24 +82,24 @@
                     foreach($categories as $category) 
                     {   
                         $categoryID = $category['CategoryID']; 
-                        echo "<div class=\"row\">
-                                <div class=\"col-3 category_name\">".$category['CategoryName']."</div>
+                        echo "<div class='row'>
+                                <div class='col-3 category_name'>".$category['CategoryName']."</div>
                               </div><br>";
                                    
                         $productsByCategory = $homepageController->getProductsByCategory($categoryID);   
-                        echo "<div class=\"row\">";              
+                        echo "<div class='row'>";              
                         foreach($productsByCategory as $product)
                         {                             
                             $productID = $product['ProductID']; 
                             $img = $product['img'];                                
-                            echo "<div class=\"col-3 card card_format\" style=\"width: 18rem;\">  
-                                    <img class=\"card-img-top\" src=\"$img\">                            
-                                    <div class=\"card-body\">
-                                        <h5 class=\"card-title\">" .$product['ProductName']."</h5>
-                                        <p class=\"card-text\">
-                                            <form action=\"ProductDetails.php\" method=\"post\">
-                                                <input type=\"hidden\" name=\"productID\" value=\"$productID\">
-                                                <button type=\"submit\" name=\"submit\" value=\"submit\">Xem chi tiết</button>
+                            echo "<div class='col-3 card card_format' style='width: 18rem;'>  
+                                    <img class='card-img-top' src='$img'>                            
+                                    <div class='card-body'>
+                                        <h5 class='card-title'>" .$product['ProductName']."</h5>
+                                        <p class='card-text'>
+                                            <form action='ProductDetails.php' method='post'>
+                                                <input type='hidden' name='productID' value='$productID'>
+                                                <button type='submit' name='submit' value='submit'>Xem chi tiết</button>
                                             </form>
                                         </p>
                                     </div>
@@ -111,10 +111,10 @@
                     /*foreach($product as $p){
                         $productID = $p['ProductID']; 
                         echo $p['ProductName'] . 
-                        "<p class=\"card-text\">
-                            <form action=\"ProductDetails.php\" method=\"post\">
-                                <input type=\"hidden\" name=\"productID\" value=\"$productID\">
-                                <button type=\"submit\" name=\"submit\" value=\"submit\">Xem chi tiết</button>
+                        "<p class='card-text'>
+                            <form action='ProductDetails.php' method='post'>
+                                <input type='hidden' name='productID' value='$productID'>
+                                <button type='submit' name='submit' value='submit'>Xem chi tiết</button>
                             </form>
                         </p>";
                     }*/

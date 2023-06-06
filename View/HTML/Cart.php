@@ -123,13 +123,13 @@ if (isset($_POST['checkout'])) {
                             $showcart = $showcartController->GetShowCart($_SESSION['UserID']);
                             foreach ($showcart as $s) {
                                 echo "<tr>
-                                    <th scope=\"row\">" . $s['ProductID'] . "</th>
+                                    <th scope='row'>" . $s['ProductID'] . "</th>
                                     <td>" . $s['ProductName'] . "</td>
-                                    <td class=\"price\">" . $s['Price'] . "</td>
+                                    <td class='price'>" . $s['Price'] . "</td>
                                     <td>" . $s['Quantity'] . "</td>
-                                    <td class=\"total\">" . ($s['Price'] * $s['Quantity']) . "</td>
+                                    <td class='total'>" . ($s['Price'] * $s['Quantity']) . "</td>
                                     <td>
-                                        <input type=\"checkbox\" name=\"selectedProducts[]\" value=\"" . $s['ProductID'] . "\">
+                                        <input type='checkbox' name='selectedProducts[]' value='" . $s['ProductID'] . "'>
                                     </td>
                                 </tr>";
                             }
