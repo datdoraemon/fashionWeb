@@ -115,8 +115,6 @@
             <p>Giá: <?php echo $productDetails['Price']; ?></p>
             <!-- Hiển thị các thông tin khác của sản phẩm -->
             <form action="../../Controller/AddCart.php" method="post">\
-              <?php echo $productID;
-                echo $_SESSION['UserID']; ?>
               <input type="hidden" name="productID" value="<?php echo $productID; ?>">
               <label for="quantity">Số lượng:</label>
               <div class="buttons_added">

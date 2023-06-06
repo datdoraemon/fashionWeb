@@ -19,6 +19,12 @@
 </head>
 
 <body>
+    <?php
+        session_start();
+        if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) {
+            header('Location: HomePage.php');
+        }
+    ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-5">
