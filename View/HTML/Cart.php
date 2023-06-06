@@ -5,10 +5,30 @@ session_start();
 require_once '../../Controller/ShowCart.php';
 require_once '../../Controller/HomepageController.php';
 
-    $homepageController = new HomepageController();
-    $product = $homepageController->getProduct();
-    $categories = $homepageController->getCategories();
-    $showcartController = new ShowCartController();
+$homepageController = new HomepageController();
+$product = $homepageController->getProduct();
+$categories = $homepageController->getCategories();
+$showcartController = new ShowCartController();
+
+// Xử lý khi người dùng ấn nút "Thanh toán"
+if (isset($_POST['checkout'])) {
+    // Lấy danh sách sản phẩm được chọn
+    $selectedProducts = $_POST['selectedProducts'];
+
+    // Kiểm tra nếu không có sản phẩm được chọn, chuyển hướng người dùng trở lại trang Cart.php
+    if (empty($selectedProducts)) {
+        header('Location: Cart.php');
+        exit();
+    }
+
+    // Lấy thông tin người dùng và số tiền từ hóa đơn
+    $userID = $_SESSION['UserID'];
+    // TODO: Lấy thông tin số tiền từ hóa đơn
+
+    // Chuyển hướng người dùng đến trang xác nhận đặt hàng
+    header('Location: ConfirmOrder.php');
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -81,56 +101,57 @@ require_once '../../Controller/HomepageController.php';
             </div>
         </header>
         <section>
-          <div class="row">
-            <div class="col-3"></div>
-            <div class="col-9">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">ProductID</th>
-                  <th scope="col">Name of Product</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Total</th>
-                  <th scope="col">Buy</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php $showcart = $showcartController->GetShowCart($_SESSION['UserID']);
-                      foreach($showcart as $s)
-                      {
-                        echo "<tr>
-                                <th scope=\"row\">".$s['ProductID']."</th>
-                                <td>".$s['ProductName']."</td>
-                                <td>".$s['Price']."</td>
-                                <td>".$s['Quantity']."</td>
-                                <td></td>
-                                <td>
-                                    <form action=\"Cart.php\" method=\"post\">
-                                       <input type=\"submit\" name=\"submit\" value=\"Buy\">
-                                    </form>
-                                </td>
-                              </tr>";
-                      }
-                
-                ?>
-              </tbody>
-            </table>
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-9">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">ProductID</th>
+                                <th scope="col">Name of Product</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Buy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $showcart = $showcartController->GetShowCart($_SESSION['UserID']);
+                            foreach ($showcart as $s) {
+                                echo "<tr>
+                                    <th scope=\"row\">" . $s['ProductID'] . "</th>
+                                    <td>" . $s['ProductName'] . "</td>
+                                    <td class=\"price\">" . $s['Price'] . "</td>
+                                    <td>" . $s['Quantity'] . "</td>
+                                    <td></td>
+                                    <td>
+                                        <input type=\"checkbox\" name=\"selectedProducts[]\" value=\"" . $s['ProductID'] . "\">
+                                    </td>
+                                </tr>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
-          
-            <!-- Gọi hàm ShowCart với UserID từ SESSION -->
-            <?php
-            /*if (isset($_SESSION['UserID'])) {
-              $UserID = $_SESSION['UserID'];
-              ShowCart($UserID);
-            } else {
-              echo "Vui lòng đăng nhập để xem giỏ hàng.";
-            }*/
-            ?>
+
+            <!-- Hiển thị tổng số tiền và nút thanh toán -->
+            <div class="row">
+                <div class="col-9 offset-3">
+                    <div class="total-amount-container">
+                        <h3>Tổng số tiền: <span class="total-amount">0</span></h3>
+                    </div>
+                    <form action="Checkout.php" method="post">
+                        <div class="form-group">
+                            <input type="submit" name="checkout" value="Thanh toán" class="btn btn-primary">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </section>
         <footer class="container-fluid p-0 footer">
-            <div class="row">
+        <div class="row">
                 <div class = "col-8">
                     <div class="footer_box">
                         <h2>Về chúng tôi</h2>
@@ -149,4 +170,23 @@ require_once '../../Controller/HomepageController.php';
                 </div>
             </div>
         </footer>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            // Bắt sự kiện khi checkbox được thay đổi
+            $('input[type="checkbox"]').change(function() {
+                // Tính tổng số tiền
+                var total = 0;
+                $('input[type="checkbox"]:checked').each(function() {
+                    var price = parseFloat($(this).closest('tr').find('.price').text());
+                    total += price;
+                });
+
+                // Hiển thị tổng số tiền
+                $('.total-amount').text(total.toFixed(2));
+            });
+        });
+    </script>
+</body>
 </html>
