@@ -2,7 +2,7 @@
 
 <?php
 session_start();
-require_once '../../Controller/ShowCart.php';
+require_once '../../Controller/ShowCartController.php';
 require_once '../../Controller/HomepageController.php';
 
 $homepageController = new HomepageController();

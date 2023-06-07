@@ -1,7 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '/../../Controller/ConfirmOrderController.php';
-require_once __DIR__ . '/../../Controller/ShowCart.php';
+require_once __DIR__ . '/../../Controller/ShowCartController.php';
 
 // Kiểm tra xem người dùng đã đăng nhập hay chưa
 if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {

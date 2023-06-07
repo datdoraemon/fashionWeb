@@ -20,7 +20,6 @@
   <?php
   require_once '../../Controller/ProductDetailsController.php';
   require_once '../../Controller/HomepageController.php';
-  //require_once '../../Controller/AddCart.php';
 
   $homepageController = new HomepageController();
   $categories = $homepageController->getCategories();
@@ -115,7 +114,7 @@
             <p>Giá: <?php echo $productDetails['Price']; ?></p>
             <!-- Hiển thị các thông tin khác của sản phẩm -->
 
-            <form action="../../Controller/AddCart.php" method="post">
+            <form action="../../Controller/AddCartController.php" method="post">
               <input type="hidden" name="UserID" value="<?php echo $_SESSION['UserID']; ?>">
               <input type="hidden" name="productID" value="<?php echo $productID; ?>">
               <label for="quantity">Số lượng:</label>

@@ -30,7 +30,7 @@
             <div class="col-5">
                 <p class="brand">FASHION</p>
                 <div class="login-box">
-                    <form method="POST" action="../../Controller/Login.php">
+                    <form method="POST" action="../../Controller/LoginController.php">
                         <h2>LOG IN</h2>
                         <label for="email">Email:</label><br>
                         <i class="bi bi-envelope icon"></i><span><input type="email" id="email" name="email"
