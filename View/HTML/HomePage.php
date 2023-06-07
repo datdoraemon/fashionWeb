@@ -108,7 +108,7 @@
                         }
                         echo "</div><br><br>";
                     }
-                    /*foreach($product as $p){
+                        foreach($product as $p){
                         $productID = $p['ProductID']; 
                         echo $p['ProductName'] . 
                         "<p class='card-text'>
@@ -117,7 +117,7 @@
                                 <button type='submit' name='submit' value='submit'>Xem chi tiết</button>
                             </form>
                         </p>";
-                    }*/
+                    }   
                 ?>
             </div>
         </section>

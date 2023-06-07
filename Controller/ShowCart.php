@@ -16,11 +16,6 @@ class ShowCartController
             // Hiển thị danh sách sản phẩm trong giỏ hàng
             foreach ($cartItems as $item) {
                 $item['ProductID'] = $_SESSION['ProductID'];
-                /*echo "Product ID: " . $item['ProductID'] . "<br>";
-                echo "Product Name: " . $item['ProductName'] . "<br>";
-                echo "Price: " . $item['Price'] . "<br>";
-                echo "Quantity: " . $item['Quantity'] . "<br>";
-                echo "<br>";*/
             }
         } else {
             echo "Giỏ hàng của bạn đang trống.";

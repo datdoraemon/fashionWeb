@@ -10,6 +10,24 @@ $product = $homepageController->getProduct();
 $categories = $homepageController->getCategories();
 $showcartController = new ShowCartController();
 
+
+if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) {
+    // Nếu $_SESSION['user_id'] tồn tại và khác 0
+    echo '<form action="Loguot.html" method="post">
+        <i class=""></i>
+        <button class="login_button">Đăng xuất </button>
+        </form>';
+} else {
+    // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
+    echo 'Vui lòng đăng nhập để xem giỏ hàng';
+    echo '<form action="Login.php" method="post">
+        <i class=""></i>
+        <button class="login_button">Oke </button>
+        </form>';
+        exit;
+}
+
+
 // Xử lý khi người dùng ấn nút "Thanh toán"
 if (isset($_POST['checkout'])) {
     // Lấy danh sách sản phẩm được chọn
@@ -53,21 +71,7 @@ if (isset($_POST['checkout'])) {
                 <div class="col-12 top_header">
                     <ul class="ul">
                         <li class="">
-                            <?php
-                            if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) {
-                                // Nếu $_SESSION['user_id'] tồn tại và khác 0
-                                echo '<form action="Loguot.html" method="post">
-                                    <i class=""></i>
-                                    <button class="login_button">Đăng xuất </button>
-                                    </form>';
-                            } else {
-                                // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
-                                echo '<form action="Login.php" method="post">
-                                    <i class=""></i>
-                                    <button class="login_button">Đăng nhập </button>
-                                    </form>';
-                            }
-                            ?>
+                            
                         </li>
                     </ul>
                 </div>
