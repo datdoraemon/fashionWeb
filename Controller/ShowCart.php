@@ -21,5 +21,14 @@ class ShowCartController
             echo "Giỏ hàng của bạn đang trống.";
         }
     }
+    
+    public function GetShowProductInCart($ProductID)
+    {
+        // Tạo một đối tượng UserProductsModel
+        $userProductsModel = new CartModel();
+
+        // Gọi phương thức ShowCart để lấy danh sách giỏ hàng
+        return $userProductsModel->ShowProductInCart($ProductID);
+    }
 }
 ?>

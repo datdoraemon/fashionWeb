@@ -12,6 +12,21 @@ class UsersModel
         $this->conn = $db->getConnection();
     }
 
+    public function getUserByID($UserID)
+    {
+        $stmt = $this->conn->prepare("SELECT * FROM Users WHERE UserID = ?");
+        $stmt->bind_param("s", $UserID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows == 1) {
+            $user = $result->fetch_assoc();
+            return $user;
+        }
+
+        return false;
+    }
+
     public function getUserByEmailAndPassword($email, $password)
     {
         $stmt = $this->conn->prepare("SELECT * FROM Users WHERE Email = ?");

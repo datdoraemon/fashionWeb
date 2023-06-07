@@ -10,44 +10,17 @@ $product = $homepageController->getProduct();
 $categories = $homepageController->getCategories();
 $showcartController = new ShowCartController();
 
-
-if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) {
-    // Nếu $_SESSION['user_id'] tồn tại và khác 0
-    echo '<form action="Loguot.html" method="post">
-        <i class=""></i>
-        <button class="login_button">Đăng xuất </button>
-        </form>';
-} else {
-    // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
+// Kiểm tra xem người dùng đã đăng nhập chưa
+if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
     echo 'Vui lòng đăng nhập để xem giỏ hàng';
     echo '<form action="Login.php" method="post">
         <i class=""></i>
         <button class="login_button">Oke </button>
         </form>';
-        exit;
-}
-
-
-// Xử lý khi người dùng ấn nút "Thanh toán"
-if (isset($_POST['checkout'])) {
-    // Lấy danh sách sản phẩm được chọn
-    $selectedProducts = $_POST['selectedProducts'];
-
-    // Kiểm tra nếu không có sản phẩm được chọn, chuyển hướng người dùng trở lại trang Cart.php
-    if (empty($selectedProducts)) {
-        header('Location: Cart.php');
-        exit();
-    }
-
-    // Lấy thông tin người dùng và số tiền từ hóa đơn
-    $userID = $_SESSION['UserID'];
-    // TODO: Lấy thông tin số tiền từ hóa đơn
-
-    // Chuyển hướng người dùng đến trang xác nhận đặt hàng
-    header('Location: ConfirmOrder.php');
-    exit();
+    exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -56,7 +29,7 @@ if (isset($_POST['checkout'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HomePage</title>
+    <title>Cart</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
@@ -71,7 +44,10 @@ if (isset($_POST['checkout'])) {
                 <div class="col-12 top_header">
                     <ul class="ul">
                         <li class="">
-                            
+                            <form action="Loguot.html" method="post">
+                                <i class=""></i>
+                                <button class="login_button">Đăng xuất </button>
+                            </form>';
                         </li>
                     </ul>
                 </div>
@@ -149,7 +125,7 @@ if (isset($_POST['checkout'])) {
                     <div class="total-amount-container">
                         <h3>Tổng số tiền: <span class="total-amount">0</span></h3>
                     </div>
-                    <form action="" method="post">
+                    <form id="checkout-form" action="ConfirmOrder.php" method="post">
                         <div class="form-group">
                             <input type="submit" name="checkout" value="Thanh toán" class="btn btn-primary">
                         </div>
@@ -178,6 +154,34 @@ if (isset($_POST['checkout'])) {
             </div>
         </footer>
     </div>
+    
+    <script>
+        $(document).ready(function() {
+            // Bắt sự kiện khi người dùng ấn nút "Thanh toán"
+            $('#checkout-form').submit(function(e) {
+                e.preventDefault(); // Ngăn chặn gửi form mặc định
+
+                var selectedProducts = $('input[name="selectedProducts[]"]:checked').map(function() {
+                    return this.value;
+                }).get();
+
+                if (selectedProducts.length > 0) {
+                    // Tạo một input ẩn để lưu trữ danh sách sản phẩm được chọn
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'selectedProducts',
+                        value: selectedProducts.join(',')
+                    }).appendTo('#checkout-form');
+
+                    // Gửi form để chuyển hướng đến trang ConfirmOrder.php
+                    $('#checkout-form').get(0).submit();
+                } else {
+                    // Thông báo cho người dùng chọn ít nhất một sản phẩm
+                    alert('Vui lòng chọn ít nhất một sản phẩm.');
+                }
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
