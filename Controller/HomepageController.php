@@ -3,6 +3,7 @@ require_once __DIR__ . '/../Model/ProductsModel.php';
 require_once __DIR__ . '/../Model/CategoriesModel.php';
 require_once __DIR__ . '/../Model/ProductCategoriesModel.php';
 require_once __DIR__ . '/../Model/ProductsModel.php';
+require_once __DIR__ . '/../Model/UsersModel.php';
 
 
 class HomepageController
@@ -28,5 +29,10 @@ class HomepageController
     {
         $productdetail = new ProductsModel();
         return $productdetail->getProductDetailsById($productID);
+    }
+    public function getUserByEmail($email)
+    {
+        $User = new UsersModel();
+        return $User->getUserByEmail($email);
     }
 }

@@ -19,10 +19,15 @@
     {
         public function index()
         {
-            echo '<script>alert("Please enter information.");window.location.href="../View/HTML/SignUpInformation.html";</script>';
+            //echo '<script>alert("Please enter information.");window.location.href="../View/HTML/SignUpInformation.php";</script>';
+        }
+        public function getUserByEmail($email)
+        {
+            $User = new UsersModel();
+            return $User->getUserByEmail($email);
         }
 
-        public function authenticateaccount()
+        public function SignUp()
         {
             session_start();
             $name = trim($_POST['name']);
@@ -37,11 +42,11 @@
             $birthday = stripslashes($birthday);
             $phone = stripslashes($phone);
             $address = stripslashes($address);
-            $email = $_SESSION['email'];
-            $password = $_SESSION['password'];
+            $UserID = $_POST['userid'];
+            echo $UserID,$name, $birthday, $phone;
             $userModel = new UsersModel();
-            $userModel->createUser($email, $password, $name, $birthday, $phone, $address);
-            header('Location: ../View/HTML/Login.html');
+            $userModel->updateUserInformation($UserID, $name, $birthday, $address, $phone);
+            header('Location: ../View/HTML/Login.php');
         }
     }
 
@@ -51,7 +56,7 @@
         isset($_POST['name']) && isset($_POST['birthday'])
         && isset($_POST['phone']) && isset($_POST['address'])
     ) {
-        $SignUpInformationController->authenticateaccount();
+        $SignUpInformationController->SignUp();
     } else {
         $SignUpInformationController->index();
     }
