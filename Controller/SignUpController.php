@@ -20,17 +20,25 @@
 
 		public function index()
 		{
-			echo '<script>alert("Please enter email and password.");window.location.href="../View/HTML/SignUp.html";</script>';
+			//echo '<script>alert("Please enter email and password.");window.location.href="../View/HTML/SignUp.html";</script>';
 		}
+		public function getUserByEmail($email)
+        {
+            $User = new UsersModel();
+            return $User->getUserByEmail($email);
+        }
 
 		public function authenticateaccount()
 		{
+			echo $_POST['email'];
 			$email = trim($_POST['email']);
 			$password = trim($_POST['password']);
 			$cpassword = trim($_POST['cpassword']);
 			$email = htmlspecialchars($email);
 			$password = htmlspecialchars($password);
 			$cpassword = htmlspecialchars($cpassword);
+			$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+			echo $hashedPassword;
 
 			if (preg_match('/[\'"\\\\;]/', $email)) {
 				echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/Login.html";</script>';
@@ -49,18 +57,11 @@
 
 			if ($password === $cpassword) {
 				$userModel = new UsersModel();
-				$user = $userModel->getUserByEmail($email);
-
+				$user = $userModel->createUser($email, $hashedPassword, $name, $birthday, $phone, $address);
 				if ($user) {
-					echo '<div class="login-box">';
-					echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/SignUp.html";</script>';
-					echo '</div>';
+					header('Location: ../View/HTML/Login.php');
 				} else {
-					session_start();
-					$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-					$_SESSION['email'] = $email;
 					$_SESSION['password'] = $hashedPassword;
-					header('Location: ../View/HTML/SignUpInformation.html');
 				}
 			} else {
 				echo '<script>alert("Invalid confirmation password.");window.location.href="../View/HTML/SignUp.html";</script>';
@@ -73,6 +74,11 @@
 
 	if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['cpassword'])) {
 		$SignUpController->authenticateaccount();
+		session_start();
+		echo $_POST['email'];
+		$_SESSION['email'] = $_POST['email'];
+		echo $_SESSION['email'];
+		header('Location: ../View/HTML/SignUpInformation.php');
 	} else {
 		$SignUpController->index();
 	}
