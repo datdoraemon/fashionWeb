@@ -57,11 +57,6 @@
             <div class="row body">
                 <div class="col-3"></div>
                 <div class="col-9">
-                <?php 
-                require_once __DIR__ . '/../../Controller/SignUpController.php';
-                $Information = new SignUpController();
-                $userinfor = $Information->getUserByEmail($_SESSION['email']);
-                ?>
                 <form method="POST" action="../../Controller/SignUpInfoController.php">
                     <div class="login-box">
                         <h2>Sign Up Information</h2>
@@ -73,7 +68,6 @@
                         <input type="text" id="phone" name="phone"  required><br>
                         <label for="text">Address:</label>
                         <input type="text" id="address" name="address" required><br><br>
-                        <input type="hidden" id="id" name="userid" value="<?php echo $userinfor['UserID']; ?>">
                         <input type="submit" value="Submit">
                     </div>
                 </form>
