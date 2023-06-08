@@ -89,9 +89,9 @@
                         foreach($productsByCategory as $product)
                         {                             
                             $productID = $product['ProductID']; 
-                            $img = $product['img'];                                
+                            $productImg = $product['ProductImg'];                                
                             echo "<div class='col-3 card card_format' style='width: 18rem;'>  
-                                    <img class='card-img-top' src='$img'>                            
+                                    <img class='card-img-top' src='$productImg'>                            
                                     <div class='card-body'>
                                         <h5 class='card-title'>" .$product['ProductName']."</h5>
                                         <p class='card-text'>
