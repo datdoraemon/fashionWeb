@@ -30,6 +30,20 @@ class CartModel
         return false;
     }
 
+    public function ShowProductInCart($ProductID)
+    {
+        $stmt = $this->conn->prepare("SELECT p.ProductID, p.ProductName, p.Price, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.ProductID = ?");
+        $stmt->bind_param("i", $ProductID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        }
+
+        return false;
+    }
+
     public function AddtoCart($UserID, $ProductID, $quantity)
     {
         $stmt = $this->conn->prepare("INSERT INTO User_Products (UserID, ProductID, Quantity, CreateDate) VALUES (?, ?, ?, CURRENT_TIMESTAMP) ON DUPLICATE KEY UPDATE Quantity = Quantity + VALUES(Quantity)");

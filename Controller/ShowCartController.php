@@ -16,15 +16,19 @@ class ShowCartController
             // Hiển thị danh sách sản phẩm trong giỏ hàng
             foreach ($cartItems as $item) {
                 $item['ProductID'] = $_SESSION['ProductID'];
-                /*echo "Product ID: " . $item['ProductID'] . "<br>";
-                echo "Product Name: " . $item['ProductName'] . "<br>";
-                echo "Price: " . $item['Price'] . "<br>";
-                echo "Quantity: " . $item['Quantity'] . "<br>";
-                echo "<br>";*/
             }
         } else {
             echo "Giỏ hàng của bạn đang trống.";
         }
+    }
+    
+    public function GetShowProductInCart($ProductID)
+    {
+        // Tạo một đối tượng UserProductsModel
+        $userProductsModel = new CartModel();
+
+        // Gọi phương thức ShowCart để lấy danh sách giỏ hàng
+        return $userProductsModel->ShowProductInCart($ProductID);
     }
 }
 ?>
