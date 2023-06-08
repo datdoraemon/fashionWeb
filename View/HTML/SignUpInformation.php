@@ -23,13 +23,6 @@
             $product = $homepageController->getProduct();
             $categories = $homepageController->getCategories();
             ?>   
-                <?php
-                    if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) { 
-                        $userInformation = $homepageController->getUserByEmail($_SESSION['Email']);
-                        } else {
-                         // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
-                        }
-                        ?>                       
             </div>
             <div class="row">
                 <div class="col-3 brand">FASHION</div>
@@ -65,11 +58,11 @@
                 <div class="col-3"></div>
                 <div class="col-9">
                 <?php 
-                require_once '../../Controller/SignUp.php';
+                require_once __DIR__ . '/../../Controller/SignUpController.php';
                 $Information = new SignUpController();
                 $userinfor = $Information->getUserByEmail($_SESSION['email']);
                 ?>
-                <form method="POST" action="../../Controller/SignUpInformation.php">
+                <form method="POST" action="../../Controller/SignUpInfoController.php">
                     <div class="login-box">
                         <h2>Sign Up Information</h2>
                         <label for="name">Name:</label>
