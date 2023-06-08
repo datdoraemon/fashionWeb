@@ -30,6 +30,8 @@
         public function SignUp()
         {
             session_start();
+            $email = $_SESSION['email'];
+            $password = $_SESSION['password'];
             $name = trim($_POST['name']);
             $birthday = trim($_POST['birthday']);
             $phone = trim($_POST['phone']);
@@ -45,7 +47,7 @@
             $UserID = $_POST['userid'];
             echo $UserID,$name, $birthday, $phone;
             $userModel = new UsersModel();
-            $userModel->updateUserInformation($UserID, $name, $birthday, $address, $phone);
+            $userModel->createUser($email, $password, $name, $birthday, $phone, $address);
             header('Location: ../View/HTML/Login.php');
         }
     }
