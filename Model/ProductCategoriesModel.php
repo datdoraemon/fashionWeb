@@ -30,7 +30,6 @@ class ProductCategoriesModel
         return false;
     }
 
-
     public function getCategoriesByProductID($productID)
     {
         $stmt = $this->conn->prepare("SELECT c.CategoryName FROM Categories c INNER JOIN Product_Categories pc ON c.CategoryID = pc.CategoryID WHERE pc.ProductID = ?");
