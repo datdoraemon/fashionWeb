@@ -35,7 +35,6 @@ $userInfo = $user->UserConfirm($_SESSION['UserID']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirm Order</title>
-    <!-- Các tệp CSS và JavaScript khác -->
 </head>
 
 <body>

@@ -12,14 +12,14 @@
   <link rel="stylesheet" href="../Style/HomePage.css">
   <link rel="stylesheet" href="../Style/ProductDetail.css">
   <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
-  <title>Document</title>
+  <title>ProductDetails</title>
 </head>
 
 <body>
 
   <?php
-  require_once '../../Controller/ProductDetailsController.php';
-  require_once '../../Controller/HomepageController.php';
+  require_once __DIR__ . '/../../Controller/ProductDetailsController.php';
+  require_once __DIR__ . '/../../Controller/HomepageController.php';
 
   $homepageController = new HomepageController();
   $categories = $homepageController->getCategories();
