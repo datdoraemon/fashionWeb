@@ -28,7 +28,7 @@ CREATE TABLE Products (
   Price DECIMAL(10,2),
   Quantity INT,
   SoldQuantity INT,
-  img VARCHAR(255)
+  ProductImg VARCHAR(255)
 
 );
 
@@ -70,7 +70,7 @@ CREATE TABLE Product_Reviews (
 );
 
 -- SELECT user, host FROM mysql.user
-
+DROP USER 'guest'@'localhost' IDENTIFIED BY '123456';
 CREATE USER IF NOT EXISTS 'guest'@'localhost' IDENTIFIED BY '123456';
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON fashionShop.Users TO 'guest'@'localhost';

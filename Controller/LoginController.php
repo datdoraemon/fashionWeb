@@ -7,7 +7,7 @@ class LoginController
 
 	public function index()
 	{
-		//echo '<script>alert("Please enter email and password.");window.location.href="../View/HTML/Login.html";</script>';
+		echo '<script>alert("Please enter email and password.");window.location.href="../View/HTML/Login.html";</script>';
 	}
 
 	public function authenticate()
@@ -18,12 +18,12 @@ class LoginController
 		$password = htmlspecialchars($password);
 		
 		if (preg_match('/[\'"\\\\;]/', $email)) {
-			//echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/Login.php";</script>';
+			echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/Login.php";</script>';
 			exit;
 		}
 
 		if (preg_match('/[\'"\\\\;]/', $password)) {
-			//echo '<script>alert("Incorrect password.");window.location.href="../View/HTML/Login.php";</script>';
+			echo '<script>alert("Incorrect password.");window.location.href="../View/HTML/Login.php";</script>';
 			exit;
 		}
 
@@ -36,14 +36,12 @@ class LoginController
 			if ($user) {
 				$_SESSION['UserID'] = $user['UserID'];
 				$_SESSION['Email'] = $user['Email'];
-				echo $_SESSION['Email'];
-				//echo $user['Password'];
 				header('Location: ../View/HTML/HomePage.php');
 			} else {
-				//echo '<script>alert("Incorrect password.");window.location.href="../View/HTML/Login.php";</script>';
+				echo '<script>alert("Incorrect password.");window.location.href="../View/HTML/Login.php";</script>';
 			}
 		} else {
-			//echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/Login.php";</script>';
+			echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/Login.php";</script>';
 		}
 	}
 }

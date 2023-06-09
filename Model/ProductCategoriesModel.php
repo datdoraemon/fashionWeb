@@ -14,7 +14,7 @@ class ProductCategoriesModel
 
     public function getProductsByCategory($categoryID)
     {
-        $stmt = $this->conn->prepare("SELECT p.ProductID, p.ProductName, p.Description, p.Price, p.Quantity, p.SoldQuantity, p.img FROM Products p INNER JOIN Product_Categories pc ON p.ProductID = pc.ProductID WHERE pc.CategoryID = ?");
+        $stmt = $this->conn->prepare("SELECT p.ProductID, p.ProductName, p.Description, p.Price, p.Quantity, p.SoldQuantity, p.ProductImg FROM Products p INNER JOIN Product_Categories pc ON p.ProductID = pc.ProductID WHERE pc.CategoryID = ?");
         $stmt->bind_param("i", $categoryID);
         $stmt->execute();
         $result = $stmt->get_result();
