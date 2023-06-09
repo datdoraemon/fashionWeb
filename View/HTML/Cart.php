@@ -38,17 +38,26 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
 <body>
     <div class="container-fluid p-0">
         <header id="header">
-            <div class="row">
-                <div class="col-12 top_header">
-                    <ul class="ul">
-                        <li class="">
-                            <form action="Loguot.html" method="post">
+        <div class="row">
+        <?php
+                    if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) {
+                        $userInformation = $homepageController->getUserByEmail($_SESSION['Email']);
+                        echo '<div class="col-6">
+                               <h4><i class="bi bi-person icon"></i><a href="UpdateInformation.php" style="text-decoration: none; color: white; font-size: 25px;">'.$userInformation['FullName'].
+                               '</a></h4></div>';
+                        // Nếu $_SESSION['user_id'] tồn tại và khác 0
+                         echo '<div class="col-6"><form action="Loguot.html" method="post">
+                        <i class=""></i>
+                        <button class="login_button">Đăng xuất </button>
+                        </form></div>';
+                        } else {
+                         // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
+                         echo '<form action="Login.php" method="post">
                                 <i class=""></i>
-                                <button class="login_button">Đăng xuất </button>
-                            </form>';
-                        </li>
-                    </ul>
-                </div>
+                                <button class="login_button">Đăng nhập </button>
+                                 </form>';
+                        }
+                        ?>     
             </div>
             <div class="row">
                 <div class="col-3 brand">FASHION</div>
@@ -99,6 +108,7 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                     <tbody>
                         <?php
                             $showcart = $showcartController->GetShowCart($_SESSION['UserID']);
+                            $Userid = $_SESSION['UserID'];
                             foreach ($showcart as $s) {
                                 echo "<tr>
                                 <td scope='row'>" . $s['ProductID'] . "</td>
@@ -107,11 +117,14 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                                 <td>" . $s['Quantity'] . "</td>
                                 <td class='total'>" . ($s['Price'] * $s['Quantity']) . "</td>
                                 <td>
-                                    <input type='checkbox' name='selectedProducts[]' value='" . $s['ProductID'] . "'>
+                                <form action='../../Controller/RemoveCartController' method='post'>
+                                   <input type='hidden' name='userid' value='$Userid'>
+                                   <input type='checkbox' name='productID' value='". $s['ProductID']."'>
+                                   <input class='btn btn-danger btn-remove'  type='submit' name='submit' value='Remove'>
+                                </form>
+                                    
                                 </td>
-                                <td>
-                                    <button class='btn btn-danger btn-remove' data-product-id='" . $s['ProductID'] . "'>Xóa</button>
-                                </td>
+                               
                                 </tr>";
                             }
                         ?>

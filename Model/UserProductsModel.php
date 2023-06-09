@@ -96,6 +96,20 @@ class OrderModel
 
         return $orderItems;
     }
+    public function Remove($UserID,$ProductID)
+    {
+        $stmt = $this->conn->prepare("DELETE FROM user_products WHERE UserID = ? AND ProducID = ?");
+        $stmt->bind_param("ii", $UserID, $ProductID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        $orderItems = array();
+        while ($row = $result->fetch_assoc()) {
+            $orderItems[] = $row;
+        }
+
+        return $orderItems;
+    }
 
     public function updateStatus($UserID, $productID, $status)
     {
