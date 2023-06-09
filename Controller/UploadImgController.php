@@ -51,7 +51,7 @@ if (isset($_POST['submit'])) {
 
             // Lưu link ảnh vào cơ sở dữ liệu
             $userModel = new UsersModel();
-            $userImg = $userModel->updateImg($userID, $imagePath);
+            $userImg = $userModel->updateImg($imagePath);
             if ($userImg) {
                 echo "Lưu đường dẫn ảnh thành công.";
             } else {

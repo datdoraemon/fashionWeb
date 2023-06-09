@@ -85,10 +85,10 @@ class UsersModel
         return true;
     }
 
-    public function updateImg($UserID, $imgPath)
+    public function updateImg($imgPath)
     {
-        $stmt = $this->conn->prepare("UPDATE users SET ImgUser = ? WHERE UserID = ?");
-        $stmt->bind_param("si", $imgPath, $UserID);
+        $stmt = $this->conn->prepare("UPDATE Products SET ProductImg = ? WHERE ProductID = 1");
+        $stmt->bind_param("s", $imgPath);
         $stmt->execute();
         if ($stmt) {
             return true;

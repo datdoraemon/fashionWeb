@@ -29,7 +29,6 @@ CREATE TABLE Products (
   Quantity INT,
   SoldQuantity INT,
   ProductImg VARCHAR(255)
-
 );
 
 -- Tạo bảng Categories
