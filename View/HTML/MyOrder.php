@@ -16,7 +16,7 @@
 
         // Lấy UserID từ session
         $userID = $_SESSION['UserID'];
-
+        
         // Gọi các hàm trong MyOrderController và in ra thông tin Order theo Status
         $myOrderController->OrderProcessing($userID);
         $myOrderController->OrderConfirmed($userID);
