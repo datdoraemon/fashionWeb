@@ -105,7 +105,7 @@
         <div class="col-3"></div>
         <div class="col-6">
           <div>
-            <img src="<?php echo $productDetails['img']; ?>" style="width: 40%; height: 400px; float: left ;
+            <img src="<?php echo $productDetails['ProductImg']; ?>" style="width: 40%; height: 400px; float: left ;
                  margin-top: 25px; margin-right: 25px; margin-bottom: 50px;">
           </div>
           <div class="div_infor">

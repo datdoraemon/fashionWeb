@@ -1,4 +1,4 @@
-<?php
+<?php session_start();
 
 require_once __DIR__ . '/../Model/UserProductsModel.php';
 
@@ -10,11 +10,22 @@ class RemoveCartController
         {
             if($_POST['submit'] == "Remove")
             {
-                $UserID = $_POST['']
+                $UserID = $_POST['userid'];
+                $ProductID = $_POST['productID'];
+                $_SESSION['userid'] = $UserID;
+                $_SESSION['productid'] = $ProductID;
+                $productModel = new OrderModel();
+                $productDetails = $productModel->Remove($UserID,$ProductID);
+                header('Location: ../View/HTML/Cart.php');
             }
         }
-        $productModel = new UserProductsModel();
-        $productDetails = $productModel-Remove($UserID,$ProductID);
-        return $productDetails;
     }
 }
+$RemoveController = new RemoveCartController();
+
+    if (
+        isset($_POST['userid']) && isset($_POST['productID'])
+    ) {
+        $RemoveController->RemoveProduct();
+    }
+?>

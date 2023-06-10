@@ -108,24 +108,29 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                     <tbody>
                         <?php
                             $showcart = $showcartController->GetShowCart($_SESSION['UserID']);
-                            $Userid = $_SESSION['UserID'];
+                            if($showcart == NULL)
+                            {
+                                echo "Cart is null";
+                            }
+                            else{
                             foreach ($showcart as $s) {
-                                echo "<tr>
+                                echo " 
+                                <tr>
                                 <td scope='row'>" . $s['ProductID'] . "</td>
                                 <td>" . $s['ProductName'] . "</td>
                                 <td class='price'>" . $s['Price'] . "</td>
                                 <td>" . $s['Quantity'] . "</td>
                                 <td class='total'>" . ($s['Price'] * $s['Quantity']) . "</td>
                                 <td>
-                                <form action='../../Controller/RemoveCartController' method='post'>
-                                   <input type='hidden' name='userid' value='$Userid'>
-                                   <input type='checkbox' name='productID' value='". $s['ProductID']."'>
-                                   <input class='btn btn-danger btn-remove'  type='submit' name='submit' value='Remove'>
+                                <form action='../../Controller/RemoveCartController.php' method='POST'>
+                                   <input type='hidden' name='userid' value='".$_SESSION['UserID']."'>
+                                   <input type='hidden' name='productID' value='".$s['ProductID']."'>
+                                   <input type='submit' name='submit' value='Remove'>
                                 </form>
                                     
                                 </td>
                                
-                                </tr>";
+                                </tr>"; }
                             }
                         ?>
                     </tbody>

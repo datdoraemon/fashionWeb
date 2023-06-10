@@ -98,17 +98,17 @@ class OrderModel
     }
     public function Remove($UserID,$ProductID)
     {
-        $stmt = $this->conn->prepare("DELETE FROM user_products WHERE UserID = ? AND ProducID = ?");
+        $stmt = $this->conn->prepare("DELETE FROM User_Products WHERE UserID = ? AND ProductID = ?");
         $stmt->bind_param("ii", $UserID, $ProductID);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $orderItems = array();
-        while ($row = $result->fetch_assoc()) {
+        /*$orderItems = array();
+        while ($row = $result->fetch_assoc() > 0) {
             $orderItems[] = $row;
         }
 
-        return $orderItems;
+        return $orderItems;*/
     }
 
     public function updateStatus($UserID, $productID, $status)
