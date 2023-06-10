@@ -82,19 +82,22 @@ class OrderModel
         $this->conn = $db->getConnection();
     }
 
-    public function showOrder($UserID)
+    public function ShowOrder($UserID, $Status)
     {
-        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products INNER JOIN Products ON User_Products.ProductID = Products.ProductID WHERE User_Products.UserID = ?");
-        $stmt->bind_param("i", $UserID);
+        $stmt = $this->conn->prepare("SELECT p.ProductID, p.ProductName, p.Price, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ? AND up.Status = ?");
+        $stmt->bind_param("is", $UserID, $Status);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $orderItems = array();
-        while ($row = $result->fetch_assoc()) {
-            $orderItems[] = $row;
+        if ($result->num_rows > 0) {
+            $cartItems = array();
+            while ($row = $result->fetch_assoc()) {
+                $cartItems[] = $row;
+            }
+            return $cartItems;
         }
 
-        return $orderItems;
+        return false;
     }
     public function Remove($UserID,$ProductID)
     {
