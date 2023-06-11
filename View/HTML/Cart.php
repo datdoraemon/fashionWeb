@@ -92,8 +92,7 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
         </header>
         <section>
             <div class="row">
-                <div class="col-3"></div>
-                <div class="col-9">
+                <div class="col-9 mx-auto">
                 <table class="table">
                     <thead>
                     <tr>
@@ -102,31 +101,31 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Total</th>
-                        <th scope="col">Remove</th>
                     </tr>
                     </thead>
                     <tbody>
                         <?php
                             $showcart = $showcartController->GetShowCart($_SESSION['UserID']);
                             $Userid = $_SESSION['UserID'];
-                            foreach ($showcart as $s) {
+                            
+                            if (count($showcart) > 0) {
+                                foreach ($showcart as $s) {
+                                    echo "<tr>
+                                    <td scope='row'>" . $s['ProductID'] . "</td>
+                                    <td>" . $s['ProductName'] . "</td>
+                                    <td class='price'>" . $s['Price'] . "</td>
+                                    <td>" . $s['Quantity'] . "</td>
+                                    <td class='total'>" . ($s['Price'] * $s['Quantity']) . "</td>
+                                    <td>
+                                        <input type='checkbox' name='selectedProducts[]' value='" . $s['ProductID'] . "'>
+                                    </td>
+                                    </tr>";
+                                }
+                            } else {
                                 echo "<tr>
-                                <td scope='row'>" . $s['ProductID'] . "</td>
-                                <td>" . $s['ProductName'] . "</td>
-                                <td class='price'>" . $s['Price'] . "</td>
-                                <td>" . $s['Quantity'] . "</td>
-                                <td class='total'>" . ($s['Price'] * $s['Quantity']) . "</td>
-                                <td>
-                                <form action='../../Controller/RemoveCartController' method='post'>
-                                   <input type='hidden' name='userid' value='$Userid'>
-                                   <input type='checkbox' name='productID' value='". $s['ProductID']."'>
-                                   <input class='btn btn-danger btn-remove'  type='submit' name='submit' value='Remove'>
-                                </form>
-                                    
-                                </td>
-                               
-                                </tr>";
-                            }
+                                    <td scope='row'>Không có sản phẩm trong giỏ hàng</td>
+                                    </tr>";
+                            }                            
                         ?>
                     </tbody>
                 </table>
@@ -135,14 +134,16 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
 
             <!-- Hiển thị tổng số tiền, nút xóa và nút thanh toán -->
             <div class="row">
-                <div class="col-9 offset-3">
+                <div class="col-9" style="margin-left: 12%;">
                 <div class="total-amount-container">
                     <h3>Tổng số tiền: <span class="total-amount">0</span></h3>
                 </div>
 
-                <div class="form-group">
-                    <button type="button" onclick="removeSelectedFromCart()" class="btn btn-danger">Xóa</button>
-                </div>
+                <form id="remove-form" action="../../Controller/RemoveCartController.php" method="post">
+                    <div class="form-group">
+                    <input type="submit" name="checkout" value="Xóa" class="btn btn-danger">
+                    </div>
+                </form>
 
                 <form id="checkout-form" action="ConfirmOrder.php" method="post">
                     <div class="form-group">
@@ -201,6 +202,32 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                 }
             });
         });
+
+        $(document).ready(function() {
+            // Bắt sự kiện khi người dùng ấn nút "Thanh toán"
+            $('#remove-form').submit(function(e) {
+                e.preventDefault(); // Ngăn chặn gửi form mặc định
+
+                var selectedProducts = $('input[name="selectedProducts[]"]:checked').map(function() {
+                    return this.value;
+                }).get();
+
+                if (selectedProducts.length > 0) {
+                    // Tạo một input ẩn để lưu trữ danh sách sản phẩm được chọn
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'selectedProducts',
+                        value: selectedProducts.join(',')
+                    }).appendTo('#remove-form');
+
+                    // Gửi form để chuyển hướng đến trang RemoveCartController.php
+                    $('#remove-form').get(0).submit();
+                } else {
+                    // Thông báo cho người dùng chọn ít nhất một sản phẩm
+                    alert('Vui lòng chọn ít nhất một sản phẩm.');
+                }
+            });
+        });
     </script>
 
     <script>
@@ -219,32 +246,3 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
             });
         });
     </script>
-
-<script>
-$(document).ready(function() {
-    // Bắt sự kiện khi người dùng click nút "Xóa"
-    $('.btn-remove').click(function() {
-        var productID = $(this).data('product-id');
-        removeCartItem(productID);
-    });
-});
-
-function removeCartItem(productID) {
-    // Gửi yêu cầu xóa sản phẩm bằng Ajax
-    $.ajax({
-        type: 'POST',
-        url: '../../Controller/RemoveCartController.php',
-        data: {
-            productID: productID
-        },
-        success: function(response) {
-            // Xử lý phản hồi từ server (nếu cần)
-            // Reload trang giỏ hàng sau khi xóa thành công
-            location.reload();
-        },
-        error: function(xhr, status, error) {
-            // Xử lý lỗi (nếu có)
-        }
-    });
-}
-</script>

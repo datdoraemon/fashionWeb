@@ -8,7 +8,7 @@ class MyOrderController{
         $Status = 'Processing';
         $orders = $orderModel->showOrder($UserID, $Status);
 
-        if ($orders) {
+        if (!empty($orders)) {
             // In thông tin Order với Status là 'Processing'
             echo "<h1>Orders with Status 'Processing':</h1>";
             foreach ($orders as $order) {
@@ -17,6 +17,7 @@ class MyOrderController{
                 echo "Create Date: " . $order['CreateDate'] . "<br><br>";
             }
         }else{
+            echo "<h1>Orders with Status 'Processing':</h1>";
             echo "Null</br>";
         }
     }
@@ -26,7 +27,7 @@ class MyOrderController{
         $Status = 'Confirmed';
         $orders = $orderModel->showOrder($UserID, $Status);
 
-        if ($orders) {
+        if (!empty($orders)) {
             // In thông tin Order với Status là 'Confirmed'
             echo "<h1>Orders with Status 'Confirmed':</h1>";
             foreach ($orders as $order) {
@@ -35,6 +36,7 @@ class MyOrderController{
                 echo "Create Date: " . $order['CreateDate'] . "<br><br>";
             }
         }else{
+            echo "<h1>Orders with Status 'Confirmed':</h1>";
             echo "Null</br>";
         }
     }
@@ -44,7 +46,7 @@ class MyOrderController{
         $Status = 'Shipped';
         $orders = $orderModel->ShowOrder($UserID, $Status);
 
-        if ($orders) {
+        if (!empty($orders)) {
             // In thông tin Order với Status là 'Confirmed'
             echo "<h1>Orders with Status 'Shipped':</h1>";
             foreach ($orders as $order) {
@@ -53,6 +55,7 @@ class MyOrderController{
                 echo "Create Date: " . $order['CreateDate'] . "<br><br>";
             }
         }else{
+            echo "<h1>Orders with Status 'Shipped':</h1>";
             echo "Null</br>";
         }
     }
@@ -61,7 +64,7 @@ class MyOrderController{
         $Status = 'Delivered';
         $orders = $orderModel->showOrder($UserID, $Status);
 
-        if ($orders) {
+        if (!empty($orders)) {
             // In thông tin Order với Status là 'Confirmed'
             echo "<h1>Orders with Status 'Delivered':</h1>";
             foreach ($orders as $order) {
@@ -70,6 +73,7 @@ class MyOrderController{
                 echo "Create Date: " . $order['CreateDate'] . "<br><br>";
             }
         }else{
+            echo "<h1>Orders with Status 'Delivered':</h1>";
             echo "Null</br>";
         }
     }
@@ -78,7 +82,7 @@ class MyOrderController{
         $Status = 'Cancelled';
         $orders = $orderModel->showOrder($UserID, $Status);
 
-        if ($orders) {
+        if (!empty($orders)) {
             // In thông tin Order với Status là 'Confirmed'
             echo "<h1>Orders with Status 'Cancelled':</h1>";
             foreach ($orders as $order) {
@@ -87,6 +91,7 @@ class MyOrderController{
                 echo "Create Date: " . $order['CreateDate'] . "<br><br>";
             }
         }else{
+            echo "<h1>Orders with Status 'Cancelled':</h1>";
             echo "Null</br>";
         }
     }
@@ -95,7 +100,7 @@ class MyOrderController{
         $Status = 'Returned';
         $orders = $orderModel->showOrder($UserID, $Status);
 
-        if ($orders) {
+        if (!empty($orders)) {
             // In thông tin Order với Status là 'Confirmed'
             echo "<h1>Orders with Status 'Returned':</h1>";
             foreach ($orders as $order) {
@@ -104,6 +109,7 @@ class MyOrderController{
                 echo "Create Date: " . $order['CreateDate'] . "<br><br>";
             }
         }else{
+            echo "<h1>Orders with Status 'Returned':</h1>";
             echo "Null</br>";
         }
     }

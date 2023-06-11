@@ -9,5 +9,5 @@ class ConfirmOrderController{
         if ($user) {
             return $user;
         }
-    }
+    }   
 }
