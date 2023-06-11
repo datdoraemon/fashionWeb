@@ -92,8 +92,7 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
         </header>
         <section>
             <div class="row">
-                <div class="col-3"></div>
-                <div class="col-9">
+                <div class="col-9 mx-auto">
                 <table class="table">
                     <thead>
                     <tr>
@@ -102,7 +101,6 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Total</th>
-                        <th scope="col">Remove</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -117,14 +115,8 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                                 <td>" . $s['Quantity'] . "</td>
                                 <td class='total'>" . ($s['Price'] * $s['Quantity']) . "</td>
                                 <td>
-                                <form action='../../Controller/RemoveCartController' method='post'>
-                                   <input type='hidden' name='userid' value='$Userid'>
-                                   <input type='checkbox' name='productID' value='". $s['ProductID']."'>
-                                   <input class='btn btn-danger btn-remove'  type='submit' name='submit' value='Remove'>
-                                </form>
-                                    
+                                    <input type='checkbox' name='selectedProducts[]' value='" . $s['ProductID'] . "'>
                                 </td>
-                               
                                 </tr>";
                             }
                         ?>
@@ -135,14 +127,16 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
 
             <!-- Hiển thị tổng số tiền, nút xóa và nút thanh toán -->
             <div class="row">
-                <div class="col-9 offset-3">
+                <div class="col-9" style="margin-left: 12%;">
                 <div class="total-amount-container">
                     <h3>Tổng số tiền: <span class="total-amount">0</span></h3>
                 </div>
 
-                <div class="form-group">
-                    <button type="button" onclick="removeSelectedFromCart()" class="btn btn-danger">Xóa</button>
-                </div>
+                <form id="checkout-form" action="RemoveCart.php" method="post">
+                    <div class="form-group">
+                    <input type="submit" name="checkout" value="Xóa" class="btn btn-danger">
+                    </div>
+                </form>
 
                 <form id="checkout-form" action="ConfirmOrder.php" method="post">
                     <div class="form-group">
@@ -219,32 +213,3 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
             });
         });
     </script>
-
-<script>
-$(document).ready(function() {
-    // Bắt sự kiện khi người dùng click nút "Xóa"
-    $('.btn-remove').click(function() {
-        var productID = $(this).data('product-id');
-        removeCartItem(productID);
-    });
-});
-
-function removeCartItem(productID) {
-    // Gửi yêu cầu xóa sản phẩm bằng Ajax
-    $.ajax({
-        type: 'POST',
-        url: '../../Controller/RemoveCartController.php',
-        data: {
-            productID: productID
-        },
-        success: function(response) {
-            // Xử lý phản hồi từ server (nếu cần)
-            // Reload trang giỏ hàng sau khi xóa thành công
-            location.reload();
-        },
-        error: function(xhr, status, error) {
-            // Xử lý lỗi (nếu có)
-        }
-    });
-}
-</script>
