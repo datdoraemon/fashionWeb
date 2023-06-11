@@ -58,9 +58,9 @@ $userInfo = $user->UserConfirm($_SESSION['UserID']);
         </thead>
         <tbody>
         <?php $showcartController = new ShowCartController();
-        $selectedProducts = explode(',', $selectedProducts);
+        $selectedProductsArray  = explode(',', $selectedProducts);
         ?>
-            <?php foreach ($selectedProducts as $productID) : ?>
+            <?php foreach ($selectedProductsArray as $productID) : ?>
                 <?php $productDetails = $showcartController->GetShowProductInCart($productID);?>
                 <tr>
                     <td><?php echo $productID; ?></td>
@@ -69,7 +69,7 @@ $userInfo = $user->UserConfirm($_SESSION['UserID']);
                     <td><?php echo $productDetails['Price']; ?></td>
                 </tr>
                 <?php $totalAmount = 0;
-                    foreach ($selectedProducts as $productID) {
+                    foreach ($selectedProductsArray as $productID) {
                         $productDetails = $showcartController->GetShowProductInCart($productID);
                         $totalAmount += $productDetails['Price'] * $productDetails['Quantity'];
                     }
@@ -80,12 +80,10 @@ $userInfo = $user->UserConfirm($_SESSION['UserID']);
 
     <h2>Tổng số tiền: <?php echo $totalAmount; ?></h2>
 
-    <form action="Payment.php" method="post">
-        <!-- Các trường thông tin thanh toán -->
+    <form action="../../Controller/PayMentController.php" method="post">
+        <input type="hidden" name="selectedProducts" value="<?php echo $selectedProducts; ?>">
         <input type="submit" value="Thanh toán">
     </form>
-
-    <!-- Các tệp CSS và JavaScript khác -->
 </body>
 
 </html>

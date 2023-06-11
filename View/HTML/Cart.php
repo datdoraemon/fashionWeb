@@ -107,18 +107,25 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                         <?php
                             $showcart = $showcartController->GetShowCart($_SESSION['UserID']);
                             $Userid = $_SESSION['UserID'];
-                            foreach ($showcart as $s) {
+                            
+                            if (count($showcart) > 0) {
+                                foreach ($showcart as $s) {
+                                    echo "<tr>
+                                    <td scope='row'>" . $s['ProductID'] . "</td>
+                                    <td>" . $s['ProductName'] . "</td>
+                                    <td class='price'>" . $s['Price'] . "</td>
+                                    <td>" . $s['Quantity'] . "</td>
+                                    <td class='total'>" . ($s['Price'] * $s['Quantity']) . "</td>
+                                    <td>
+                                        <input type='checkbox' name='selectedProducts[]' value='" . $s['ProductID'] . "'>
+                                    </td>
+                                    </tr>";
+                                }
+                            } else {
                                 echo "<tr>
-                                <td scope='row'>" . $s['ProductID'] . "</td>
-                                <td>" . $s['ProductName'] . "</td>
-                                <td class='price'>" . $s['Price'] . "</td>
-                                <td>" . $s['Quantity'] . "</td>
-                                <td class='total'>" . ($s['Price'] * $s['Quantity']) . "</td>
-                                <td>
-                                    <input type='checkbox' name='selectedProducts[]' value='" . $s['ProductID'] . "'>
-                                </td>
-                                </tr>";
-                            }
+                                    <td scope='row'>Không có sản phẩm trong giỏ hàng</td>
+                                    </tr>";
+                            }                            
                         ?>
                     </tbody>
                 </table>
@@ -132,7 +139,7 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                     <h3>Tổng số tiền: <span class="total-amount">0</span></h3>
                 </div>
 
-                <form id="checkout-form" action="RemoveCart.php" method="post">
+                <form id="remove-form" action="../../Controller/RemoveCartController.php" method="post">
                     <div class="form-group">
                     <input type="submit" name="checkout" value="Xóa" class="btn btn-danger">
                     </div>
@@ -189,6 +196,32 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
 
                     // Gửi form để chuyển hướng đến trang ConfirmOrder.php
                     $('#checkout-form').get(0).submit();
+                } else {
+                    // Thông báo cho người dùng chọn ít nhất một sản phẩm
+                    alert('Vui lòng chọn ít nhất một sản phẩm.');
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            // Bắt sự kiện khi người dùng ấn nút "Thanh toán"
+            $('#remove-form').submit(function(e) {
+                e.preventDefault(); // Ngăn chặn gửi form mặc định
+
+                var selectedProducts = $('input[name="selectedProducts[]"]:checked').map(function() {
+                    return this.value;
+                }).get();
+
+                if (selectedProducts.length > 0) {
+                    // Tạo một input ẩn để lưu trữ danh sách sản phẩm được chọn
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'selectedProducts',
+                        value: selectedProducts.join(',')
+                    }).appendTo('#remove-form');
+
+                    // Gửi form để chuyển hướng đến trang RemoveCartController.php
+                    $('#remove-form').get(0).submit();
                 } else {
                     // Thông báo cho người dùng chọn ít nhất một sản phẩm
                     alert('Vui lòng chọn ít nhất một sản phẩm.');

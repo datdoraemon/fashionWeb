@@ -32,7 +32,7 @@ class CartModel
 
     public function ShowProductInCart($ProductID)
     {
-        $stmt = $this->conn->prepare("SELECT p.ProductID, p.ProductName, p.Price, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.ProductID = ?");
+        $stmt = $this->conn->prepare("SELECT p.ProductID, p.ProductName, p.Price, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.ProductID = ? AND up.Status = 'Pending'");
         $stmt->bind_param("i", $ProductID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -46,22 +46,38 @@ class CartModel
 
     public function AddtoCart($UserID, $ProductID, $quantity)
     {
-        $stmt = $this->conn->prepare("INSERT INTO User_Products (UserID, ProductID, Quantity, CreateDate) VALUES (?, ?, ?, CURRENT_TIMESTAMP) ON DUPLICATE KEY UPDATE Quantity = Quantity + VALUES(Quantity)");
-        $stmt->bind_param("iii", $UserID, $ProductID, $quantity);
+        $stmt = $this->conn->prepare("SELECT * FROM User_Products WHERE UserID = ? AND ProductID = ? AND Status = 'Pending'");
+        $stmt->bind_param("ii", $UserID, $ProductID);
         $stmt->execute();
+        $result = $stmt->get_result();
 
-        if ($stmt->affected_rows > 0) {
-            return true;
+        if ($result->num_rows > 0) {
+            // Nếu đã tồn tại trong bảng, cộng thêm quantity
+            $stmt = $this->conn->prepare("UPDATE User_Products SET Quantity = Quantity + ? WHERE UserID = ? AND ProductID = ? AND Status = 'Pending'");
+            $stmt->bind_param("iii", $quantity, $UserID, $ProductID);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                return true;
+            }
+        } else {
+            // Nếu chưa tồn tại trong bảng, thêm mới
+            $stmt = $this->conn->prepare("INSERT INTO User_Products (UserID, ProductID, Quantity, CreateDate, Status) VALUES (?, ?, ?, CURRENT_TIMESTAMP, 'Pending')");
+            $stmt->bind_param("iii", $UserID, $ProductID, $quantity);
+            $stmt->execute();
+
+            if ($stmt->affected_rows > 0) {
+                return true;
+            }
         }
 
         return false;
     }
 
-    public function RemoveFromCart($UserID, $ProductIDs)
+    public function RemoveFromCart($UserID, $ProductID)
     {
-        $placeholders = implode(',', array_fill(0, count($ProductIDs), '?'));
-        $stmt = $this->conn->prepare("DELETE FROM User_Products WHERE UserID = ? AND ProductID IN ($placeholders)");
-        $stmt->bind_param(str_repeat('i', count($ProductIDs) + 1), $UserID, ...$ProductIDs);
+        $stmt = $this->conn->prepare("DELETE FROM User_Products WHERE UserID = ? AND ProductID = ?");
+        $stmt->bind_param("ii", $UserID, $ProductID);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
@@ -114,10 +130,10 @@ class OrderModel
         return $orderItems;
     }
 
-    public function updateStatus($UserID, $productID, $status)
+    public function updateStatus($UserID, $productID, $Status)
     {
-        $stmt = $this->conn->prepare("UPDATE User_Products SET Status = ? WHERE UserID = ? AND ProductID = ?");
-        $stmt->bind_param("sii", $status, $UserID, $productID);
+        $stmt = $this->conn->prepare("UPDATE User_Products SET Status = ? WHERE UserID = ? AND ProductID = ? AND Status = 'Pending'");
+        $stmt->bind_param("sii", $Status, $UserID, $productID);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {
