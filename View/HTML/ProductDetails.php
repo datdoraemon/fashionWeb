@@ -47,27 +47,25 @@
   <div class="container-fluid p-0">
     <header id="header">
       <div class="row">
-        <div class="col-12 top_header">
-          <ul class="ul">
-            <li class="">
-              <?php
-              if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) {
-                // Nếu $_SESSION['UserID'] tồn tại và khác 0
-                echo '<form action="Loguot.php" method="post">
-                  <i class=""></i>
-                  <button class="login_button">Đăng xuất </button>
-                  </form>';
-              } else {
-                // Nếu $_SESSION['UserID'] không tồn tại hoặc bằng 0
-                echo '<form action="Login.php" method="post">
-                  <i class=""></i>
-                  <button class="login_button">Đăng nhập </button>
-                  </form>';
-              }
-              ?>
-            </li>
-          </ul>
-        </div>
+      <?php
+                    if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) {
+                        $userInformation = $homepageController->getUserByEmail($_SESSION['Email']);
+                        echo '<div class="col-6" style="padding-left: 0; padđing-right: 0;">
+                               <h4><i class="bi bi-person icon"></i><a href="UpdateInformation.php" style="text-decoration: none; color: white; font-size: 25px;">'.$userInformation['FullName'].
+                               '</a></h4></div>';
+                        // Nếu $_SESSION['user_id'] tồn tại và khác 0
+                         echo '<div class="col-6"><form action="Loguot.html" method="post">
+                        <i class=""></i>
+                        <button class="login_button">Đăng xuất </button>
+                        </form></div>';
+                        } else {
+                         // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
+                         echo '<form action="Login.php" method="post">
+                                <i class=""></i>
+                                <button class="login_button">Đăng nhập </button>
+                                 </form>';
+                        }
+                        ?>    
       </div>
       <div class="row">
         <div class="col-3 brand">FASHION</div>
@@ -105,7 +103,7 @@
         <div class="col-3"></div>
         <div class="col-6">
           <div>
-            <img src="<?php echo $productDetails['img']; ?>" style="width: 40%; height: 400px; float: left ;
+            <img src="<?php echo $productDetails['ProductImg']; ?>" style="width: 40%; height: 400px; float: left ;
                  margin-top: 25px; margin-right: 25px; margin-bottom: 50px;">
           </div>
           <div class="div_infor">
@@ -143,7 +141,7 @@
                   })
                 </script>
               </div><br><br>
-              <button type="submit">Thêm vào giỏ hàng</button>
+              <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
             </form>
           </div>
         </div>

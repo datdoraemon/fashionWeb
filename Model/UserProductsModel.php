@@ -117,23 +117,38 @@ class OrderModel
     }
     public function Remove($UserID,$ProductID)
     {
-        $stmt = $this->conn->prepare("DELETE FROM user_products WHERE UserID = ? AND ProducID = ?");
+        $stmt = $this->conn->prepare("DELETE FROM User_Products WHERE UserID = ? AND ProductID = ?");
         $stmt->bind_param("ii", $UserID, $ProductID);
         $stmt->execute();
         $result = $stmt->get_result();
 
-        $orderItems = array();
-        while ($row = $result->fetch_assoc()) {
+        /*$orderItems = array();
+        while ($row = $result->fetch_assoc() > 0) {
             $orderItems[] = $row;
         }
 
-        return $orderItems;
+        return $orderItems;*/
     }
 
     public function updateStatus($UserID, $productID, $Status)
     {
         $stmt = $this->conn->prepare("UPDATE User_Products SET Status = ? WHERE UserID = ? AND ProductID = ? AND Status = 'Pending'");
         $stmt->bind_param("sii", $Status, $UserID, $productID);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+    public function TotalOrder($UserID, $order_id)
+    {
+        $stmt = $this->conn->prepare("SELECT up.UserID , p.ProductID, p.ProductName, up.Quantity, up.CreateDate, sum(p.Price * up.Quantity) as 'Total' from user_products up
+        inner join products p on up.UserID = p.ProductID
+        where up.UserID = ? and up.ProductID = ?
+        group by p.Price * up.Quantity order by sum(p.Price * up.Quantity)");
+        $stmt->bind_param("ii", $UserID, $order_id);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {

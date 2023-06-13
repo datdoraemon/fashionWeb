@@ -107,8 +107,13 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                         <?php
                             $showcart = $showcartController->GetShowCart($_SESSION['UserID']);
                             $Userid = $_SESSION['UserID'];
-                            
-                            if (count($showcart) > 0) {
+                            if($showcart == NULL)
+                            {
+                                echo "<tr>
+                                    <td scope='row'>Không có sản phẩm trong giỏ hàng</td>
+                                    </tr>";
+                            }
+                            if ($showcart != NULL) {
                                 foreach ($showcart as $s) {
                                     echo "<tr>
                                     <td scope='row'>" . $s['ProductID'] . "</td>
@@ -121,11 +126,10 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                                     </td>
                                     </tr>";
                                 }
-                            } else {
-                                echo "<tr>
-                                    <td scope='row'>Không có sản phẩm trong giỏ hàng</td>
-                                    </tr>";
-                            }                            
+                            }                          
+                        ?>
+                        <?php 
+                        
                         ?>
                     </tbody>
                 </table>
@@ -144,13 +148,12 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                     <input type="submit" name="checkout" value="Xóa" class="btn btn-danger">
                     </div>
                 </form>
-
                 <form id="checkout-form" action="ConfirmOrder.php" method="post">
                     <div class="form-group">
                     <input type="submit" name="checkout" value="Thanh toán" class="btn btn-primary">
                     </div>
                 </form>
-                </div>
+            </div>
             </div>
             </section>
 
