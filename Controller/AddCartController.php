@@ -26,11 +26,11 @@ if (isset($_POST['productID'], $_POST['quantity'])) {
   if ($result) {
     $_SESSION['cart_message'] = "Sản phẩm đã được thêm vào giỏ hàng.";
     $_SESSION['temp_productID'] = $_POST['productID'];
+    header("Location: ../View/HTML/ProductDetails.php");
   } else {
     $_SESSION['cart_message'] = "Thêm vào giỏ hàng thất bại!";
     $_SESSION['temp_productID'] = $_POST['productID'];
+    header("Location: ../View/HTML/ProductDetails.php");
   }
 }
-
-header("Location: ../View/HTML/ProductDetails.php");
 exit();

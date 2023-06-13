@@ -6,6 +6,7 @@ class MyOrderController{
     public function OrderProcessing($UserID){
         $orderModel = new OrderModel();
         $orders = $orderModel->showOrder($UserID);
+        header('Location: ../View/HTML/Cart.php');
 
         // In thông tin Order với Status là 'Processing'
         echo "<h1>Orders with Status 'Processing':</h1>";
@@ -92,4 +93,9 @@ class MyOrderController{
             }
         }
     }
+}
+$MyOrrder = new MyOrderController();
+if(isset($_POST['userid']) && isset($_POST['productID']))
+{
+    $MyOrrder->OrderProcessing($_POST['userid']);
 }

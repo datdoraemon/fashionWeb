@@ -84,7 +84,7 @@ class OrderModel
 
     public function showOrder($UserID)
     {
-        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products INNER JOIN Products ON User_Products.ProductID = Products.ProductID WHERE User_Products.UserID = ?");
+        $stmt = $this->conn->prepare("SELECT p.ProductName, up.Quantity, up.CreateDate FROM User_Products up INNER JOIN Products p ON up.ProductID = p.ProductID WHERE up.UserID = ?");
         $stmt->bind_param("i", $UserID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -115,6 +115,21 @@ class OrderModel
     {
         $stmt = $this->conn->prepare("UPDATE User_Products SET Status = ? WHERE UserID = ? AND ProductID = ?");
         $stmt->bind_param("sii", $status, $UserID, $productID);
+        $stmt->execute();
+
+        if ($stmt->affected_rows > 0) {
+            return true;
+        }
+
+        return false;
+    }
+    public function TotalOrder($UserID, $order_id)
+    {
+        $stmt = $this->conn->prepare("SELECT up.UserID , p.ProductID, p.ProductName, up.Quantity, up.CreateDate, sum(p.Price * up.Quantity) as 'Total' from user_products up
+        inner join products p on up.UserID = p.ProductID
+        where up.UserID = ? and up.ProductID = ?
+        group by p.Price * up.Quantity order by sum(p.Price * up.Quantity)");
+        $stmt->bind_param("ii", $UserID, $order_id);
         $stmt->execute();
 
         if ($stmt->affected_rows > 0) {

@@ -22,13 +22,13 @@
     $categories = $homepageController->getCategories();
     ?>
 
-    <div class="container-fluid p-0">
+    <div class="container-fluid p-0" style="height: 100vh;">
         <header id="header">
-            <div class="row">     
+            <div class="row" style="margin-left: 0; margin-right: 0;">     
                 <?php
                     if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) {
                         $userInformation = $homepageController->getUserByEmail($_SESSION['Email']);
-                        echo '<div class="col-6">
+                        echo '<div class="col-6" style="padding-left: 0; padđing-right: 0;">
                                <h4><i class="bi bi-person icon"></i><a href="UpdateInformation.php" style="text-decoration: none; color: white; font-size: 25px;">'.$userInformation['FullName'].
                                '</a></h4></div>';
                         // Nếu $_SESSION['user_id'] tồn tại và khác 0
@@ -45,15 +45,15 @@
                         }
                         ?>                       
             </div>
-            <div class="row">
+            <div class="row" style="margin-left: 0; margin-right: 0;">
                 <div class="col-3 brand">FASHION</div>
                 <div class="col-6 bar_search_backgroud">
                         <form action="" method="post">                           
                             <input class="bar_search" type="search" placeholder="Tìm sản phẩm">                             
                             <div class="search_button">
-                                <button type="submit" value="Tìm kiếm">
-                                    <h1><i class="bi bi-search"></i></h1>
-                                </button>
+                           <button type="submit" value="Tìm kiếm">
+                           <h1> <i class="bi bi-search"></i></h1>
+                            </button>                                 
                             </div>                              
                         </form>
                 </div>
@@ -61,7 +61,7 @@
                     <a id="cart" href="Cart.php"><h2 class="cart"><i class="bi bi-cart3">  Giỏ hàng</i></h2></a>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="margin-left: 0; margin-right: 0;">
                 <div class="col-12">
                     <div class="bar_background">
                         <ul class="ul">
@@ -97,7 +97,7 @@
                                         <p class='card-text'>
                                             <form action='ProductDetails.php' method='post'>
                                                 <input type='hidden' name='productID' value='$productID'>
-                                                <button type='submit' name='submit' value='submit'>Xem chi tiết</button>
+                                                <input type='submit' name='submit' value='Detail'>
                                             </form>
                                         </p>
                                     </div>
@@ -110,7 +110,7 @@
             </div>
         </section>
 
-        <footer class="container-fluid p-0 footer">
+        <footer class="container-fluid p-0 footer" style="margin-left: 0; margin-right: 0;">
             <div class="row">
                 <div class = "col-8">
                     <div class="footer_box">

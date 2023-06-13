@@ -125,13 +125,14 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
                                 <form action='../../Controller/RemoveCartController.php' method='POST'>
                                    <input type='hidden' name='userid' value='".$_SESSION['UserID']."'>
                                    <input type='hidden' name='productID' value='".$s['ProductID']."'>
-                                   <input type='submit' name='submit' value='Remove'>
-                                </form>
-                                    
-                                </td>
-                               
+                                   <input type='submit' name='submit' class='btn btn-dark' value='Remove'>
+                                </form>                         
+                                </td>                  
                                 </tr>"; }
                             }
+                        ?>
+                        <?php 
+                        
                         ?>
                     </tbody>
                 </table>
@@ -141,20 +142,17 @@ if (!isset($_SESSION['UserID']) || $_SESSION['UserID'] == 0) {
             <!-- Hiển thị tổng số tiền, nút xóa và nút thanh toán -->
             <div class="row">
                 <div class="col-9 offset-3">
-                <div class="total-amount-container">
-                    <h3>Tổng số tiền: <span class="total-amount">0</span></h3>
+                <h3>Tổng số tiền: <span class="total-amount">0</span></h3>
                 </div>
-
-                <div class="form-group">
-                    <button type="button" onclick="removeSelectedFromCart()" class="btn btn-danger">Xóa</button>
-                </div>
-
+            </div>
+            <div class="row">
+            <div class="col-9 offset-3">
                 <form id="checkout-form" action="ConfirmOrder.php" method="post">
                     <div class="form-group">
                     <input type="submit" name="checkout" value="Thanh toán" class="btn btn-primary">
                     </div>
                 </form>
-                </div>
+            </div>
             </div>
             </section>
 
