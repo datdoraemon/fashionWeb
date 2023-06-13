@@ -32,10 +32,22 @@
                                <h4><i class="bi bi-person icon"></i><a href="UpdateInformation.php" style="text-decoration: none; color: white; font-size: 25px;">'.$userInformation['FullName'].
                                '</a></h4></div>';
                         // Nếu $_SESSION['user_id'] tồn tại và khác 0
-                         echo '<div class="col-6"><form action="Loguot.html" method="post">
-                        <i class=""></i>
-                        <button class="login_button">Đăng xuất </button>
-                        </form></div>';
+                        echo ' 
+                             <div class="col-6">
+                              <ul class="ul">
+                                 <li style="float: right;">
+                                 <form action="Loguot.html" method="post">
+                                 <button class="login_button">Đăng xuất </button>
+                                 </form>
+                                 </li>
+                                 <li style="float: right;">
+                                 <form action="MyOrder.php" method="post">
+                                 <i class=""></i>
+                                 <button class="login_button">My Order</button>
+                                 </form>
+                                 </li>
+                              </ul>
+                              </div>';
                         } else {
                          // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
                          echo '<form action="Login.php" method="post">

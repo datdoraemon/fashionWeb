@@ -13,8 +13,7 @@ class ProductCategoriesModel
     }
 
     public function getProductsByCategory($categoryID)
-{
-    try {
+    {
         $stmt = $this->conn->prepare("SELECT p.ProductID, p.ProductName, p.Description, p.Price, p.Quantity, p.SoldQuantity, p.ProductImg FROM Products p INNER JOIN Product_Categories pc ON p.ProductID = pc.ProductID WHERE pc.CategoryID = ?");
         $stmt->bind_param("i", $categoryID);
         $stmt->execute();
@@ -29,12 +28,7 @@ class ProductCategoriesModel
         }
 
         return false;
-    } catch (Exception $e) {
-        // Xử lý lỗi tại đây
-        echo "Error: " . $e->getMessage();
     }
-}
-
 
     public function getCategoriesByProductID($productID)
     {

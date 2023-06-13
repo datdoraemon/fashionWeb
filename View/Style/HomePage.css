@@ -110,6 +110,7 @@
 {
     color: white;
     text-transform: uppercase;
+    margin-top: 10px;
 }
 .cart:hover
 {
@@ -198,4 +199,43 @@ input[type="submit"] {
 input[type="submit"]:hover {
 	background-color: black;
 	color: white;
+}
+.status
+{
+    background-color: rgba(0, 0, 0, 0.918);
+    color: #fff;
+    height: 50px;
+    margin-top: 20px;
+    margin-left: 20px;
+    padding-top: 5px; padding-left: 10px;
+}
+#process
+{
+    display: block;
+    height: 250px;
+}
+#confirm
+{
+    display: none;
+    height: 250px;
+}
+#ship
+{
+    height: 250px;
+    display: none;
+}
+#delivery
+{
+   display: none;
+   height: 250px;
+}
+#cancel
+{
+    height: 250px;
+   display: none;
+}
+#return
+{
+   display: none;
+   height: 250px;
 }
