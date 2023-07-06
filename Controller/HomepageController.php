@@ -35,4 +35,9 @@ class HomepageController
         $User = new UsersModel();
         return $User->getUserByEmail($email);
     }
+    public function Page()
+    {
+        $Page = new ProductsModel();
+        return $Page->Page();
+    }
 }

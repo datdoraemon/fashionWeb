@@ -49,4 +49,32 @@ class ProductsModel
 
         return $productDetails;
     }
+
+    public function Page()
+    {
+        $db = new Database();
+        $connection = $db->getConnection();
+        $sql = "SELECT * FROM Products";
+                    $result= $conn->query($sql);
+                    if($result->num_rows > 0)
+                    {
+                        $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+                        $limit = 6;
+                        $total_results = $result->num_rows; 
+                        
+                        $total_page = ceil($total_results / $limit);
+                        
+                        
+                        if ($current_page > $total_page){
+                            $current_page = $total_page;
+                        }
+                        else if ($current_page < 1){
+                            $current_page = 1;
+                        }
+                        
+                        
+                        $start = ($current_page - 1) * $limit;
+                        $result = mysqli_query($conn, "SELECT * FROM Products LIMIT $start, $limit");
+                    }
+    }
 }
