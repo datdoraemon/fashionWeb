@@ -15,10 +15,6 @@ if (isset($_POST['productID'], $_POST['quantity'])) {
   $productID = (int) $_POST['productID'];
   $quantity = (int) $_POST['quantity'];
 
-  // Xử lý dữ liệu đầu vào để tránh tấn công XSS
-  $productID = htmlspecialchars($productID);
-  $quantity = htmlspecialchars($quantity);
-
   // Sử dụng Prepared Statements để tránh SQL Injection
   $userProductsModel = new CartModel();
   $result = $userProductsModel->AddtoCart($UserID, $productID, $quantity);

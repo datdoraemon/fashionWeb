@@ -22,9 +22,9 @@
     $categories = $homepageController->getCategories();
     ?>
 
-    <div class="container-fluid p-0" style="height: 100vh;">
-        <header id="header">
-            <div class="row" style="margin-left: 0; margin-right: 0;">     
+    <header id="header">
+        <div class="container-fluid">
+            <div class="row">     
                 <?php
                     if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != 0) {
                         $userInformation = $homepageController->getUserByEmail($_SESSION['Email']);
@@ -85,6 +85,7 @@
                     </div>
                 </div>
             </div>
+        </div>
         </header>
         <section>
             <div class="container">
@@ -121,9 +122,9 @@
                 ?>
             </div>
         </section>
-
-        <footer class="container-fluid p-0 footer" style="margin-left: 0; margin-right: 0;">
-            <div class="row">
+        <footer class="footer">
+           <div class="container-fluid">
+             <div class="row">
                 <div class = "col-8">
                     <div class="footer_box">
                         <h2>Về chúng tôi</h2>
@@ -140,8 +141,8 @@
                     <h2><i class="bi bi-tiktok icon"></i></h2>
                     </div>
                 </div>
-            </div>
+              </div>
+          </div>
         </footer>
-    </div>
 </body>
 </html>

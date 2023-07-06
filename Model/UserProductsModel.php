@@ -55,23 +55,28 @@ class CartModel
             // Nếu đã tồn tại trong bảng, cộng thêm quantity
             $stmt = $this->conn->prepare("UPDATE User_Products SET Quantity = Quantity + ? WHERE UserID = ? AND ProductID = ? AND Status = 'Pending'");
             $stmt->bind_param("iii", $quantity, $UserID, $ProductID);
+            echo $stmt;
+            exit;
             $stmt->execute();
 
             if ($stmt->affected_rows > 0) {
                 return true;
+            }else{
+                return false;
             }
         } else {
             // Nếu chưa tồn tại trong bảng, thêm mới
-            $stmt = $this->conn->prepare("INSERT INTO User_Products (UserID, ProductID, Quantity, CreateDate, Status) VALUES (?, ?, ?, CURRENT_TIMESTAMP, 'Pending')");
+            $stmt = $this->conn->prepare("INSERT INTO User_Products (UserID, ProductID, Quantity, CreateDate) VALUES (?, ?, ?, CURRENT_TIMESTAMP)");
             $stmt->bind_param("iii", $UserID, $ProductID, $quantity);
             $stmt->execute();
 
             if ($stmt->affected_rows > 0) {
                 return true;
+            }else{
+                return false;
             }
         }
 
-        return false;
     }
 
     public function RemoveFromCart($UserID, $ProductID)

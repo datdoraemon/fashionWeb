@@ -20,6 +20,22 @@ CREATE TABLE Users (
   Status ENUM('Vip', 'Normal', 'Attention', 'Locked') DEFAULT 'Normal'
 );
 
+CREATE TABLE Seller (
+  SellerID INT PRIMARY KEY AUTO_INCREMENT,
+  Email VARCHAR(255),
+  Password VARCHAR(255),
+  FullName VARCHAR(255),
+  Birthday DATE,
+  Phone VARCHAR(20),
+  Address VARCHAR(255)
+);
+
+CREATE TABLE ShopName (
+  ShopID INT PRIMARY KEY AUTO_INCREMENT,
+  ShopName VARCHAR(255),
+  FOREIGN KEY (ShopID) REFERENCES Seller(SellerID)
+);
+
 -- Tạo bảng Products
 CREATE TABLE Products (
   ProductID INT PRIMARY KEY AUTO_INCREMENT,
@@ -37,6 +53,22 @@ CREATE TABLE Categories (
   CategoryName VARCHAR(255) 
 );
 
+CREATE TABLE Shop_Category (
+  ShopID INT,
+  CategoryID INT,
+  PRIMARY KEY(ShopID, CategoryID),
+  Foreign Key (ShopID) REFERENCES ShopName(ShopID),
+  Foreign Key (CategoryID) REFERENCES Categories(CategoryID)
+);
+
+CREATE TABLE Product_Categories (
+  PC_ID INT PRIMARY KEY AUTO_INCREMENT,
+  CategoryID INT,
+  ProductID INT,
+  FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
+  FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
 -- Tạo bảng User_Products
 CREATE TABLE User_Products (
   UP_ID INT PRIMARY KEY AUTO_INCREMENT,
@@ -49,15 +81,6 @@ CREATE TABLE User_Products (
   FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
 );
 
--- Tạo bảng Product_Categories
-CREATE TABLE Product_Categories (
-  PC_ID INT PRIMARY KEY AUTO_INCREMENT,
-  CategoryID INT,
-  ProductID INT,
-  FOREIGN KEY (CategoryID) REFERENCES Categories(CategoryID),
-  FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
-);
-
 CREATE TABLE Product_Reviews (
   ReviewID INT PRIMARY KEY AUTO_INCREMENT,
   UserID INT,
@@ -66,6 +89,14 @@ CREATE TABLE Product_Reviews (
   Comment VARCHAR(255),
   FOREIGN KEY (UserID) REFERENCES Users(UserID),
   FOREIGN KEY (ProductID) REFERENCES Products(ProductID)
+);
+
+CREATE TABLE Seller_Shop (
+    SellerID INT,
+    ShopID INT,
+    primary key(SellerID, ShopID),
+    foreign key(SellerID) references Seller(SellerID),
+    foreign key(ShopID) references ShopName(ShopID)
 );
 
 -- SELECT user, host FROM mysql.user

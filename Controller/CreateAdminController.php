@@ -1,12 +1,19 @@
 <?php
-require_once __DIR__ . '/../Model/UsersModel.php';
-class SignUpController
+require_once __DIR__ . '/../Model/AdminModel.php';
+class CreateAdminController
 {
+    public function index(){}
+	public function getSellerByEmail($email)
+    {
+        $adminshop = new AdminModel();
+        return $adminshop->getSellerByEmail($email);
+    }
 
-	public function index()
-	{
-		echo '<script>alert("Please enter email and password.");window.location.href="../View/HTML/SignUp.html";</script>';
-	}
+	public function getShopName($sellerID)
+    {
+        $shopname = new AdminModel();
+        return $shopname->getShopName($sellerID);
+    }
 
 	public function authenticateaccount()
 	{
@@ -34,13 +41,17 @@ class SignUpController
 			exit;
 		}
 		
-		$User = new UsersModel();
-		$user = $User->getUserByEmail($email);
-		if ($user) {
-			echo '<script>alert("Please enter a valid email address.");window.location.href="../View/HTML/SignUp.html";</script>';
+		$Admin = new AdminModel();
+		$admin = $Admin->getSellerByEmail($email);
+		if ($admin) {
+			echo '<script>alert("Email exsited.");window.location.href="../View/HTML/SignUp.html";</script>';
 		}else{
 			if ($password == $cpassword) {
 				$_SESSION['password'] = $hashedPassword;
+                $createadmin = $Admin->CreateAccount($email,$hashedPassword);
+				$admin = $Admin->getSellerByEmail($email);
+	            $_SESSION['SellerID']  = $admin['SellerID'];
+                header('Location: ../View/HTML/InforSeller.php');
 			} else {
 				echo '<script>alert("Invalid confirmation password.");window.location.href="../View/HTML/SignUp.html";</script>';
 				exit;
@@ -49,14 +60,14 @@ class SignUpController
 	}
 }
 
-$SignUpController = new SignUpController();
+$AdminController = new CreateAdminController();
 
 if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['cpassword'])) {
-	$SignUpController->authenticateaccount();
+	$AdminController->authenticateaccount();
 	$_SESSION['email'] = $_POST['email'];
-	header('Location: ../View/HTML/SignUpInformation.php');
+	//header('Location: ../View/HTML/SignUpInformation.php');
 } else {
-	$SignUpController->index();
+	$AdminController->index();
 }
 
 ?>
