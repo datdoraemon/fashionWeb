@@ -249,14 +249,14 @@ class AdminModel
 
     public function getOrderByProcessing($ShopID)
     {
-        $stmt = $this->conn->prepare("SELECT sc.ShopID, up.UP_ID, up.UserID, u.FullName , up.ProductID, p.ProductName, up.Quantity, up.CreateDate, sum(p.Price * up.Quantity) as 'Total', up.Status FROM User_Products up
+        $stmt = $this->conn->prepare("SELECT sc.ShopID, up.UP_ID, up.UserID, u.FullName , up.ProductID, p.ProductName, up.Quantity, up.CreateDate, p.Price * up.Quantity as 'Total', up.Status FROM User_Products up
         INNER JOIN Products p ON p.ProductID = up.ProductID
         INNER JOIN Product_Categories pc ON pc.ProductID = up.ProductID
         INNER JOIN Categories c ON c.CategoryID = pc.CategoryID
         INNER JOIN Shop_Category sc ON sc.CategoryID = c.CategoryID  
         INNER JOIN Users u ON u.UserID = up.UserID
         WHERE up.Status = 'Processing' AND sc.ShopID = ?
-        GROUP BY p.Price * up.Quantity ORDER BY sum(p.Price * up.Quantity);");
+         ORDER BY p.Price * up.Quantity");
         $stmt->bind_param("i", $ShopID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -286,14 +286,14 @@ class AdminModel
 
     public function getOrderByConfirmed($ShopID)
     {
-        $stmt = $this->conn->prepare("SELECT sc.ShopID, up.UP_ID, up.UserID, u.FullName , up.ProductID, p.ProductName, up.Quantity, up.CreateDate, sum(p.Price * up.Quantity) as 'Total', up.Status FROM User_Products up
+        $stmt = $this->conn->prepare("SELECT sc.ShopID, up.UP_ID, up.UserID, u.FullName , up.ProductID, p.ProductName, up.Quantity, up.CreateDate, p.Price * up.Quantity as 'Total', up.Status FROM User_Products up
         INNER JOIN Products p ON p.ProductID = up.ProductID
         INNER JOIN Product_Categories pc ON pc.ProductID = up.ProductID
         INNER JOIN Categories c ON c.CategoryID = pc.CategoryID
         INNER JOIN Shop_Category sc ON sc.CategoryID = c.CategoryID  
         INNER JOIN Users u ON u.UserID = up.UserID
         WHERE up.Status = 'Confirmed' AND sc.ShopID = ?
-        GROUP BY p.Price * up.Quantity ORDER BY sum(p.Price * up.Quantity);");
+         ORDER BY p.Price * up.Quantity");
         $stmt->bind_param("i", $ShopID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -323,14 +323,14 @@ class AdminModel
 
     public function getOrderByShipped($ShopID)
     {
-        $stmt = $this->conn->prepare("SELECT sc.ShopID, up.UP_ID, up.UserID, u.FullName , up.ProductID, p.ProductName, up.Quantity, up.CreateDate, sum(p.Price * up.Quantity) as 'Total', up.Status FROM User_Products up
+        $stmt = $this->conn->prepare("SELECT sc.ShopID, up.UP_ID, up.UserID, u.FullName , up.ProductID, p.ProductName, up.Quantity, up.CreateDate, p.Price * up.Quantity as 'Total', up.Status FROM User_Products up
         INNER JOIN Products p ON p.ProductID = up.ProductID
         INNER JOIN Product_Categories pc ON pc.ProductID = up.ProductID
         INNER JOIN Categories c ON c.CategoryID = pc.CategoryID
         INNER JOIN Shop_Category sc ON sc.CategoryID = c.CategoryID  
         INNER JOIN Users u ON u.UserID = up.UserID
         WHERE up.Status = 'Shipped' AND sc.ShopID = ?
-        GROUP BY p.Price * up.Quantity ORDER BY sum(p.Price * up.Quantity);");
+         ORDER BY p.Price * up.Quantity");
         $stmt->bind_param("i", $ShopID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -360,14 +360,14 @@ class AdminModel
 
     public function getOrderByDelivered($ShopID)
     {
-        $stmt = $this->conn->prepare("SELECT sc.ShopID, up.UP_ID, up.UserID, u.FullName , up.ProductID, p.ProductName, up.Quantity, up.CreateDate, sum(p.Price * up.Quantity) as 'Total', up.Status FROM User_Products up
+        $stmt = $this->conn->prepare("SELECT sc.ShopID, up.UP_ID, up.UserID, u.FullName , up.ProductID, p.ProductName, up.Quantity, up.CreateDate, p.Price * up.Quantity as 'Total', up.Status FROM User_Products up
         INNER JOIN Products p ON p.ProductID = up.ProductID
         INNER JOIN Product_Categories pc ON pc.ProductID = up.ProductID
         INNER JOIN Categories c ON c.CategoryID = pc.CategoryID
         INNER JOIN Shop_Category sc ON sc.CategoryID = c.CategoryID  
         INNER JOIN Users u ON u.UserID = up.UserID
         WHERE up.Status = 'Delivered' AND sc.ShopID = ?
-        GROUP BY p.Price * up.Quantity ORDER BY sum(p.Price * up.Quantity);");
+         ORDER BY p.Price * up.Quantity");
         $stmt->bind_param("i", $ShopID);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -456,4 +456,90 @@ class AdminModel
             return false;
         }
     }
+
+    public function getQuantityFromUP($shopID)
+    {
+        $stmt = $this->conn->prepare("SELECT sc.ShopID, sum(up.Quantity) as 'SoldQuantity', sum(up.Quantity * p.Price) as 'Total' ,up.Status FROM User_Products up
+        INNER JOIN Products p ON p.ProductID = up.ProductID
+                INNER JOIN Product_Categories pc ON pc.ProductID = up.ProductID
+                INNER JOIN Categories c ON c.CategoryID = pc.CategoryID
+                INNER JOIN Shop_Category sc ON sc.CategoryID = c.CategoryID  
+                INNER JOIN Users u ON u.UserID = up.UserID
+                WHERE up.Status = 'Delivered' AND sc.ShopID = ?
+                GROUP BY SoldQuantity");
+        $stmt->bind_param("i", $shopID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $revenue = array();
+            while ($row = $result->fetch_assoc()) {
+                $revenue[] = $row;
+            }
+            return $revenue;
+        }
+
+        return false;
+    }
+
+    public function getAddDay($curdate)
+    {
+        for($i=1; $i<=7; $i++)
+        {
+            $stmt = $this->conn->prepare("SELECT DATE_ADD(?), INTERVAL -1 DAY)");
+            $stmt->bind_param("s", $curdate);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                $days = array();
+                while ($row = $result->fetch_assoc()) {
+                    $days[] = $row;
+                }
+                $curdate = $curdate - 1;
+                return $days;
+            }
+
+            return false;
+        }
+    }
+
+    public function getCurDate()
+    {
+        $stmt = $this->conn->prepare("SELECT curdate()");
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows == 1) {
+            $date = $result->fetch_assoc();
+            return $date;
+        }
+
+        return false;
+    }
+
+    public function getRevenueDay($shopID,$date)
+    {
+        $stmt = $this->conn->prepare("SELECT sc.ShopID, sum(up.Quantity) as 'SoldQuantity', sum(up.Quantity * p.Price) as 'Total' ,up.Status, up.CreateDate FROM User_Products up
+        INNER JOIN Products p ON p.ProductID = up.ProductID
+                INNER JOIN Product_Categories pc ON pc.ProductID = up.ProductID
+                INNER JOIN Categories c ON c.CategoryID = pc.CategoryID
+                INNER JOIN Shop_Category sc ON sc.CategoryID = c.CategoryID  
+                INNER JOIN Users u ON u.UserID = up.UserID
+                WHERE up.Status = 'Delivered' AND sc.ShopID = ? AND up.CreateDate = ?
+                GROUP BY SoldQuantity");
+        $stmt->bind_param("is", $shopID, $date);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $revenue = array();
+            while ($row = $result->fetch_assoc()) {
+                $revenue[] = $row;
+            }
+            return $revenue;
+        }
+
+        return 0;
+    }
 }
+?>

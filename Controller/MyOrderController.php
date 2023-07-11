@@ -114,8 +114,8 @@ class MyOrderController{
         }
     }
 }
-$MyOrrder = new MyOrderController();
+/*$MyOrrder = new MyOrderController();
 if(isset($_POST['userid']) && isset($_POST['productID']))
 {
     $MyOrrder->OrderProcessing($_POST['userid']);
-}
+}*/

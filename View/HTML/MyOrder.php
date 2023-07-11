@@ -37,14 +37,21 @@
                                <h4><i class="bi bi-person icon"></i><a href="UpdateInformation.php" style="text-decoration: none; color: white; font-size: 25px;">'.$userInformation['FullName'].
                                '</a></h4></div>';
                         // Nếu $_SESSION['user_id'] tồn tại và khác 0
-                        echo '<div class="col-3"><form action="MyOrder.php" method="post">
-                        <i class=""></i>
-                        <button class="login_button">My Order</button>
-                        </form></div>';
-                        echo '<div class="col-3"><form action="Loguot.html" method="post">
-                        <i class=""></i>
-                        <button class="login_button">Đăng xuất </button>
-                        </form></div>';
+                        echo '<div class="col-6">
+                        <ul class="ul">
+                           <li style="float: right;">
+                           <form action="Loguot.html" method="post">
+                           <button class="login_button">Đăng xuất </button>
+                           </form>
+                           </li>
+                           <li style="float: right;">
+                           <form action="MyOrder.php" method="post">
+                           <i class=""></i>
+                           <button class="login_button">My Order</button>
+                           </form>
+                           </li>
+                        </ul>
+                        </div>';
                         } else {
                          // Nếu $_SESSION['user_id'] không tồn tại hoặc bằng 0
                          echo '<form action="Login.php" method="post">
@@ -138,7 +145,7 @@
                         <?php $myOrderController->OrderCancelled($userID); ?>
                     </div>
                     <div class="col-12" id="return">
-                        <?php $myOrderController->OrderCancelled($userID); ?>
+                        <?php $myOrderController->OrderReturned($userID); ?>
                     </div>
                 </div>
             </div>
@@ -171,8 +178,8 @@
                       }
                       function Ship()
                       {
-                        var y = document.getElementById("shipped").value;
-                        if(y == "shipped")
+                        var z = document.getElementById("shipped").value;
+                        if(z == "shipped")
                         {
                             $("#confirm").hide();
                             $('#process').hide();
@@ -184,21 +191,8 @@
                       }
                       function Delivery()
                       {
-                        var y = document.getElementById("deliveried").value;
-                        if(y == "deliveried")
-                        {
-                            $("#confirm").show();
-                            $('#process').hide();
-                            $("#ship").hide();
-                            $("#delivery").hide();
-                            $("#cancel").hide();
-                            $("#return").hide();
-                        }
-                      }
-                      function Cancel()
-                      {
-                        var y = document.getElementById("confirmed").value;
-                        if(y == "confirmed")
+                        var a = document.getElementById("deliveried").value;
+                        if(a == "deliveried")
                         {
                             $("#confirm").hide();
                             $('#process').hide();
@@ -208,10 +202,23 @@
                             $("#return").hide();
                         }
                       }
+                      function Cancel()
+                      {
+                        var b = document.getElementById("confirmed").value;
+                        if(b == "confirmed")
+                        {
+                            $("#confirm").hide();
+                            $('#process').hide();
+                            $("#ship").hide();
+                            $("#delivery").hide();
+                            $("#cancel").show();
+                            $("#return").hide();
+                        }
+                      }
                       function Return()
                       {
-                        var y = document.getElementById("returned").value;
-                        if(y == "returned")
+                        var c = document.getElementById("returned").value;
+                        if(c == "returned")
                         {
                             $("#confirm").hide();
                             $('#process').hide();

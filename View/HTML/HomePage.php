@@ -97,10 +97,23 @@
                                 <div class='col-3 category_name'>".$category['CategoryName']."</div>
                               </div><br>";
                                    
-                        $productsByCategory = $homepageController->getProductsByCategory($categoryID);   
-                        echo "<div class='row'>";              
-                        foreach($productsByCategory as $product)
-                        {                             
+                        $productsByCategory = $homepageController->getProductsByCategory($categoryID);  
+                        $total_results = count($productsByCategory);
+                        $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+                        $limit = 3;
+                        $total_page = ceil($total_results / $limit);
+                        
+                        if ($current_page > $total_page){
+                            $current_page = $total_page;
+                        }
+                        else if ($current_page < 1){
+                            $current_page = 1;
+                        }
+                        $start = ($current_page - 1) * $limit;
+                        echo "<div class='row'>"; 
+                        $productsByCategoryPage = $homepageController->Page($categoryID,$start,$limit);             
+                        foreach($productsByCategoryPage as $product)
+                        {             
                             $productID = $product['ProductID']; 
                             $productImg = $product['ProductImg'];                                
                             echo "<div class='col-3 card card_format' style='width: 18rem;'>  
@@ -118,9 +131,29 @@
                             ";
                         }
                         echo "</div><br><br>";
+                        echo '<div class="row">
+                        <div class="col-12">
+                            <div class="page">';
+                            if ($current_page > 1 && $total_page > 1){
+                                echo '<a href="/PROJECT_2/fashionWeb/View/HTML/HomePage.php?page='.($current_page-1).'">Prev</a> | ';
+                            }
+                            for ($i = 1; $i <= $total_page; $i++){
+                                if ($i == $current_page){
+                                    echo '<span>'.$i.'</span> | ';
+                                }
+                                else{
+                                    echo '<a href="/PROJECT_2/fashionWeb/View/HTML/HomePage.php?page='.$i.'">'.$i.'</a> | ';
+                                }
+                            }
+                            if ($current_page < $total_page && $total_page > 1){
+                                echo '<a href="/PROJECT_2/fashionWeb/View/HTML/HomePage.php?page='.($current_page+1).'">Next</a> | ';
+                            }
+                         echo   '</div>
+                        </div></div>';
                     }
                 ?>
             </div>
+        </div>
         </section>
         <footer class="footer">
            <div class="container-fluid">
