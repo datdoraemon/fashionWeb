@@ -30,7 +30,7 @@ class OrderSellerController{
     public function ChangeShipped($orderid)
     {
         $orderModel = new AdminModel();
-        $orders = $orderModel->ChangeShippped($orderid);
+        $orders = $orderModel->ChangeShipped($orderid);
 
         return $orders;
     }
@@ -46,7 +46,7 @@ class OrderSellerController{
     public function ChangeDelivered($orderid)
     {
         $orderModel = new AdminModel();
-        $orders = $orderModel->ChangeShippped($orderid);
+        $orders = $orderModel->ChangeDelivered($orderid);
 
         return $orders;
     }
@@ -92,48 +92,29 @@ class OrderSellerController{
     }
 }
 $OderController = new OrderSellerController();
-if($_SERVER['REQUEST_METHOD'] == "post")
+if(isset($_POST['orderidprocess']))
 {
-    if($_POST['submit'] == "Confirmed")
-    {
-        if(isset($_POST['orderid']))
-        {
-            $orders = $OderController->ChangeConfirmed($_POST['orderid']);
-            echo '<script>alert("Đã xác nhận đơn hàng.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
-        }
-    }
-    if($_POST['submit'] == "Shipped")
-    {
-        if(isset($_POST['orderid']))
-        {
-            $orders = $OderController->ChangeShipped($_POST['orderid']);
-            echo '<script>alert("Đơn hàng đã được vận chuyển.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
-        }
-    }
-    if($_POST['submit'] == "Delivered")
-    {
-        if(isset($_POST['orderid']))
-        {
-            $orders = $OderController->ChangeDelivered($_POST['orderid']);
-            echo '<script>alert("Đã giao.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
-        }
-    }
-    if($_POST['submit'] == "Cancelled")
-    {
-        if(isset($_POST['orderid']))
-        {
-            $orders = $OderController->ChangeCancelled($_POST['orderid']);
-            echo '<script>alert("Đơn hàng bị hủy.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
-        }
-    }
-    if($_POST['submit'] == "Returned")
-    {
-        if(isset($_POST['orderid']))
-        {
-            $orders = $OderController->ChangeReturned($_POST['orderid']);
-            echo '<script>alert("Đơn hàng bị trả lại.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
-        }
-    }
+     $orders = $OderController->ChangeConfirmed($_POST['orderidprocess']);
+     echo '<script>alert("Đã xác nhận đơn hàng.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
 }
-
+if(isset($_POST['orderidconfirm']))
+{
+     $orders = $OderController->ChangeShipped($_POST['orderidconfirm']);
+     echo '<script>alert("Đơn hàng đang được vận chuyển.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
+}
+if(isset($_POST['orderidship']))
+{
+     $orders = $OderController->ChangeDelivered($_POST['orderidship']);
+     echo '<script>alert("Đã giao.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
+}
+if(isset($_POST['orderidcancel']))
+{
+     $orders = $OderController->ChangeCancelled($_POST['orderid']);
+     echo '<script>alert("Đã hủy.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
+}
+if(isset($_POST['orderidreturn']))
+{
+     $orders = $OderController->ChangeReturned($_POST['orderid']);
+     echo '<script>alert("Đơn hàng đã bị trả lại.");window.location.href="../View/HTML/Shop_Admin.php";</script>';
+}
 ?>

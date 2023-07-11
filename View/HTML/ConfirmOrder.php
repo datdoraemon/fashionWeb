@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['selectedProducts'])) {
 $user = new ConfirmOrderController();
 $homepageController = new HomepageController();
 $userInfo = $user->UserConfirm($_SESSION['UserID']);
+$categories = $homepageController->getCategories();
 ?>
 
 <!DOCTYPE html>

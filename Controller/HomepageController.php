@@ -35,9 +35,9 @@ class HomepageController
         $User = new UsersModel();
         return $User->getUserByEmail($email);
     }
-    public function Page()
+    public function Page($categoryID,$start,$limit)
     {
         $Page = new ProductsModel();
-        return $Page->Page();
+        return $Page->Page($categoryID,$start,$limit);
     }
 }
