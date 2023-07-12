@@ -60,7 +60,7 @@
             <div class="row" style="margin-left: 0; margin-right: 0;">
                 <div class="col-3 brand">FASHION</div>
                 <div class="col-6 bar_search_backgroud">
-                        <form action="SearchProduct.php" method="post">                           
+                        <form action="../../Controller/HomePageController.php" method="post">                           
                             <input class="bar_search" type="text" name="search" placeholder="Tìm sản phẩm">                             
                             <div class="search_button">
                            <button type="submit" value="Tìm kiếm">
@@ -89,71 +89,38 @@
         </header>
         <section>
             <div class="container">
-                <?php  
-                    foreach($categories as $category) 
-                    {   
-                        $categoryID = $category['CategoryID']; 
-                        echo "<div class='row'>
-                                <div class='col-3 category_name'>".$category['CategoryName']."</div>
-                              </div><br>";
-                                   
-                        $productsByCategory = $homepageController->getProductsByCategory($categoryID);  
-                        $total_results = count($productsByCategory);
-                        $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
-                        $limit = 3;
-                        $total_page = ceil($total_results / $limit);
-                        
-                        if ($current_page > $total_page){
-                            $current_page = $total_page;
-                        }
-                        else if ($current_page < 1){
-                            $current_page = 1;
-                        }
-                        $start = ($current_page - 1) * $limit;
-                        echo "<div class='row'>"; 
-                        $productsByCategoryPage = $homepageController->Page($categoryID,$start,$limit);             
-                        foreach($productsByCategoryPage as $product)
-                        {             
-                            $productID = $product['ProductID']; 
-                            $productImg = $product['ProductImg'];                                
-                            echo "<div class='col-3 card card_format' style='width: 18rem;'>  
-                                    <img class='card-img-top' src='$productImg'>                            
-                                    <div class='card-body'>
-                                        <h5 class='card-title'>" .$product['ProductName']."</h5>
-                                        <p class='card-text'>
-                                            <form action='ProductDetails.php' method='post'>
-                                                <input type='hidden' name='productID' value='$productID'>
-                                                <input type='submit' name='submit' value='Detail'>
-                                            </form>
-                                        </p>
-                                    </div>
-                                </div>
-                            ";
-                        }
-                        echo "</div><br><br>";
-                        echo '<div class="row">
-                        <div class="col-12">
-                            <div class="page">';
-                            if ($current_page > 1 && $total_page > 1){
-                                echo '<a href="/PROJECT_2/fashionWeb/View/HTML/HomePage.php?page='.($current_page-1).'">Prev</a> | ';
-                            }
-                            for ($i = 1; $i <= $total_page; $i++){
-                                if ($i == $current_page){
-                                    echo '<span>'.$i.'</span> | ';
-                                }
-                                else{
-                                    echo '<a href="/PROJECT_2/fashionWeb/View/HTML/HomePage.php?page='.$i.'">'.$i.'</a> | ';
-                                }
-                            }
-                            if ($current_page < $total_page && $total_page > 1){
-                                echo '<a href="/PROJECT_2/fashionWeb/View/HTML/HomePage.php?page='.($current_page+1).'">Next</a> | ';
-                            }
-                         echo   '</div>
-                        </div></div>';
+            <?php 
+                if (isset($_POST['search'])) 
+                {
+                    $key = $_POST['search'];
+                    $search = $homepageController->Search($key);
+                    echo '<h1>KẾT QUẢ TÌM KIẾM</h1>';
+                    echo '<div class = "">
+                        <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Product ID</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Price</th>
+                                    </tr>
+                                </thead>';
+                    foreach($search as $s)
+                    {
+                                        echo '<tbody>
+                                                <tr>
+                                                <td>'.$s['ProductID'].'</td>
+                                                <td>'.$s['ProductName'].'</td>
+                                                <td>'.$s['Description'].'</td>
+                                                <td>'.$s['Price'].'</td>                                         
+                                                </tr>
+                                            </tbody>';
                     }
+                    echo '</table>
+                    </div>';
+                }
                 ?>
             </div>
-        </div>
         </section>
         <footer class="footer">
            <div class="container-fluid">

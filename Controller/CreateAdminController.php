@@ -15,6 +15,18 @@ class CreateAdminController
         return $shopname->getShopName($sellerID);
     }
 
+	public function getAllProducts($shopID)
+    {
+        $products = new AdminModel();
+        return $products->getAllProducts($shopID);
+    }
+
+	public function getSearchProduct($shopID,$productname)
+    {
+        $product = new AdminModel();
+        return $product->getSearchProduct($shopID,$productname);
+    }
+
 	public function authenticateaccount()
 	{
 		session_start();
@@ -66,8 +78,6 @@ if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['cpasswo
 	$AdminController->authenticateaccount();
 	$_SESSION['email'] = $_POST['email'];
 	//header('Location: ../View/HTML/SignUpInformation.php');
-} else {
-	$AdminController->index();
-}
+} 
 
 ?>

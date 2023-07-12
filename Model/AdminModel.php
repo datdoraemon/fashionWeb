@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 require_once 'Database.php';
 
@@ -540,6 +540,42 @@ class AdminModel
         }
 
         return 0;
+    }
+
+    public function getAllProducts($shopID)
+    {
+        $stmt = $this->conn->prepare("SELECT p.ProductID, p.ProductName, p.Description, p.Price FROM Products p INNER JOIN Product_Categories pc ON pc.ProductID = p.ProductID
+        INNER JOIN Categories c ON c.CategoryID = pc.CategoryID
+        INNER JOIN Shop_Category sc ON sc.CategoryID = c.CategoryID  WHERE sc.shopID = ?");
+        $stmt->bind_param("i", $shopID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows > 0) {
+            $revenue = array();
+            while ($row = $result->fetch_assoc()) {
+                $revenue[] = $row;
+            }
+            return $revenue;
+        }
+
+        return false;
+    }
+
+    public function getSearchProduct($shopID, $productname)
+    {   
+        $query = "SELECT p.ProductID, p.ProductName, p.Description, p.Price FROM Products p INNER JOIN Product_Categories pc ON pc.ProductID = p.ProductID
+        INNER JOIN Categories c ON c.CategoryID = pc.CategoryID
+        INNER JOIN Shop_Category sc ON sc.CategoryID = c.CategoryID  WHERE sc.shopID = $shopID AND p.ProductName LIKE '".$productname."%'";
+        $result = $this->conn->query($query);
+
+        $product = array();
+        while ($row = $result->fetch_assoc()) 
+        {
+            $product[] = $row;
+        }
+
+        return $product;
     }
 }
 ?>

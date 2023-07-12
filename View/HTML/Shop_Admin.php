@@ -3,6 +3,7 @@
   require_once '../../Controller/CreateAdminController.php';
   require_once '../../Controller/OrderSellerController.php';
   require_once '../../Controller/RevenueController.php';
+  
 ?>
 <html lang="en">
 <head>
@@ -32,6 +33,7 @@
                         $('.show_cancelled').hide();
                         $('.show_returned').hide();
                         $('.revenueday').hide();
+                        $('.display_products').hide();
                     }
                 }
                 function Processing()
@@ -47,6 +49,7 @@
                         $('.show_cancelled').hide();
                         $('.show_returned').hide();
                         $('.revenueday').hide();
+                        $('.display_products').hide();
                     }
                 }
                 function Confirmed()
@@ -62,6 +65,7 @@
                         $('.show_cancelled').hide();
                         $('.show_returned').hide();
                         $('.revenueday').hide();
+                        $('.display_products').hide();
                     }
                 }
                 function Shipped()
@@ -77,6 +81,7 @@
                         $('.show_cancelled').hide();
                         $('.show_returned').hide();
                         $('.revenueday').hide();
+                        $('.display_products').hide();
                     }
                 }
                 function Delivered()
@@ -92,6 +97,7 @@
                         $('.show_cancelled').hide();
                         $('.show_returned').hide();
                         $('.revenueday').hide();
+                        $('.display_products').hide();
                     }
                 }
                 function Cancelled()
@@ -107,6 +113,7 @@
                         $('.show_cancelled').show();
                         $('.show_returned').hide();
                         $('.revenueday').hide();
+                        $('.display_products').hide();
                     }
                 }
                 function Returned()
@@ -122,6 +129,7 @@
                         $('.show_cancelled').hide();
                         $('.show_returned').show();
                         $('.revenueday').hide();
+                        $('.display_products').hide();
                     }
                 }
 
@@ -138,6 +146,24 @@
                         $('.show_cancelled').hide();
                         $('.show_returned').hide();
                         $('.revenueday').show();
+                        $('.display_products').hide();
+                    }
+                }
+
+                function All_Products()
+                {
+                    var f = document.getElementById("display").value;
+                    if(f == "display")
+                    {
+                        $(".Add_product").hide();
+                        $('.show_processing').hide();
+                        $('.show_confirmed').hide();
+                        $('.show_shipped').hide();
+                        $('.show_delivered').hide();
+                        $('.show_cancelled').hide();
+                        $('.show_returned').hide();
+                        $('.revenueday').hide();
+                        $('.display_products').show();
                     }
                 }
             </script>
@@ -157,10 +183,11 @@
             </div>
             <div class="col-9 col-right1">
               <div class="search">
-                  <form action="" method="post">
+                  <form action="Shop_Admin.php" method="post">
+                     <input type="hidden" name="shopID" value="<?php echo $_SESSION['shopID']; ?>">
                      <input class="bar_search" type="text" name="search">
-                     <input class="btn btn-primary" type="submit" name="submit" value="Tìm kiếm">
-                  </form>
+                     <input class="btn btn-primary" type="submit" name="submit" value="Search">
+                </form>
               </div>
               <div class="login">
               <?php
@@ -189,7 +216,9 @@
                      </a>
                   </li>
                   <li class="li">
-                      <a class="a" href="">Hiển thị sản phẩm</a>
+                  <a class="a">
+                        <button id="display" onclick="All_Products()" value="display" class="button">Danh sách sản phẩm</button>
+                     </a>
                   </li>
                </ul><br><hr>
                <h4>QUẢN LÝ ĐƠN HÀNG</h4>
@@ -254,6 +283,72 @@
                         <input type="file" name="fileToUpload" id="fileToUpload"><br>
                         <input type="submit" name="submit" value= "Submit" class="btn btn-primary"><br>
                     </form>    
+                </div>
+                <?php 
+                if (isset($_POST['search']) && isset($_POST['shopID'])) 
+                {
+                    $key = $_POST['search'];
+                    $AdminController = new CreateAdminController();
+                    $search	= $AdminController->getSearchProduct($_POST['shopID'],$key);
+                    echo '<h1>KẾT QUẢ TÌM KIẾM</h1>';
+                    echo '<div class = "">
+                        <table class="table">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Product ID</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Price</th>
+                                    </tr>
+                                </thead>';
+                    foreach($search as $s)
+                    {
+                                        echo '<tbody>
+                                                <tr>
+                                                <td>'.$s['ProductID'].'</td>
+                                                <td>'.$s['ProductName'].'</td>
+                                                <td>'.$s['Description'].'</td>
+                                                <td>'.$s['Price'].'</td>                                         
+                                                </tr>
+                                            </tbody>';
+                    }
+                    echo '</table>
+                    </div>';
+                }
+                ?>
+                <div class = "display_products">
+                <h1>DANH SÁCH SẢN PHẨM</h1> 
+                <table class="table">
+                        <thead>
+                            <tr>
+                            <th scope="col">Product ID</th>
+                            <th scope="col">Product Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <?php $products = new CreateAdminController();
+                              $product = $products->getAllProducts($_SESSION['shopID']);
+                              if($product != NULL)
+                              {
+                                foreach($product as $p)
+                                {
+                                   echo '<tbody>
+                                          <tr>
+                                          <td>'.$p['ProductID'].'</td>
+                                          <td>'.$p['ProductName'].'</td>
+                                          <td>'.$p['Description'].'</td>
+                                          <td>'.$p['Price'].'</td>                                         
+                                          </tr>
+                                      </tbody>';
+                                }
+                              }
+                              else
+                              {
+                                 echo 'Null';
+                              }
+                        ?>
+                    </table>
                 </div>
                 <div class="show_processing">
                     <table class="table">
@@ -508,21 +603,16 @@
                     </table>
                 </div>
                 <div class ="revenueday">
-                    Đã bán :
                     <?php 
                         $revenue = new RevenueController();
                         $revenueday = $revenue->RevenueDay($_SESSION['shopID']);
-                        foreach($revenueday as $day)
-                        {
-                            echo $day['SoldQuantity'];
-                        }
                         $revenueweek = $revenue->RevenueWeek();
                         foreach($revenueweek as $day)
                         {
                             $_SESSION['day'] = $day;
                         }                
                         $revenueweekofday = $revenue->Minusday($_SESSION['day']);
-                        echo $revenueweekofday[5]; 
+                        
                         $date0 = $revenueweekofday[0];
                         $date1 = $revenueweekofday[1];
                         $date2 = $revenueweekofday[2];
@@ -530,7 +620,7 @@
                         $date4 = $revenueweekofday[4];
                         $date5 = $revenueweekofday[5];
                         $date6 = $revenueweekofday[6];
-                        echo $_SESSION['shopID'];
+                        
                         $revenueweek = new RevenueController();
                         $day0 = $revenueweek->getRevenueDay($_SESSION['shopID'],$date0);
                         $day1 = $revenueweek->getRevenueDay($_SESSION['shopID'],$date1);

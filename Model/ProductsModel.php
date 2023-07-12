@@ -3,6 +3,12 @@ require_once __DIR__ . '/Database.php';
 
 class ProductsModel
 {
+    public function __construct()
+    {
+        $db = new Database();
+        $this->conn = $db->getConnection();
+    }
+    
     public function getProducts()
     {
         $db = new Database();
@@ -67,5 +73,19 @@ class ProductsModel
         $conn->close();
 
         return $products;
+    }
+
+    public function SearchProduct($productname)
+    {   
+        $query = "SELECT p.ProductID, p.ProductName, p.Description, p.Price FROM Products p WHERE p.ProductName LIKE '".$productname."%'";
+        $result = $this->conn->query($query);
+
+        $product = array();
+        while ($row = $result->fetch_assoc()) 
+        {
+            $product[] = $row;
+        }
+
+        return $product;
     }
 }
