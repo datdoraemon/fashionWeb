@@ -40,4 +40,9 @@ class HomepageController
         $Page = new ProductsModel();
         return $Page->Page($categoryID,$start,$limit);
     }
+    public function Search($productname)
+    {
+        $search = new ProductsModel();
+        return $search->SearchProduct($productname);
+    }
 }

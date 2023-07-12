@@ -11,3 +11,4 @@ class ProductDetailsController
         return $productDetails;
     }
 }
+?>

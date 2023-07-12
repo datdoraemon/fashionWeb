@@ -91,6 +91,10 @@
 {
     display: none;
 }
+.display_products
+{
+    display: none;
+}
 .button
 {
     background-color: black;
